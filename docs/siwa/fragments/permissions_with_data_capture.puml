@@ -1,0 +1,7 @@
+@startuml
+start
+:Display Permissions Acceptance Screen and Capture Data;
+:Display Selection of Data to be sent to Provider;
+:Redirect to Provider callbackUrl with authorizationCode\n that will resolve the createSponsoredAccountPayload;
+stop
+@enduml

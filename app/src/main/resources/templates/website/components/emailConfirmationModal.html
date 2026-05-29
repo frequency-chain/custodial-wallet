@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Email Confirmation Modal Component</title>
+</head>
+<body>
+<div id="email-confirmation" style="display:none;" th:fragment="emailConfirmationModal" data-testId="component.email-confirmation-modal">
+    <div class="modal-heading center-align">
+        <h4 data-th-text="#{email-verification.title}"></h4>
+    </div>
+    <p class="padding-top-16 center-align">
+        <span data-th-text="#{email-verification.description-start} + ' '"></span>
+        <b><span id="email-identifier"></span></b>
+        <span th:if="${modalUseType=='LOGIN'}" data-th-text="#{email-verification.description-end-login}"></span>
+        <span th:if="${modalUseType=='ADD'}" data-th-text="#{email-verification.description-end-add-contact}"></span>
+    </p>
+    <div class="padding-top-16 center-align">
+        <p class="small-text" data-th-text="#{email-verification.spam-reminder}"></p>
+    </div>
+    <div class="inline-text padding-top-16 center-align">
+        <p class="small-text" data-th-text="#{email-verification.resend-description}"></p>
+        <a class="small-text" href="#" id="resend-code-button-email" onClick="resendEmail()" data-th-text="#{email-verification.resend-link}"></a>
+    </div>
+</div>
+</body>
+</html>

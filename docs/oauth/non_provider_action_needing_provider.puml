@@ -1,0 +1,31 @@
+@startuml
+title "Action taken on behalf of the Standalone Wallet but needing token (Add Public Key)"
+'https://plantuml.com/sequence-diagram
+
+actor "ResourceOwner(User)" as ro
+participant "Client(Standalone Wallet)" as cu
+participant "AuthorizationServer(AA)" as aa
+participant "ResourceServer(Blockchain)" as rs
+
+autonumber
+note across: Given the client is compromised (e.g. anyone can look at the client code) there is no good way to lock this down
+ro -> cu: Requires a payload to be paid for on it's behalf
+cu -> aa: Request authentication code\n (signed payload w/callback)\n (SafariViewController, Chrome Custom Tab)
+aa -> rs: Validate user public key exists
+alt Exists
+    rs -> aa: It exists
+    aa -> cu: 202? Maybe?
+    aa -> aa: Generate authentication code
+    aa -> ro: Message authentication code
+    ro -> aa: Clicks link, or enters authentication code
+    aa -> aa: Fetch initial payload
+    aa -> ro: display permissions screen for payload
+    ro -> aa: Accepts payload permissions
+    aa -> aa: Create Signed Provider Payload w/Signed User Payload
+    aa -> rs: Mutate resource with Signed Provider Payload
+    aa -> cu: Redirect to callback url with status payload
+else Doesn't Exist
+    rs -> aa: Not found
+    aa -> cu: 403 Forbidden
+end
+@enduml

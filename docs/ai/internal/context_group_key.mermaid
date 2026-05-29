@@ -1,0 +1,44 @@
+sequenceDiagram
+  title ICS Payloads Endpoint
+  participant u as User
+  participant mcp as MCP Server
+  participant fa as Frequency Access
+  participant db as Postgres
+  participant kms as KMS
+  participant bc as Frequency
+
+  mcp->>mcp: Sign get ContextGroupKey for user payload
+  mcp->>fa: POST /hcp/api/key/contextGroup
+  fa->>bc: verify provider msaId
+  bc-->>fa: msaId of provider publicKey
+  fa->>db: Find ACCOUNT UserKeyData
+  db-->>fa: ACCOUNT UserKeyData
+  fa-->>bc: verify user msaId with ACCOUNT publicKey
+  bc-->>fa: msaId of user
+  note over fa: Requires that the creation of ICS payloads has occurred
+  fa->>bc: Get provider ICS public Key
+  bc-->>fa: Provider's ICS public key
+  fa->>bc: Get ACL for this user's msaId
+  bc-->>fa: ACL for user's msaId
+  fa->>fa: Check providerMsaId exists in ACL
+  fa->>db: find ICS UserKeyData for user
+  db-->>fa: ICS UserKeyData
+  fa->>kms: decrypt sensitive ICS UserKeyData
+  kms-->>fa: decrypted sensitive ICS UserKeyData
+  fa->>fa: Calculate PRId
+  note over fa: This is a combo of X25519 derived from provider's msaId and ICS public key and derived user's ICS private key and user's msaId
+  fa->>bc: Get ContextGroupMetadata for user msaId
+  bc-->>fa: verify ContextGroupMetadata for user msaId and provider
+  fa->>db: Find CONTEXT_GROUP UserDerivedKeyData for user and PRId (or latest and if they don't match explode?)
+  db-->>fa: return CONTEXT_GROUP UserDerivedKeyData
+  alt CONTEXT_GROUP UserDerivedKeyData not found
+    fa->>fa: Generate CONTEXT_GROUP UserDerivedKeyData
+    fa->>kms: encrypt sensitive CONTEXT_GROUP UserDerivedKeyData
+    kms-->>fa: encrypted sensitive CONTEXT_GROUP UserDerivedKeyData
+    fa->>db: persist CONTEXT_GROUP UserDerivedKeyData
+  else CONTEXT_GROUP UserDerivedKeyData not found
+    fa->>kms: decrypt sensitive CONTEXT_GROUP UserDerivedKeyData
+    kms-->>fa: decrypt sensitive CONTEXT_GROUP UserDerivedKeyData
+  end
+  fa->>fa: Map UserDerivedKeyData to ContextGroupKey
+  fa-->>mcp: Return ContextGroupKey

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Siwa Header</title>
+    <!-- Optional script for extra control over splash screen -->
+    <th:block th:fragment="siwaHeaderScript">
+        <script>
+            function changeHeaderTitleText(text) {
+                $("#header-title-text").text(text)
+            }
+
+            function changeHeaderDescText(text) {
+                $("#header-desc-text").text(text)
+            }
+        </script>
+    </th:block>
+</head>
+<body>
+<header class="siwa-header" th:fragment="siwaHeader">
+    <div class="header-main">
+        <img class="header-logo hide-on-large-only" th:src="@{~/img/frequency_logo_dark_theme_v2.svg}" alt="Frequency dark logo" style="width:50%;">
+        <div class="header-title" th:with="title='siwa.header.title.__${template}__'">
+            <h4 th:if="${#messages.msgOrNull(title) != null}" data-th-text="#{__${title}__}" id="header-title-text"></h4>
+            <h4 th:unless="${#messages.msgOrNull(title) != null}" data-th-text="#{__${title}__}" id="header-title-text" style="visibility: hidden;"></h4>
+        </div>
+        <div class="header-desc frequency-text text-dark-blue" th:with="desc='siwa.header.desc.__${template}__'">
+            <p th:if="${#messages.msgOrNull(desc) != null}" data-th-text="#{__${desc}__}" id="header-desc-text"></p>
+            <p th:unless="${#messages.msgOrNull(desc) != null}" data-th-text="#{__${desc}__}" id="header-desc-text" style="visibility: hidden;"></p>
+        </div>
+    </div>
+</header>
+</body>
+</html>

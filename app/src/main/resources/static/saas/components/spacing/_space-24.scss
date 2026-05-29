@@ -1,0 +1,48 @@
+@mixin margin-24             { margin: 24px; }
+@mixin margin-top-24         { margin-top: 24px; }
+@mixin margin-right-24       { margin-right: 24px; }
+@mixin margin-bottom-24      { margin-bottom: 24px; }
+@mixin margin-left-24        { margin-left: 24px; }
+@mixin margin-horizontal-24  { margin-left: 24px; margin-right: 24px; }
+@mixin margin-vertical-24    { margin-top: 24px; margin-bottom: 24px; }
+
+.margin-24,                              .m-24   { @include margin-24 }
+.margin-top-24,        .m-top-24,         .m-t-24 { @include margin-top-24 }
+.margin-right-24,      .m-right-24,       .m-r-24 { @include margin-right-24 }
+.margin-bottom-24,     .m-bottom-24,      .m-b-24 { @include margin-bottom-24 }
+.margin-left-24,       .m-left-24,        .m-l-24 { @include margin-left-24 }
+.margin-horizontal-24, .m-horizontal-24,  .m-h-24 { @include margin-horizontal-24 }
+.margin-vertical-24,   .m-vertical-24,    .m-v-24 { @include margin-vertical-24 }
+
+
+@mixin border-24             { border: 24px; }
+@mixin border-top-24         { border-top: 24px; }
+@mixin border-right-24       { border-right: 24px; }
+@mixin border-bottom-24      { border-bottom: 24px; }
+@mixin border-left-24        { border-left: 24px; }
+@mixin border-horizontal-24  { border-left: 24px; border-right: 24px; }
+@mixin border-vertical-24    { border-top: 24px; border-bottom: 24px; }
+
+.border-24,                              .b-24   { @include border-24 }
+.border-top-24,        .b-top-24,         .b-t-24 { @include border-top-24 }
+.border-right-24,      .b-right-24,       .b-r-24 { @include border-right-24 }
+.border-bottom-24,     .b-bottom-24,      .b-b-24 { @include border-bottom-24 }
+.border-left-24,       .b-left-24,        .b-l-24 { @include border-left-24 }
+.border-horizontal-24, .b-horizontal-24,  .b-h-24 { @include border-horizontal-24 }
+.border-vertical-24,   .b-vertical-24,    .b-v-24 { @include border-vertical-24 }
+
+@mixin padding-24            { padding: 24px; }
+@mixin padding-top-24        { padding-top: 24px; }
+@mixin padding-right-24      { padding-right: 24px; }
+@mixin padding-bottom-24     { padding-bottom: 24px; }
+@mixin padding-left-24       { padding-left: 24px; }
+@mixin padding-horizontal-24 { padding-left: 24px; padding-right: 24px; }
+@mixin padding-vertical-24   { padding-top: 24px; padding-bottom: 24px; }
+
+.padding-24,                              .p-24   { @include padding-24 }
+.padding-top-24,        .p-top-24,         .p-t-24 { @include padding-top-24 }
+.padding-right-24,      .p-right-24,       .p-r-24 { @include padding-right-24 }
+.padding-bottom-24,     .p-bottom-24,      .p-b-24 { @include padding-bottom-24 }
+.padding-left-24,       .p-left-24,        .p-l-24 { @include padding-left-24 }
+.padding-horizontal-24, .p-horizontal-24,  .p-h-24 { @include padding-horizontal-24 }
+.padding-vertical-24,   .p-vertical-24,    .p-v-24 { @include padding-vertical-24 }

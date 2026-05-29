@@ -1,0 +1,74 @@
+/* legal */
+/* Link to figma document:https://www.figma.com/design/gfknvSiCuZokWpr2l7hM4G/Frequency-Passkey-Wallet?version-id=2203165915294276027&node-id=5497-53805&p=f&t=xC2mfHAWWH0dmbGS-0 */
+/* Figma version: custodial-wallet-issue-1286 */
+
+.legal-header {
+  background:$neutral-gray3;
+  @include padding-vertical-32;
+  p {
+    @include margin-bottom-32;
+  }
+  .legal-toc  {
+    @include margin-left-16;
+    padding-left:0;
+    li {
+      list-style:decimal;
+      margin-bottom:20px;
+    }
+    a {
+      color:$text-color;
+      text-decoration:underline;
+    }
+  }
+}
+
+.legal-ol {
+  list-style:none;
+  padding:0;
+
+  ul.disc li {
+    list-style:disc;
+  }
+}
+
+.legal-ol > li {
+  border-top:1px solid $accent-color;
+  padding-top:1.7rem;
+}
+.legal-ol > li:first-child {
+  border-top:none;
+}
+
+.legal-list {
+  &> li {
+    padding-top: 28px;
+    @media #{$medium-and-down} {
+      padding-top: 20px;
+    }
+  }
+  ol {
+    ul {
+      li {
+        list-style:disc;
+      }
+      &.closer {
+        margin:0;
+      }
+    }
+    ul ul li {
+      list-style:circle;
+    }
+  }
+}
+
+.legal-toc-links {
+  @media #{$medium-and-down} {
+    padding-top: 20px;
+  }
+  ul li {
+    list-style:none;
+  }
+  ol li {
+    list-style: disc;
+  }
+}

@@ -1,0 +1,37 @@
+@layer base {
+  body {
+    @apply font-sans;
+    @apply text-c-text-default;
+    @apply text-normal;
+  }
+  a {
+    @apply text-c-link-default;
+    @apply hover:text-c-link-focus;
+  }
+  h1,
+  h2,
+  h3,
+  h4,
+  h5 {
+    @apply font-bold;
+    @apply font-title;
+  }
+  h1 {
+    @apply text-5xl;
+  }
+  h2 {
+    @apply text-4xl;
+  }
+  h3 {
+    @apply text-3xl;
+  }
+  h4 {
+    @apply text-2xl;
+  }
+  h5 {
+    @apply text-xl;
+  }
+  h6 {
+    @apply text-lg;
+  }
+}

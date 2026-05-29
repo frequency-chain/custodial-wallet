@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div class="passkey-wallet-confirm" th:fragment="walletConfirm">
+    <div class="center-align">
+        <img class="passkey-wallet-checkmark center-align padding-bottom-16" th:src="@{~/img/checkmark_v2.svg}" alt="Frequency checkmark" style="width:25%;">
+        <div class="passkey-wallet-text margin-bottom-24">
+            <p data-th-text="#{wallet.passkey.confirm.text}"></p>
+        </div>
+    </div>
+
+    <div class="email-login inline-text margin-bottom-16 padding-bottom-32">
+        <button id="wallet-confirm-button" class="btn waves-effect waves-light full-width"
+                th:onclick="displayPasskeyCreate([[#{wallet.passkey.create.desktop-splash}]], [[#{wallet.passkey.create.header}]]);"
+                data-testid="wallet-confirm-button" data-th-text="#{wallet.passkey.confirm.button}"></button>
+    </div>
+    <div class="center-align">
+        <a href="#" id="wallet-confirm-view-again" data-testid="wallet-confirm-view-again" onclick="openIframeModal();" data-th-text="#{wallet.passkey.confirm.view-again}"></a>
+    </div>
+</div>
+</body>
+</html>

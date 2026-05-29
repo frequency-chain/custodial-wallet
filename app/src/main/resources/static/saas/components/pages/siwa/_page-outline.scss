@@ -1,0 +1,76 @@
+.siwa-page-outline {
+  height: 100vh;
+  overflow-y: auto;
+
+  @supports (height: 100svh) {
+    height: 100svh
+  }
+
+  .siwa-main-content {
+    // Scrolling
+    overflow: auto;
+    @include padding-bottom-16;
+
+    // Allow footer
+    display: flex;
+    flex-direction: column;
+  }
+
+  footer {
+    margin-top: auto;
+  }
+
+  @media #{$small-and-down} {
+    .desktop-splash {
+      display: none;
+    }
+
+    .siwa-main-content {
+      main {
+        @include padding-horizontal-16;
+        @include padding-top-32;
+      }
+    }
+  }
+
+  @media #{$medium-only} {
+    .desktop-splash {
+      display: none;
+    }
+
+    .siwa-main-content {
+      header {
+        @include padding-horizontal-96;
+        @include padding-bottom-120;
+      }
+
+      main {
+        @include padding-horizontal-96;
+        @include padding-top-32;
+      }
+    }
+  }
+
+  @media #{$large-and-up} {
+    display: flex;
+    align-items: center;
+
+    .siwa-main-content {
+      display: flex;
+      align-items: safe center;
+
+      @include padding-top-40;
+      @include padding-horizontal-40;
+
+      // Keep footer auto from sending other content to top of page
+      .siwa-header-main {
+        margin-top:auto;
+      }
+
+      main {
+        @include padding-horizontal-32;
+        @include padding-top-8;
+      }
+    }
+  }
+}

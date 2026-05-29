@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<body>
+<div class="header" th:fragment="header">
+    <div class="header-back" th:switch="${backType}">
+        <i th:case="'cancel'" class="header-back-icon material-icons" onclick="cancel('[[${targetOrigin}]]');return false;">close</i>
+    </div>
+    <div class="header-main">
+        <img class="header-logo" th:if="${darkMode}" src="/img/frequency_logo_dark_theme_v2.svg" alt="Frequency">
+        <img class="header-logo" th:unless="${darkMode}" src="/img/frequency_logo_light_theme_v2.svg" alt="Frequency">
+        <p class="header-title" data-th-text="${title}"></p>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,41 @@
+sequenceDiagram
+  title ICS Payloads Endpoint
+  participant u as User
+  participant mcp as MCP Server
+  participant fa as Frequency Access
+  participant db as Postgres
+  participant kms as KMS
+  participant bc as Frequency
+
+  mcp->>mcp: Sign get ICS payloads for user payload
+  mcp->>fa: POST /hcp/api/user/payloads
+  fa->>bc: verify provider msaId
+  bc-->>fa: msaId of provider publicKey
+  fa->>bc: Get provider ICS public Key
+  note over fa, bc: Requires the Provider has a ICS public Key registered on chain
+  bc-->>fa: Provider's ICS public key
+  fa->>db: Find ACCOUNT Keypair for user
+  db-->>fa: userKeyData for ACCOUNT
+  fa->>kms: decrypt ACCOUNT userKeyData sensitive key data
+  kms-->>fa: decrypted ACCOUNT userKeyData sensitive key data
+  fa-->>bc: verify user msaId
+  note over fa, bc: Requires that the creation of the user's msa has occurred
+  bc-->>fa: msaId of user
+  fa->>db: Find ICS UserKeyData
+  alt ICS UserKeyData Not Found
+    fa->>fa: Create ICS Master Seeds and Keys
+    fa->>kms: encrypt sensitive seed and keys {phrase, seed, private key}
+    kms-->>fa: encrypted blobs of various sensitive bits
+    fa->>db: persist {HCP_MASTER user_seed_data, ICS user_key_data, ONCHAIN user_derived_key_data}
+  end
+  fa->>fa: Calculate PRId
+  note over fa: This is a combo of X25519 derived from provider's msaId and ICS public key and derived user's ICS private key and user's msaId
+  fa->>bc: Get user's ICS public key from chain
+  bc-->>fa: ICS public key
+  alt is found
+    fa->>fa: Generate Payload to add the User's ICS Public Key
+  end
+  fa->>fa: Sign ICS payloads
+  fa->>mcp: Signed ICS Payloads
+  note over mcp, fa: 1. Optional Payload to add user ICS Public Key<br>2. Payload to add "ACL" for provider to user msaId<br>3. Payload to add new ContextGroupMetadata
+  mcp->>bc: Submits batch of calls to chain for ICS Payloads

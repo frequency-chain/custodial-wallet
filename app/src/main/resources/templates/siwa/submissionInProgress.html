@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Sign in with Access Loading</title>
+  <meta name="description" content="Signing up with Frequency Access is the gateway to the Social Web.">
+
+  <th:block th:replace="~{siwa/components/siwaScripts :: siwaScripts}"></th:block>
+
+  <!-- Custom elements from `frontend` -->
+  <script type="module" th:src="@{~/js/frontend.js(BUILD_NUMBER=${BUILD_NUMBER})}"></script>
+  <link th:href="@{~/css/frontend.css(BUILD_NUMBER=${BUILD_NUMBER})}" type="text/css" rel="stylesheet" />
+
+</head>
+<body th:with="template='submissionInProgress',splashText=${#messages.msg('siwa.start.desktop-splash', props.providerName)}">
+    <div th:replace="~{siwa/components/siwaPageOutline :: siwaPageOutline}"></div>
+</body>
+</html>

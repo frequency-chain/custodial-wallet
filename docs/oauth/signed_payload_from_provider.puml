@@ -1,0 +1,28 @@
+@startuml
+title "Obtaining a Signed Payload as a Provider"
+'https://plantuml.com/sequence-diagram
+
+actor "ResourceOwner(User)" as ro
+participant "Client Useragent" as cu
+participant "Client(Provider)" as c
+participant "AuthorizationServer(AA)" as aa
+participant "ResourceServer(Blockchain)" as rs
+
+autonumber
+note across: It is assumed that provider payloads are signed and have nonce handling
+ro -> c: Requires a signed payload for an action
+c -> aa: Signed Provider Payload w/callback
+aa -> c: sessionId associated with request (202 w/Location header)
+c -> cu: Location header value
+cu -> aa: GET to Location
+aa -> aa: Fetch initial payload
+aa -> ro: display permissions screen for payload
+ro -> aa: Accepts payload permissions
+aa -> aa: Generate authentication code
+aa -> ro: Message authentication code
+ro -> aa: Clicks link, or enters authentication code
+aa -> cu: Redirect to callback url with authorization code\n (app link deep link or website)
+cu -> aa: trade authorization code for signed payload
+cu -> c: Signed Payload
+c -> rs: mutate resource with signed provider payload
+@enduml

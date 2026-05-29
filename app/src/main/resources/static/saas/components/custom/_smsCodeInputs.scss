@@ -1,0 +1,18 @@
+.code-inputs {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  input.code-input {
+    @media #{$large-and-up} {
+      max-width: 60px;
+    }
+    @media #{$medium-and-down} {
+      max-width: 50px;
+    }
+    height: 55px;
+    text-align: center;
+    padding-left: 0;
+    @include large-text-no-margin;
+  }
+}

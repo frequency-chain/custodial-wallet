@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
+    <title>Storyboard</title>
+    <meta name="description" content="Storyboard for custom FA components">
+
+    <!-- CSS  -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link th:href="@{~/css/materialize.css}" type="text/css" rel="stylesheet" media="screen,projection"/>
+
+    <!--  Scripts-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script th:src="@{~/js/materialize.js}"></script>
+    <script th:src="@{~/js/common.js}"></script>
+    <script th:src="@{~/js/bundle/errorsBundle.js}"></script>
+    <script th:src="@{~/js/js.cookie.min.js}"></script>
+
+    <script>
+        $(document).ready(function() {
+            // Needs to be called inside the doc ready
+            // function to initialize the collapsible class
+            $('.collapsible').collapsible();
+
+            // Needs to be called inside the doc ready
+            // function to initialize the modal class
+            $('.modal').modal();
+        });
+    </script>
+    <div th:replace="~{components/examples/chaintest :: chainTestJs}"></div>
+
+</head>
+<body>
+
+<div class="row">
+    <div class="col s12">
+        <!-- custom collapsible info section with extra decorative arrow -->
+        <div th:replace="~{components/examples/collapsible :: exampleCollapsible}"></div>
+    </div>
+</div>
+<div class="row">
+    <div class="col s12">
+        <!-- call modal through an <a> tag use href and the modal-trigger class -->
+        <a class="waves-effect waves-light btn modal-trigger" href="#example-modal">Example Modal</a>
+    </div>
+</div>
+<div class="row">
+    <div class="col s12">
+        <!-- call modal through <button> use data-target and the modal-trigger class -->
+        <button data-target="multi-modal" class="btn modal-trigger">Multi Modal</button>
+    </div>
+</div>
+
+<!-- modal, normally at the bottom of the <body> since it doesn't need to be in the page -->
+<div th:replace="~{components/examples/modal :: exampleModal}"></div>
+<div th:replace="~{components/examples/multiModal :: multiModal}"></div>
+<div th:replace="~{components/examples/chaintest :: chainTestHtml}"></div>
+</body>
+</html>

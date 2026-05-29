@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <div th:fragment="chainTestJs">
+        <script th:src="@{~/js/bundle/chaintestBundle.js}"></script>
+    </div>
+
+</head>
+<body>
+<div class="chain-test" th:fragment="chainTestHtml">
+    <h5>Alice Data</h5>
+    <p><b>Keypair: </b><span id="keypair"></span></p>
+    <p><b>MSA: </b><span id="msa"></span></p>
+</div>
+</body>
+</html>

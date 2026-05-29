@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <!-- BASIC -->
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
+  <title>Amplica Authentication Code SMS Sent</title>
+  <!-- CSS  -->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link th:href="@{~/css/materialize.css}" type="text/css" rel="stylesheet" media="screen,projection"/>
+  <!-- JS -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script th:src="@{~/js/materialize.js(BUILD_NUMBER=${BUILD_NUMBER})}"></script>
+  <script th:src="@{~/js/common.js(BUILD_NUMBER=${BUILD_NUMBER})}"></script>
+  <script th:src="@{~/js/bundle/errorsBundle.js(BUILD_NUMBER=${BUILD_NUMBER})}"></script>
+  <!-- Sentry browser javascript -->
+  <script th:src="@{~/js/bundle/sentryBundle.js(BUILD_NUMBER=${BUILD_NUMBER})}"></script>
+  <script>
+      const sentryEnv = "[[${sentryEnv}]]";
+      const sentryRelease = "[[${sentryRelease}]]"
+      SENTRY.configure(sentryEnv, sentryRelease)
+  </script>
+  <script type="text/javascript">
+      const messages = parseMessages("[[${messagesJson}]]");
+      const sessionId = "[[${sessionId}]]";
+      const version = parseInt("[[${version}]]");
+      const resendLimit = "[[${resendLimit}]]";
+      let resendCounter = 0;
+      let codeSubmittedSuccessfully = false;
+      let lastErrorIdSeen = null;
+      const targetOrigin = "[[${targetOrigin}]]";
+      const isSmsV2FunctionListeningResponse = isFunctionListening(SmsCallbackType.SMS_CALLBACK_V2.description);
+
+      function autofillSmsCode(code, autoSubmit = true) {
+          const smsCodeRegex = /^[0-9]{6}$/;
+
+          if (!smsCodeRegex.test(code)) {
+              console.error(`Expected 'code' to be a 6-digit number, got: '${code}'`)
+          } else {
+              $("#code_input").val(code)
+              setIfSubmitIsDisabled()
+
+              if (autoSubmit) {
+                  submitSmsCode()
+              }
+          }
+      }
+
+      function submitSmsCode() {
+          codeSubmittedSuccessfully = true
+          setIfSubmitIsDisabled()
+          const code = $("#code_input").val()
+          const payload = {sessionId: sessionId, token: code};
+          if (isSmsV2FunctionListeningResponse.isListening || version === 2 || version === 3) {
+              apiPostCall("login/validate/token", payload, (response) => {
+                  if (response.exists === true) {
+                      if (version === 2) _smsCallbackV2(payload, targetOrigin);
+                      if (version === 3) _smsCallbackV3(payload, targetOrigin)
+                  }
+              }, (xhr) => handleError(xhr));
+          } else { // V1 path
+              // apiPostCall("login/token", payload, (response) => {
+              //     const payload = {response}
+              //     _loginPayloadCallback(payload)
+              // }, (xhr) => handleError(xhr));
+          }
+      }
+
+      // function _loginPayloadCallback(payload) {
+      //     dispatchPayload(payload, PayloadType.LOGIN_PAYLOAD, "loginPayloadCallback", targetOrigin, true);
+      // }
+
+      function handleError(xhr) {
+          lastErrorIdSeen = xhr.responseJSON.id
+          codeSubmittedSuccessfully = false
+          setIfSubmitIsDisabled()
+      }
+
+      function setIfSubmitIsDisabled() {
+          const smsCodeSubmitButton = $("#smsCodeSubmitButton");
+          const code = $("#code_input").val();
+          if (code !== null && code.length === 6 && !codeSubmittedSuccessfully) {
+              smsCodeSubmitButton.removeAttr('disabled');
+          } else {
+              smsCodeSubmitButton.attr('disabled', 'disabled');
+          }
+      }
+
+      // Trigger when the form is submitted
+      $(document).ready(function () {
+          const codeInput = $("#code_input");
+
+          function sendLoginSmsForVersion() {
+              if (version === 3) {
+                  apiPostCall("login/webview/sms", {sessionId}, (response) => {
+                    if(response.code !== "") {
+                      console.log("Code is " + response.code)
+                      smsCodeCallback(response, targetOrigin)
+                    }
+                  })
+              } else if (!version || version === 1 || version === 2) { // version one doesn't actually exist
+                  _startSmsProcess(sessionId, targetOrigin); // callback to MeWe
+              } else {
+                  showGenericErrorModal(messages["error.sms-version-invalid"], messages, undefined)
+                  errorCallback(messages["error.sms-version-invalid"], targetOrigin);
+                  SENTRY.captureMessage(new Error("Invalid SMS version: ${version}"))
+              }
+          }
+
+          $("#resendButton").click(function resend() {
+              resendCounter++;
+              const timeout = new Date(new Date().getTime() + parseInt("[[${retryTimeout}]]"));
+              initializeClock('clockdiv', timeout, resendCounter, resendLimit);
+              apiPostCall("login/webview/replace_token", {sessionId}, () => {
+                  codeSubmittedSuccessfully = false
+                  setIfSubmitIsDisabled()
+                  sendLoginSmsForVersion()
+              })
+          });
+
+          // Calling this here to allow for error modal handling.
+          // which can only work after the page is ready
+          sendLoginSmsForVersion()
+
+          codeInput.on("input", () => {
+              setIfSubmitIsDisabled()
+          })
+
+          $("form").submit((event) => {
+              event.preventDefault();
+              submitSmsCode()
+          });
+
+          let timeout = new Date(new Date().getTime() + parseInt("[[${retryTimeout}]]"));
+          initializeClock('clockdiv', timeout, resendCounter, resendLimit);
+
+          // function called when cancel button is pressed
+          $("#cancelButton").click(function () {
+              cancel(targetOrigin, lastErrorIdSeen)
+          });
+      });
+  </script>
+</head>
+<body>
+<div class="page-wrapper">
+  <div th:replace="~{oauth/pages/authenticationSmsCodeSent ::authenticationSmsCodeSent}"></div> <!-- Needs form submit, resendSms() and cancel() handling -->
+</div>
+<div th:replace="~{components/errorModal :: errorModal(${targetOrigin})}"></div> <!-- Call with ID "errorModal" -->
+</body>
+</html>

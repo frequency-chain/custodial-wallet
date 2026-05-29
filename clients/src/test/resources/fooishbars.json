@@ -1,0 +1,18 @@
+{
+  "fooishBars": [
+    {
+      "type": "FlogBar",
+      "fooishBar": {
+        "flog": "flog",
+        "bar": "bar"
+      }
+    },
+    {
+      "type": "FrimBar",
+      "fooishBar": {
+        "frim": ["f","r","i","m"],
+        "bar": "bar"
+      }
+    }
+  ]
+}

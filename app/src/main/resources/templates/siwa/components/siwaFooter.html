@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Siwa Header</title>
+</head>
+<body>
+<footer class="siwa-footer" th:fragment="siwaFooter">
+    <div class="footer-copyright center-align tiny-text">
+        <a class="footer-privacy-policy" href="/privacy.html" data-th-text="#{siwa.footer.privacy-policy}"></a>
+        <a class="footer-terms-of-service" href="/terms.html"  data-th-text="#{siwa.footer.terms-of-service}"></a>
+    </div>
+    <div class="footer-legal center-align tiny-text">
+        <p data-th-text="'© ' + #{siwa.footer.copyright}"></p>
+    </div>
+</footer>
+</body>
+</html>

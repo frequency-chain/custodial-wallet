@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Siwa DesktopSplash</title>
+    <!-- Optional script for extra control over splash screen -->
+    <th:block th:fragment="siwaDesktopSplashScript">
+        <script>
+           function changeSplashText(text) {
+                $("#desktop-splash-text").text(text)
+           }
+        </script>
+    </th:block>
+</head>
+
+<body>
+<div class="siwa-desktop-splash full-height valign-wrapper" th:fragment="siwaDesktopSplash(splashText)">
+    <div class="desktop-splash-content">
+        <img class="desktop-splash-logo center-align" th:src="@{~/img/frequency_logo_dark_theme_v2.svg}" alt="Frequency dark logo">
+        <p id="desktop-splash-text" class="desktop-splash-text center-align white-text big-text" data-th-text="${splashText}"></p>
+    </div>
+</div>
+</body>
+</html>

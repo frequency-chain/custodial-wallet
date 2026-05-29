@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<main class="passkey-create-wallet" th:fragment="createWalletPage">
+    <div class="center-align">
+        <h6 data-th-text="#{wallet.create.setup.title}"></h6>
+        <div class="feature-list padding-vertical-8">
+            <div class="wallet-feature inline-text">
+                <img class="feature-icon" th:src="@{~/img/icons/wallet.svg}" style="max-width:40px" alt="wallet">
+                <div class="left-align">
+                    <p class="feature-text" data-th-text="#{wallet.create.setup.text1}"></p>
+                    <a href="/#faq" data-th-text="#{wallet.create.setup.learn-more}"></a>
+                </div>
+            </div>
+            <div class="wallet-feature inline-text">
+                <img class="feature-icon" th:src="@{~/img/icons/passkey.svg}" style="max-width:40px" alt="passkey">
+                <div class="left-align">
+                    <p class="feature-text" data-th-text="#{wallet.create.setup.text2}"></p>
+                    <a href="/#faq" data-th-text="#{wallet.create.setup.learn-more}"></a>
+                </div>
+            </div>
+            <div class="wallet-feature inline-text">
+                <img class="feature-icon" th:src="@{~/img/icons/connect.svg}" style="max-width:40px" alt="connect">
+                <div class="left-align">
+                    <p class="feature-text" data-th-text="#{wallet.create.setup.text3}"></p>
+                    <a href="/#faq" data-th-text="#{wallet.create.setup.learn-more}"></a>
+                </div>
+            </div>
+        </div>
+        <div class="create-wallet-submission padding-vertical-16">
+            <form id="create-wallet-form" class="create-wallet-form" method="get" action="/wallet/passkey">
+                <button id="create-wallet-submit" class="btn waves-effect waves-light full-width " type="submit"
+                        data-testid="create-wallet-submit" data-th-text="#{wallet.create.setup.button}">
+                </button>
+                <p id="unsupported-browser-device" class="unsupported-browser-device" data-th-text="#{wallet.create.setup.unsupported-browser-device}" hidden></p>
+                <!--TODO:Determine correct UI for unsupported browser/device via design team-->
+            </form>
+        </div>
+
+        <div>
+            <a th:href="${props.redirect}" data-testid="skip-wallet" id="skip-wallet-button" data-th-text="#{wallet.create.setup.remind-me-later}"></a>
+        </div>
+    </div>
+</main>
+</body>
+</html>

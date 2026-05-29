@@ -1,0 +1,22 @@
+<configuration>
+    <appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%-5relative %-5level %logger{35} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <logger name="reactor.netty.http.server.AccessLog" level="INFO" additivity="false">
+        <appender-ref ref="stdout" />
+    </logger>
+
+    <logger name="io.amplica.custodial_wallet" level="INFO" additivity="false">
+        <appender-ref ref="stdout" />
+    </logger>
+    <logger name="io.lettuce.core.protocol" level="TRACE" additivity="false">
+        <appender-ref ref="stdout" />
+    </logger>
+
+    <root level="INFO">
+        <appender-ref ref="stdout"/>
+    </root>
+</configuration>

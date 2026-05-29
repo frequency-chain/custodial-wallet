@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<body>
+    <div id="errorModal" class="modal" th:fragment="errorModalWeb" data-testId="component.error-modal-web">
+        <div class="modal-content center-align">
+            <div class="modal-header">
+                <h4 id="error-title" data-th-text="#{error.generic.title}" data-testId="title"></h4>
+                <p id="error-message" data-th-text="#{error.generic.desc}" data-testId="message"></p>
+            </div>
+            <div class="modal-footer">
+                <a href="#!" class="modal-close waves-effect waves-light btn" data-th-text="#{button.close}" data-testId="close-button"></a>
+            </div>
+        </div>
+        <a href="#!" class="modal-close corner-close"><i class="material-icons small">close</i></a>
+    </div>
+</body>
+</html>

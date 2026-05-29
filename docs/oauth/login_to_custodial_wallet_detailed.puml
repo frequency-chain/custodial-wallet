@@ -1,0 +1,39 @@
+@startuml
+title "Login To Custodial Wallet Detailed"
+'https://plantuml.com/sequence-diagram
+
+actor "User" as ro
+participant "Amplica Access" as aa
+participant "Redis" as r
+participant "KMS" as k
+participant "Postgres" as p
+participant "Twilio" as sms
+participant "SES" as ses
+
+autonumber
+aa -> ro: Login Page
+ro -> aa: Submit phone or email to login
+aa -> p: fetch UserAccount(s) by user UserIdentifier
+return UserAccount(s)
+aa -> aa: Generate authentication code
+aa -> r: Persist sessionData by sessionId
+note left: The UserIdentifier \nand userAccountIds should be in this sessionData
+aa -> r: Persist sessionData w/associated authentication code and sessionId
+autonumber stop
+alt Sending Email
+    aa -> ses: **9a** Email authentication code
+    aa -> ro: **9b** Show check email
+    ro -> aa: **9c** Clicks link w/authentication code and sessionId
+else Sending SMS
+    aa -> sms: **9a** Send SMS authentication code (how does sessionId work here)
+    aa -> ro: **9b** Display SMS Code input
+    ro -> aa: **9c** Enters authentication code
+end
+autonumber 10
+aa -> r: Fetch payload by authentication code and sessionId
+return Payload
+aa -> p: fetch join of ProviderExternal*\n and UserKeyData by userAccountIds
+return Data
+note left: This should just be wrapped in a single struct like object
+aa -> ro: render the page with all the data we have on the person
+@enduml

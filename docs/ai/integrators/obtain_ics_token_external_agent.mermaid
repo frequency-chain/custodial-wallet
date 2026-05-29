@@ -1,0 +1,47 @@
+sequenceDiagram
+  title How to obtain a ICS JWT Access Token, external agent, e.g. Claude Desktop Oauth 2.1 PKCE
+  participant u as User
+  participant app as External Agent
+  participant mcp as MCP Server
+  participant bc as Frequency
+  participant fa as Frequency Access
+
+  u->>app: Initiate adding of ICS MCP Server
+  app->>mcp: Initiate Connection
+  mcp-->>app: 401 Unauthorized, resoure_metadata location
+  app->>mcp: GET .well-known/oauth-protected-resource
+  mcp-->>app: PRM document w/authentication_servers
+  app->>fa: GET /.well-known/oauth-authorization-server
+  fa-->>app: OAuth 2.0 Authorization Server Metadata: authorization_endpoint, token_endpoint etc.
+  app->>fa: Open OAuth authorization_endpoint
+  fa-->>u: Display Create/Login form
+  u->>fa: Accept identifier
+  fa-->>u: Send notification OTP
+  u->>fa: Enters OTP
+  fa->>fa: Verify OTP
+  fa->>fa: find user by identifier
+  alt Not found, New User
+    fa->>fa: Create User
+    fa->>fa: Sign AddProviderPayload
+    fa->>bc: `createSponsoredAccount`
+    bc-->>fa: Success
+  end
+  fa->>fa: Generate JWT Access token for ICS
+  fa->>fa: Associate  JWT Access token for ICS with authorization code
+  fa-->>app: Navigate to Oauth redirect_uri w/authorization code
+  app->>fa: trade authorization code for JWT Access token for ICS from token_endpoint
+  app->>mcp: MCP action with JWT Access token for ICS
+  alt Validation via signature
+    alt via blockchain
+      mcp->>bc: retrieve msaId by publicKey
+      bc-->>mcp: msaId of FA.com
+    else Non Blockchain
+      mcp->>fa: retrieve public key by URL
+      fa-->>mcp: PublicKey
+    end
+    mcp->>mcp: Validate Signature
+    mcp->>mcp: validate claims
+  else Validation via endpoint
+    mcp->>fa: ICS Access token
+    fa-->>mcp: Success Fail
+  end

@@ -1,0 +1,41 @@
+sequenceDiagram
+  title How to obtain a ICS JWT Access Token, first party app
+  participant u as User
+  participant app as Host App
+  participant mcp as MCP Server
+  participant bc as Frequency
+  participant fa as Frequency Access
+
+  u->>app: Login or New User (No existing FA.com JWT)
+  app-->>u: Displays login/create screen
+  u->>app: Enters identifier
+  app->>fa: Accept identifier
+  fa-->>u: Send notification OTP
+  u->>app: Enters OTP
+  app->>fa: Submit OTP
+  fa->>fa: Verify OTP
+  fa->>fa: find user by identifier
+  alt Not found, New User
+    fa->>fa: Create User
+    fa->>fa: Sign AddProviderPayload
+    fa->>bc: `createSponsoredAccount`
+    bc-->>fa: Success
+  end
+  fa->>fa: Generate FA.com JWT
+  fa->>fa: Generate JWT Access token for ICS
+  fa-->>app: return ICS Access Token and FA.com JWT
+  app->>mcp: some action w/ICS Access Token
+  alt Validation via signature
+    alt via blockchain
+      mcp->>bc: retrieve msaId by publicKey
+      bc-->>mcp: msaId of FA.com
+    else Non Blockchain
+      mcp->>fa: retrieve public key by URL
+      fa-->>mcp: PublicKey
+    end
+    mcp->>mcp: Validate Signature
+    mcp->>mcp: validate claims
+  else Validation via endpoint
+    mcp->>fa: ICS Access token
+    fa-->>mcp: Success Fail
+  end

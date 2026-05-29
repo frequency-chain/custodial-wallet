@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Siwa Page Outliner</title>
+    <meta name="description" content="This page sets up the UI skeleton for all siwa pages. Things like the header, footer, and splash are handled here">
+</head>
+<body>
+<div class="siwa-page-outline row full-height full-width" th:fragment="siwaPageOutline">
+    <div class="siwa-desktop-splash full-height col s0 m0 l7 hide-on-medium-and-down">
+        <div th:replace="~{siwa/components/siwaDesktopSplash :: siwaDesktopSplash(splashText=${splashText})}"></div>
+    </div>
+    <div class="siwa-main-content full-height col s12 m12 l5"
+         th:with="page='__${template}__Page', pagePath='siwa/pages/__${template}__Page'">
+        <div class="siwa-header-main">
+            <header th:replace="~{siwa/components/siwaHeader :: siwaHeader}"></header>
+            <div th:replace="~{__${pagePath}__ :: __${page}__}"></div>
+        </div>
+        <footer th:replace="~{siwa/components/siwaFooter :: siwaFooter}"></footer>
+    </div>
+</div>
+</body>
+</html>

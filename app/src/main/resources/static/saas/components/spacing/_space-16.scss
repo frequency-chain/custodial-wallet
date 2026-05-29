@@ -1,0 +1,48 @@
+@mixin margin-16             { margin: 16px; }
+@mixin margin-top-16         { margin-top: 16px; }
+@mixin margin-right-16       { margin-right: 16px; }
+@mixin margin-bottom-16      { margin-bottom: 16px; }
+@mixin margin-left-16        { margin-left: 16px; }
+@mixin margin-horizontal-16  { margin-left: 16px; margin-right: 16px; }
+@mixin margin-vertical-16    { margin-top: 16px; margin-bottom: 16px; }
+
+.margin-16,                              .m-16   { @include margin-16 }
+.margin-top-16,        .m-top-16,         .m-t-16 { @include margin-top-16 }
+.margin-right-16,      .m-right-16,       .m-r-16 { @include margin-right-16 }
+.margin-bottom-16,     .m-bottom-16,      .m-b-16 { @include margin-bottom-16 }
+.margin-left-16,       .m-left-16,        .m-l-16 { @include margin-left-16 }
+.margin-horizontal-16, .m-horizontal-16,  .m-h-16 { @include margin-horizontal-16 }
+.margin-vertical-16,   .m-vertical-16,    .m-v-16 { @include margin-vertical-16 }
+
+
+@mixin border-16             { border: 16px; }
+@mixin border-top-16         { border-top: 16px; }
+@mixin border-right-16       { border-right: 16px; }
+@mixin border-bottom-16      { border-bottom: 16px; }
+@mixin border-left-16        { border-left: 16px; }
+@mixin border-horizontal-16  { border-left: 16px; border-right: 16px; }
+@mixin border-vertical-16    { border-top: 16px; border-bottom: 16px; }
+
+.border-16,                              .b-16   { @include border-16 }
+.border-top-16,        .b-top-16,         .b-t-16 { @include border-top-16 }
+.border-right-16,      .b-right-16,       .b-r-16 { @include border-right-16 }
+.border-bottom-16,     .b-bottom-16,      .b-b-16 { @include border-bottom-16 }
+.border-left-16,       .b-left-16,        .b-l-16 { @include border-left-16 }
+.border-horizontal-16, .b-horizontal-16,  .b-h-16 { @include border-horizontal-16 }
+.border-vertical-16,   .b-vertical-16,    .b-v-16 { @include border-vertical-16 }
+
+@mixin padding-16            { padding: 16px; }
+@mixin padding-top-16        { padding-top: 16px; }
+@mixin padding-right-16      { padding-right: 16px; }
+@mixin padding-bottom-16     { padding-bottom: 16px; }
+@mixin padding-left-16       { padding-left: 16px; }
+@mixin padding-horizontal-16 { padding-left: 16px; padding-right: 16px; }
+@mixin padding-vertical-16   { padding-top: 16px; padding-bottom: 16px; }
+
+.padding-16,                               .p-16   { @include padding-16 }
+.padding-top-16,        .p-top-16,         .p-t-16 { @include padding-top-16 }
+.padding-right-16,      .p-right-16,       .p-r-16 { @include padding-right-16 }
+.padding-bottom-16,     .p-bottom-16,      .p-b-16 { @include padding-bottom-16 }
+.padding-left-16,       .p-left-16,        .p-l-16 { @include padding-left-16 }
+.padding-horizontal-16, .p-horizontal-16,  .p-h-16 { @include padding-horizontal-16 }
+.padding-vertical-16,   .p-vertical-16,    .p-v-16 { @include padding-vertical-16 }

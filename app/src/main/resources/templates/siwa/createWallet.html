@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Create Wallet</title>
+    <th:block th:insert="~{siwa/components/siwaScripts :: siwaScripts}"></th:block>
+    <script src="/js/bundle/registrationBundle.js"></script>
+
+    <script>
+
+        function skipWalletCreation() {
+            matomoHelper.trackEvent("skip")
+        }
+
+        $(function() {
+            const createWalletForm = $("#create-wallet-form")
+            const createWalletSubmit = $("#create-wallet-submit")
+
+            createWalletForm.on("submit", () => {
+                matomoHelper.trackEvent("create wallet submit")
+                disableButton(createWalletSubmit)
+            });
+        });
+
+        $(document).ready(function () {
+            if(!PASSKEY_WALLET.arePasskeysSupportedOnDevice()){
+                disableButton($('#create-wallet-submit'))
+                $('#unsupported-browser-device').show()
+            }
+        });
+    </script>
+</head>
+<body th:with="template='createWallet',splashText=#{wallet.create.setup.desktop-splash}">
+    <div th:replace="~{siwa/components/siwaPageOutline :: siwaPageOutline}"></div>
+</body>
+</html>

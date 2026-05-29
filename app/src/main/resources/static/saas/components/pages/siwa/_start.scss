@@ -1,0 +1,41 @@
+.siwa-start {
+  @media #{$medium-and-down} {
+    .desktop-splash {
+      display: none;
+    }
+
+    .provider-breadcrumb {
+      @include padding-bottom-16;
+    }
+  }
+
+  @media #{$large-and-up} {
+    .content {
+      display: flex;
+      align-items: center;
+    }
+
+    .start-content {
+      @include padding-horizontal-40
+    }
+
+    .provider-breadcrumb {
+      @include padding-top-24;
+      @include padding-bottom-32;
+    }
+  }
+
+  .provider-breadcrumb {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    // TODO(#1574): Update style as needed
+    img {
+      height: 60px;
+      width: 60px;
+      margin-right: 8px;
+      border-radius: 12px;
+    }
+  }
+}

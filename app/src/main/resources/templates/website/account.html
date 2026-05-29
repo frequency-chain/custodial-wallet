@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Frequency Access</title>
+    <meta name="description" content="Frequency Access is the gateway to the Social Web.">
+
+    <!-- Custom elements from `frontend` -->
+    <script type="module" th:src="@{~/js/frontend.js(BUILD_NUMBER=${BUILD_NUMBER})}"></script>
+    <link th:href="@{~/css/frontend.css(BUILD_NUMBER=${BUILD_NUMBER})}" type="text/css" rel="stylesheet" />
+
+</head>
+<body data-testId="page.account">
+    <account-page th:account-info-json="${accountInfoJson}"
+                  th:messages-json="${messagesJson}"
+                  th:contact-added="${contactAdded}"
+                  th:password-enabled="${passwordEnabled}"
+                  th:add-contact-enabled="${showAddContact}"
+                  th:passkey-wallet-enabled="${passkeyWalletEnabled}"
+                  th:change-handle-enabled="${changeHandleEnabled}"
+    >
+    </account-page>
+</body>
+</html>

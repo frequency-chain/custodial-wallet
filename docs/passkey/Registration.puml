@@ -1,0 +1,154 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+'Updated 1/28/25'
+
+autonumber
+title "Passkey Registration Flow"
+actor User as u
+participant "Wallet Client/Browser" as wc
+participant "Secure IFrame" as sif
+participant "Authenticator" as a
+participant "Wallet Backend" as wb
+database "Postgres" as p
+
+u -> wc: User would like to register new passkey
+wc -> wc: User enters passkey registration flow from SIWA/SIWF
+wc -> sif: Load in iFrame in background (iframe hidden)
+sif -> sif: Generate mnemonic/seed phrase (iframe hidden)
+sif -> sif: Create SR25519 Keyring from mnemonic/seed phrase (iframe hidden)
+wc -> wc: User clicks on "view seed phrase"
+wc -> sif: IFrame now shown to user with seed phrase
+sif -> wc: User prompted to make sure they viewed seed phrase
+wc -> wc: User closes iframe (iframe now hidden again)
+wc -> wc: User clicks next and views "create passkey" page
+wc -> wc: User clicks button to create passkey
+wc -> wc: Client sends post message to iframe to start passkey creation flow
+sif -> wc: Iframe sends post message back to client with Account Public Key created from seed phrase (SR/Eth Public Key)
+wc -> wc: Client takes public key and creates optionsJSON object for the webauthn publicCredentialsCreate call
+note over wc
+Create Options
+{
+    rpId,
+    rpName (app name),
+    userName (UserIdentifier.value?)),
+    timeout,
+    attestationType (direct),
+    excludeCredentials (empty array),
+    authenticatorSelection: {
+        residentKey (preferred)
+    }
+    supportedAlgorithms: ([-7] since that's ES256)
+    challenge: accountPublicKey (as a UInt8Array)
+}
+end note
+wc -> a: Call registration(options)
+note over a
+PublicKeyCredential
+{
+    CredentialID (String),
+    rawCredentialID (Bytes),
+    Response: {
+        ClientDataJSON (UTF-8 Array),
+        AttestationObject (CBOR encoded binary data)
+    },
+    clientExtensionResults,
+    authenticatorAttachment (platform vs cross-platform)
+}
+end note
+return PublicKeyCredential
+wc -> wc: Retrieve Public Key Object from Attestation Object
+wc -> wc: Compress passkey public key
+wc -> sif: Client post message to iframe to pass Passkey PublicKey Object to have signed by Account (SR/ETH) Private Key
+sif -> sif: Sign PublicKeyObject with Account Key
+sif -> wc: Send Account signing COMPRESSED passkey public key signature back to client via post message from iframe
+wc -> wc: Encode ClientDataJSON and Attestation Object in Base64Url
+wc -> wc: Stringify ClientExtensionResults
+note over wc
+Add PasskeyData payload
+{
+    userHandle: string;
+    clientDataJSON: EncodedBytes;
+    transports: any[];
+    passkeyCompressedPublicKey: PublicKey;
+    credentialPublicKeySignature: Signature;
+    challenge: EncodedBytes;
+    credentialId: string;
+    accountPublicKey: PublicKey;
+    credentialSignatureOfAccountPublicKey?: Signature;
+    attestationObject: EncodedBytes;
+    clientExtensions: string;
+}
+end note
+wc -> wb: POST acceptRegistration(passkeyData) (this endpoint validates passkey and saves to the db)
+wb -> wb: Validate Account Public Key signature
+note over wb
+Registration Request
+{
+    ClientDataJSON,
+    AttestationObject,
+    ClientExtensions,
+    Transports
+}
+end note
+wb -> wb: Create Registration Request
+wb -> wb: Parse Registration Request (webAuthnManager.parse(registrationRequest)) and set as Registration Data if \nsuccessful (throw DataConversionException on failure)
+note over wb
+Server Property
+{
+    RPId,
+    Origin,
+    Challenge (SR25519 Public Key),
+    TokenBindingID (this will be null)
+}
+end note
+wb -> wb: Set ServerProperty object parameters to match client side
+note over wb
+PubKeyCredParams
+{
+    type (ex: public-key),
+    alg: (ex: ES256)
+}
+end note
+wb -> wb: Set PubKeyCredParams to match what is set on client side
+note over wb
+Registration Parameters
+{
+    Server Property,
+    PubKeyCredParams,
+    UserVerification,
+    UserPresenceRequired (this can be set to true))
+}
+end note
+wb -> wb: Create Registration Parameters
+wb -> wb: Validate Registration Data and Registration Parameters (throw Validation Exception on failure)
+note over wb
+CredentialRecordImpl
+{
+    AttestationObject,
+    CollectedClientData,
+    ClientExtensionResults,
+    Transports
+}
+end note
+wb -> wb: If validated, create CredentialRecord Object (needed for webauthn)
+wb -> wb: (Optional) Retrieve Passkey Signature of Account Public Key from AttestationObject
+note left of p
+[
+    CredentialRecord,
+    Username,
+    UserId,
+    CredentialId,
+    COMPRESSED Passkey public key,
+    NONCOMPRESSED Passkey public key,
+    Account public key,
+    Account signature of COMPRESSED Passkey public key,
+    (Optional: Passkey signature of account public key),
+    counter (will we actually need this?),
+    credentialDeviceType (authenticator attachment: platform = single device, cross-platform = multi-device),
+    credentialBackedUp (How do we verify this? Is it just cross-platform = true and platform = false?)
+]
+end note
+wb -> p: Save relevant passkey data
+return
+wc -> u: Let User know Registration has been completed
+@enduml

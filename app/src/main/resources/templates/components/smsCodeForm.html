@@ -1,0 +1,8 @@
+<div id="smsCodeForm" th:fragment="smsCodeForm">
+  <form id="sms-code-form" class="sms-code-form" method="post" action="/siwa/payloads">
+    <div th:replace="~{components/smsCodeInputs :: smsCodeInputs}"></div>
+    <input id="sms-code" class="code-input-final" type="text" maxLength="6" name="smsCode" value="666666" inputmode="numeric" hidden/>
+    <button id="sms-code-submit" class="btn waves-effect waves-light full-width" type="submit"
+            data-testid="sms-code-submit" data-th-text="#{button.submit}"></button>
+  </form>
+</div>

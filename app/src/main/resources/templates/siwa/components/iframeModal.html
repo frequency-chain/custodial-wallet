@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <th:block th:fragment="iframeModalScript">
+        <script>
+            $(function() {
+                const iframeModal = $('#iframe-modal')
+                if(iframeModal) {
+                    iframeModal.modal();
+                }
+            });
+
+            function openIframeModal() {
+                const iframeModal = $('#iframe-modal')
+                iframeModal.modal('open');
+            }
+
+            function closeIframeModal() {
+                const iframeModal = $('#iframe-modal')
+                iframeModal.modal('close');
+            }
+
+            function switchToSecondScreen() {
+                $('.iframe-modal-first').hide()
+                $('.iframe-modal-second').show()
+                const iframe = $('#secureIFrame')
+                iframe.addClass("iframe-shrink")
+            }
+        </script>
+    </th:block>
+</head>
+<body>
+<div id="iframe-modal" class="modal iframe-modal" th:fragment="iframeModal" data-testid="iframe-modal">
+    <div class="modal-content center-align">
+        <div class="padding-bottom-24">
+            <h4 class="iframe-modal-first" data-testid="iframe-modal-title" data-th-text="#{wallet.passkey.iframe-modal.title.first}"></h4>
+            <h4 class="iframe-modal-second" data-testid="iframe-modal-title" data-th-text="#{wallet.passkey.iframe-modal.title.second}" hidden></h4>
+        </div>
+        <div class="padding-bottom-40">
+            <p class="iframe-modal-first" data-testid="iframe-modal-desc" data-th-text="#{wallet.passkey.iframe-modal.desc.first}"></p>
+            <p class="iframe-modal-second" data-testid="iframe-modal-desc" data-th-text="#{wallet.passkey.iframe-modal.desc.second}" hidden></p>
+        </div>
+        <div class="center-align">
+            <iframe sandbox="allow-scripts" id="secureIFrame" src="/wallet/iframe" data-testid="secureIFrame"></iframe>
+        </div>
+    </div>
+    <div class="modal-footer iframe-modal-first iframe-modal-done full-width">
+        <button id="cancelButton" class="iframe-modal-button modal-close btn waves-effect waves-light full-width" data-th-text="#{wallet.passkey.iframe-modal.close}" data-testid="iframe-modal-back"></button>
+    </div>
+</div>
+</body>
+</html>

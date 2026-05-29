@@ -1,0 +1,130 @@
+version: 2.1
+orbs:
+  aws-ecr: circleci/aws-ecr@9.5.2
+  aws-cli: circleci/aws-cli@4.2.3
+executors:
+  machine-executor:
+    machine:
+      image: default
+      docker_layer_caching: true
+    resource_class: large
+jobs:
+  build-and-test:
+    executor: machine-executor
+    steps:
+      - restore_cache:
+          keys:
+            - "v1-sdkman-java"
+      - restore_cache:
+          keys:
+            - "v2-gradle"
+      - run: ldd --version
+      - run: curl -s "https://get.sdkman.io" | bash
+      - run: mkdir -p ~/.sdkman/etc/
+      - run: touch ~/.sdkman/etc/config
+      - run: echo 'sdkman_auto_answer=true' >> ~/.sdkman/etc/config
+      - run: echo 'sdkman_auto_selfupdate=true' >> ~/.sdkman/etc/config
+      - run: cat ~/.sdkman/etc/config
+      - run: echo 'export SDKMAN_DIR="$HOME/.sdkman"' >> $BASH_ENV
+      - run: echo 'source ~/.sdkman/bin/sdkman-init.sh' >> $BASH_ENV
+      - run: sdk version
+      - run: sdk install java 21.0.1-amzn
+      - run: java -version
+      - checkout:
+          method: blobless
+      - run: ./gradlew installPlaywright build jacocoTestReport
+      - run: mv ./app/build/libs/app-*-plain.jar ./app/build/libs/ignored.jar
+      - run: mv ./app/build/libs/app-*-test-fixtures.jar ./app/build/libs/ignored.jar
+      - run: cp ./app/build/libs/app-*.jar ./app/build/libs/app.jar
+      - persist_to_workspace:
+          name: Saving out application jar to workspace
+          root: ./app/build/libs/
+          paths:
+            - ./app.jar
+      - save_cache:
+          name: "Saving SDKMan and Java Dependencies"
+          key: "v1-sdkman-java"
+          paths:
+            - ~/.sdkman
+      - save_cache:
+          name: "Saving Gradle Dependencies"
+          key: "v2-gradle"
+          paths:
+            - ~/.gradle/caches
+            - ~/.gradle/wrapper
+      - run:
+          name: Gather Test Results
+          when: always
+          command: |
+            mkdir -p /tmp/test_results/junit
+            find . -name '*TEST-*.xml' -exec cp --parents \{\} /tmp/test_results/junit \;
+      - store_test_results:
+          name: "Store Test Results"
+          path: /tmp/test_results
+      - run:
+          name: Gather Reports Html
+          when: always
+          command: |
+            mkdir -p /tmp/test_results/reports
+            find . \( -name '*.html' -o -name '*.gif' \) -exec cp --parents \{\} /tmp/test_results/reports \;
+      - store_artifacts:
+          path: /tmp/test_results/reports
+          destination: Results
+  deploy-docker:
+    executor: machine-executor
+    steps:
+      - checkout:
+          method: blobless
+      - attach_workspace:
+          name: Attaching the application jar to the workspace
+          at: .
+      - aws-ecr/build-and-push-image:
+          repo: liberty/custodial-wallet
+          tag: "latest,${CIRCLE_BUILD_NUM}"
+          checkout: false
+  deploy:
+    executor: machine-executor
+    steps:
+      - run:
+          name: Deploy to Dev
+          command: |
+            curl https://jenkins.ops.liberti.social/job/custodial-wallet-deploy-new/build?imageTag=${CIRCLE_BUILD_NUM}&namespace=dev&token=0b0g34q987g03qh234fqi3hg
+workflows:
+  ci-build:
+    jobs:
+      - build-and-test:
+          context:
+            - liberty-aws-deploy
+            - liberty-github-packages
+      - aws-ecr/build_and_push_image:
+          executor: machine-executor
+          account_id: "781755201224"
+          region: us-east-2
+          repo: liberty/custodial-wallet
+          tag: "latest,${CIRCLE_BUILD_NUM}"
+          checkout: true
+          attach_workspace: true
+          auth:
+            - aws-cli/setup
+          create_repo: true
+          extra_build_args: '--compress'
+          platform: linux/amd64,linux/arm64
+          skip_when_tags_exist: true
+          context:
+            - liberty-aws-deploy
+            - liberty-github-packages
+          requires:
+            - build-and-test
+          filters:
+            branches:
+              only:
+                - main
+                - epic/rebrand
+      - deploy:
+          filters:
+            branches:
+              only:
+                - main
+          context:
+            - liberty-aws-deploy
+            - liberty-github-packages

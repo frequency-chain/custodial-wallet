@@ -1,0 +1,139 @@
+@startuml
+title "SIWA Login Flow"
+actor "User" as u
+participant "UserAgent" as ua
+participant "Provider" as p
+participant "Frequency\nAccess" as fa
+database "Postgres" as db
+database "Redis" as r
+participant "Frequency" as bc
+participant "SES" as ses
+participant "Notification\nService" as ns
+
+autonumber
+u->ua: User would like to login or signup
+ua->p: SIWA Button POST
+p->fa: POST SignedRequest(publicKey,signature,nonce,callback,permissions)
+fa->fa: Validate Signature
+fa->bc: retrieve msa by public key
+return providerMsaId
+fa->fa: check whitelisted providerMsaId
+fa->r: Persist Session by sessionId {sessionId,SignedRequest}
+return
+fa->ua: Render SIWA UserIdentifier Capture Page
+ua->fa: Submit Identifier to verify
+fa->db: Find UserAccount by userIdentifier
+return UserAccount
+alt UserAccount Not Found
+    note across: See Migration or New User Flow
+else UserAccount Found
+    fa->fa: add UserAccount to Session
+    group Identifier Verification
+        fa->fa: Generate authenticationCode
+        fa->r: Persist Session by authenticationCode and sessionId
+        return
+        alt isEmail
+            fa->ses: Send Email (sessionId and authenticationCode)
+            ses->u: Email sent
+            u->fa: User Clicks Email
+            fa->r: find Session by authenticationCode and sessionId
+            return Session
+        else isSms
+            fa->ns: Send SMS
+            fa->ua: Display SMS Form
+            ns->u: Sms Message received
+            u->ua: Enters authenticationCode
+            ua->fa: Submits authenticationCode
+            fa->r: find Session by authenticationCode and sessionId
+            return Session
+        end
+        fa->r: Update Session by Id (This sucks, because we violate DRY)
+        return
+    end
+end
+fa->db: find All UserKeyData for UserAccount, findUserDataByUserAccountIds
+return List<UserData>
+loop forEach unique UserKeyData
+fa->bc: retrieve msa by public key
+fa->bc: find all permissions by userMsaId
+return Permissions for all providers
+fa->fa: Associate provider and permissions with UserData
+end
+fa->ua: Render Provider Delegations Page
+alt Existing Key
+    ua->fa: Chooses a key
+    fa->r: find Session by id
+    return Session
+    fa->fa: Add UserKeyData chosen to Session
+    fa->r: Update Session by id
+    return
+    fa->bc: get permissions for userMsaId, providerId
+    return Permissions for Provider
+    alt No Permissions for Provider
+        note across: Go to migrationOrAddPermissions
+    else Is a Login
+        opt Permissions disjoint from provider requested permissions
+            fa->ua: Render Permissions Screen for all requested permissions for provider
+            ua->fa: Accepts
+            fa->r: Find Session by id
+            return Session
+            fa->fa: create and sign addPermissionsPayload chosen key
+            fa->fa: Add addPermissionsPayload to Session
+        end
+        opt Session is null
+            fa->r: Find Session by id
+            return Session
+        end
+        fa->db: findUserDataByUserAccountIds
+        return List<UserData>
+        fa->ua: Display Set<UserIdentifier> Selection of Data to be sent to Provider
+        ua->fa: Selects what to send
+        fa->r: Find Session by id
+        return Session
+        fa->fa: Add Set<UserIdentifier> to return to Provider to Session
+        fa->fa: Generate authorizationCode
+        fa->r: update Session by id, authorizationCode
+        return
+    end
+else New Key
+    fa->p: Callback for identifier(s)
+    return Other Identifiers associated or Empty
+    alt Empty or just the same identifier
+        group Captured Data Path, Existing FA Account
+            fa->fa: Dereference permissions to I18N Verbiage
+            fa->ua: Capture Form and Permissions
+            ua->fa: Acceptance and Submit Data
+            fa->r: find Session by Id
+            return Session
+            fa->fa: saveNewUserData for UserIdentifier
+            fa->db: creates a associated data downstream of UserAccount
+            return  userKeyData
+            fa->fa: Using UserKeyData create and sign appropriate\n payloads for permissions
+            fa->fa: Add signedPayloads to Session
+            fa->r: Update Session by Id
+            return
+            fa->db: findUserDataByUserAccountIds
+            return List<UserData>
+            fa->ua: Display Set<UserIdentifier> Selection of Data to be sent to Provider
+            ua->fa: Selects what to send
+            fa->r: Find Session by id
+            return Session
+            fa->fa: Add Set<UserIdentifier> to return to Provider to Session
+            fa->fa: Generate authorizationCode
+            fa->r: update Session by id, authorizationCode
+            return
+        end
+    else Delta Migration
+        fa->fa: Determine disjoint Set<UserIdentifiers>
+        fa->ua: Ask which of the disjoint Set to verify
+        ua->fa: UserIdentifier
+        fa->r: find Session by Id
+        note across: See: Identifier Verification
+        note across: See: Captured Data Path, Existing FA Account
+    end
+end
+fa->ua: Redirect to callback url with authorizationCode, sessionId
+ua->p: Resolve redirect
+p->fa: Resolve payload by authorizationCode and sessionId
+fa->p: Signed Payload
+@enduml

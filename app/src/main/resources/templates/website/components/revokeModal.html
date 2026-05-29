@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Revoke Modal Component</title>
+</head>
+<body>
+<div id="revokeModal" class="modal" th:fragment="revokeModal">
+    <div class="modal-header">
+        <h4 class="center-align" data-th-text="#{revoke-modal.title}"></h4>
+    </div>
+    <div class="modal-body">
+        <form id="revoke-permission" >
+            <div>
+                <div>
+                    <p class="center-align" data-th-text="#{revoke-modal.confirmation-message}"></p>
+                </div>
+                <div class="margin-top-16">
+                    <button id="confirm-revoke-button" class="btn waves-effect waves-light full-width col s12 btn-destructive white-text modal-close" type="submit" name="action" data-th-text="#{revoke-modal.revoke}" data-testid="confirm-revoke"></button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <a href="#!" class="modal-close corner-close"><i class="material-icons small">close</i></a>
+</div>
+</body>
+</html>

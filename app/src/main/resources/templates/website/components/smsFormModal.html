@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>SMS Number Input Modal Component</title>
+</head>
+<body>
+<div id="login-phone" class="loginForm multi-modal" style="display:none;" th:fragment="smsFormModal">
+    <div class="modal-header" th:switch="${modalUseType}">
+        <h4 class="center-align" th:case="'LOGIN'" data-th-text="#{sms-input.existing-number}"></h4>
+        <h4 class="center-align" th:case="'ADD'" data-th-text="#{sms-input.new-number}"></h4>
+    </div>
+    <div class="modal-body row">
+        <form id="login-phone-form" class="col s12">
+            <div class="row">
+                <th:block th:insert="~{components/phoneForm :: phoneFormScript}"></th:block>
+                <div class="country-code-input">
+                    <label for="phoneForm" class="bold" data-th-text="#{sms-input.phone-number}"></label>
+                    <label class="asterisk material-icons small-text-nm">emergency</label>
+                    <div th:replace="~{components/phoneForm :: phoneForm(true)}"></div>
+                </div>
+                <div>
+                    <p th:if="${passwordEnabled && modalUseType=='LOGIN'}" class="toggleForm left" onclick="toggleMultiModal('#login-password')" data-testid="sms-switch-button-password" data-th-text="#{password-input.use-password}"></p>
+                    <p class="toggleForm right small-text-nm" onclick="toggleMultiModal('#login-email')" data-test-id="switch-button" data-th-text="#{sms-input.use-email}"></p>
+                </div>
+              <div class="col s12 margin-top-16" th:switch="${modalUseType}">
+                <th:block th:if="${captchaEnabled}">
+                  <button th:case="'LOGIN'" class="h-captcha btn waves-effect waves-light col s12" type="submit" name="action"
+                          data-testid="sms-submit" data-th-text="#{sms-input.login}"
+                          th:data-sitekey="${siteKey}"  th:data-callback="websiteSmsCaptchaCallback"></button>
+                  <button th:case="'ADD'" class="h-captcha btn waves-effect waves-light col s12" type="submit" name="action"
+                          data-testid="sms-submit" data-th-text="#{sms-input.add-contact}"
+                          th:data-sitekey="${siteKey}"  th:data-callback="websiteSmsCaptchaCallback"></button>
+                </th:block>
+                <th:block th:unless="${captchaEnabled}">
+                  <button th:case="'LOGIN'" class="btn waves-effect waves-light col s12" type="submit" name="action"
+                          data-testid="sms-submit" data-th-text="#{sms-input.login}"></button>
+                  <button th:case="'ADD'" class="btn waves-effect waves-light col s12" type="submit" name="action"
+                          data-testid="sms-submit" data-th-text="#{sms-input.add-contact}"></button>
+                </th:block>
+              </div>
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+</html>

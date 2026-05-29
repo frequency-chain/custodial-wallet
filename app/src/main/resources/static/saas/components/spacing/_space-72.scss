@@ -1,0 +1,48 @@
+@mixin margin-72             { margin: 72px; }
+@mixin margin-top-72         { margin-top: 72px; }
+@mixin margin-right-72       { margin-right: 72px; }
+@mixin margin-bottom-72      { margin-bottom: 72px; }
+@mixin margin-left-72        { margin-left: 72px; }
+@mixin margin-horizontal-72  { margin-left: 72px; margin-right: 72px; }
+@mixin margin-vertical-72    { margin-top: 72px; margin-bottom: 72px; }
+
+.margin-72,                              .m-72   { @include margin-72 }
+.margin-top-72,        .m-top-72,         .m-t-72 { @include margin-top-72 }
+.margin-right-72,      .m-right-72,       .m-r-72 { @include margin-right-72 }
+.margin-bottom-72,     .m-bottom-72,      .m-b-72 { @include margin-bottom-72 }
+.margin-left-72,       .m-left-72,        .m-l-72 { @include margin-left-72 }
+.margin-horizontal-72, .m-horizontal-72,  .m-h-72 { @include margin-horizontal-72 }
+.margin-vertical-72,   .m-vertical-72,    .m-v-72 { @include margin-vertical-72 }
+
+
+@mixin border-72             { border: 72px; }
+@mixin border-top-72         { border-top: 72px; }
+@mixin border-right-72       { border-right: 72px; }
+@mixin border-bottom-72      { border-bottom: 72px; }
+@mixin border-left-72        { border-left: 72px; }
+@mixin border-horizontal-72  { border-left: 72px; border-right: 72px; }
+@mixin border-vertical-72    { border-top: 72px; border-bottom: 72px; }
+
+.border-72,                              .b-72   { @include border-72 }
+.border-top-72,        .b-top-72,         .b-t-72 { @include border-top-72 }
+.border-right-72,      .b-right-72,       .b-r-72 { @include border-right-72 }
+.border-bottom-72,     .b-bottom-72,      .b-b-72 { @include border-bottom-72 }
+.border-left-72,       .b-left-72,        .b-l-72 { @include border-left-72 }
+.border-horizontal-72, .b-horizontal-72,  .b-h-72 { @include border-horizontal-72 }
+.border-vertical-72,   .b-vertical-72,    .b-v-72 { @include border-vertical-72 }
+
+@mixin padding-72            { padding: 72px; }
+@mixin padding-top-72        { padding-top: 72px; }
+@mixin padding-right-72      { padding-right: 72px; }
+@mixin padding-bottom-72     { padding-bottom: 72px; }
+@mixin padding-left-72       { padding-left: 72px; }
+@mixin padding-horizontal-72 { padding-left: 72px; padding-right: 72px; }
+@mixin padding-vertical-72   { padding-top: 72px; padding-bottom: 72px; }
+
+.padding-72,                              .p-72   { @include padding-72 }
+.padding-top-72,        .p-top-72,         .p-t-72 { @include padding-top-72 }
+.padding-right-72,      .p-right-72,       .p-r-72 { @include padding-right-72 }
+.padding-bottom-72,     .p-bottom-72,      .p-b-72 { @include padding-bottom-72 }
+.padding-left-72,       .p-left-72,        .p-l-72 { @include padding-left-72 }
+.padding-horizontal-72, .p-horizontal-72,  .p-h-72 { @include padding-horizontal-72 }
+.padding-vertical-72,   .p-vertical-72,    .p-v-72 { @include padding-vertical-72 }

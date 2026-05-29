@@ -1,0 +1,37 @@
+$frequency: (
+  "purple":      #790E70,   // primary brand color
+  "purple-25":   #9A4A94,
+  "purple-50":   #BC86B7,
+  "purple-75":   #DDC3DB,
+  "dark-purple": #331E49,
+  "gold":        #FF9A02,
+  "black":       #242527,
+  "gray-1":      #717171,
+  "gray-2":      #8B8B8B,
+  "gray-3":      #DBDBDB,
+  "white":       #FFFFFF,
+  "cream":       #FCF3E4,
+  "error":       #F03B3B,
+  "warning":     #F99A2A,
+  "info":        #2D80EF,
+  "success":     #36B07D,
+);
+
+$colors: (
+  "frequency": $frequency
+) !default;
+
+
+// usage: color("name_of_color", "type_of_color")
+// to avoid to repeating map-get($colors, ...)
+
+@function color($color, $type) {
+  @if map-has-key($colors, $color) {
+    $curr_color: map-get($colors, $color);
+    @if map-has-key($curr_color, $type) {
+      @return map-get($curr_color, $type);
+    }
+  }
+  @warn "Unknown `#{$color}` - `#{$type}` in $colors.";
+  @return null;
+}

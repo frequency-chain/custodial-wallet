@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Siwa Error Modal</title>
+    <th:block th:fragment="SiwaErrorModalScript">
+        <script>
+            const open = () => {
+                const errorModal = $('#siwaErrorModal')
+                if (errorModal) {
+                    errorModal.modal();
+                    errorModal.modal('open');
+                }
+            }
+
+            const displayErrorModal = (title, description) => {
+                $('#error-title').text(title)
+                $('#error-message').text(description)
+                open()
+            }
+        </script>
+    </th:block>
+</head>
+
+<body>
+    <div id="siwaErrorModal" class="modal" th:fragment="siwaErrorModal" data-testid="error-modal">
+        <div class="modal-content center-align">
+            <h4 id="error-title" data-testid="error-modal-title"></h4>
+            <p id="error-message" data-testid="error-modal-desc"></p>
+        </div>
+        <div class="modal-footer">
+            <a id="cancelButton" href="#" class="modal-close waves-effect waves-light btn"
+                data-th-text="#{button.close}" data-testid="error-modal-cancel"></a>
+        </div>
+    </div>
+</body>
+
+</html>

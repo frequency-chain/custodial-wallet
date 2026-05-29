@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Copy Seed Phrase Example With iFrame</title>
+        <script type="text/javascript">
+            window.addEventListener("message",  async (event) => {
+              switch(event.data) {
+                case "COPIED":
+                  document.getElementById("copiedText").textContent = await navigator.clipboard.readText();
+                  break;
+                default:
+                  console.error(`Unhandled Error ${event.data}`)
+              }
+            }, false);
+        </script>
+    </head>
+    <body>
+        <iframe src="/wallet/copyExample.html" sandbox="allow-same-origin allow-scripts allow-popups allow-forms" allow="publickey-credentials-create *; publickey-credentials-get *"></iframe>
+        <div id="copiedText"></div>
+    </body>
+</html>

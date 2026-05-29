@@ -1,0 +1,62 @@
+footer {
+  @include padding-horizontal-32;
+  @include padding-vertical-16;
+}
+
+section {
+  @include padding-vertical-32;
+
+  @media #{$large-and-up} {
+    @include padding-horizontal-120;
+  }
+  @media #{$medium-only} {
+    @include padding-horizontal-80;
+  }
+  @media #{$small-and-down} {
+    @include padding-horizontal-40;
+  }
+
+}
+
+.off-white-background, .white-background{
+  color: $text-color;
+  h1, h2, h3, h4, h5, h6 {
+    color: $header-color;
+  }
+}
+
+.off-white-background {
+  background-color: $neutral-cream;
+}
+
+.white-background {
+  background-color: $neutral-white;
+}
+
+.primary-color-background, .secondary-color-background {
+  color: $neutral-white;
+  h1, h2, h3, h4, h5, h6 {
+    color: $neutral-white;
+  }
+}
+
+.primary-color-background {
+  background-color: $primary-color;
+}
+
+.secondary-color-background {
+  background-color: $secondary-color;
+}
+
+.grid-background {
+  background-image:
+          repeating-linear-gradient(#ccc 0 1px, transparent 1px 100%),
+          repeating-linear-gradient(90deg, #ccc 0 1px, transparent 1px 100%);
+  background-size: 71px 71px;
+}
+
+.grid-background2 {
+  background: radial-gradient(84.27% 54.45% at 50% 43.26%, #FFFFFF 0%, rgba(217, 217, 217, 0) 100%);
+}
+
+

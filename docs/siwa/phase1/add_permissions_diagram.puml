@@ -1,0 +1,32 @@
+@startuml
+title "SIWA Migration or Add Permissions Flow"
+actor "User" as u
+participant "UserAgent" as ua
+participant "Provider" as p
+participant "Frequency\nAccess" as fa
+database "Redis" as r
+participant "Frequency" as bc
+participant "SES" as ses
+participant "Notification\nService" as ns
+
+note across: Assumes you are coming from the Login Flow
+autonumber
+fa->bc: get permissions for userMsaId, providerId
+return Permissions for Provider
+fa->ua: Render Permissions Screen for all requested permissions for provider and identifier to send
+ua->fa: Accepts w/Single UserIdentifier to send
+fa->r: Find Session by id
+return Session
+fa->fa: create and sign addPermissionsPayload chosen key
+fa->fa: Add addPermissionsPayload to Session
+fa->fa: Add Identifier to send to Session
+fa->fa: Generate authorizationCode
+fa->r: update Session by id, authorizationCode
+return
+fa->ua: Redirect to callback url with authorizationCode, sessionId
+ua->p: Resolve redirect
+p->fa: Resolve payload by authorizationCode and sessionId
+fa->r: find Session bt authorizationCode and sessionId
+return
+fa->p: Signed Payload
+@enduml

@@ -1,0 +1,48 @@
+@mixin margin-120             { margin: 120px; }
+@mixin margin-top-120         { margin-top: 120px; }
+@mixin margin-right-120       { margin-right: 120px; }
+@mixin margin-bottom-120      { margin-bottom: 120px; }
+@mixin margin-left-120        { margin-left: 120px; }
+@mixin margin-horizontal-120  { margin-left: 120px; margin-right: 120px; }
+@mixin margin-vertical-120    { margin-top: 120px; margin-bottom: 120px; }
+
+.margin-120,                              .m-120   { @include margin-120 }
+.margin-top-120,        .m-top-120,         .m-t-120 { @include margin-top-120 }
+.margin-right-120,      .m-right-120,       .m-r-120 { @include margin-right-120 }
+.margin-bottom-120,     .m-bottom-120,      .m-b-120 { @include margin-bottom-120 }
+.margin-left-120,       .m-left-120,        .m-l-120 { @include margin-left-120 }
+.margin-horizontal-120, .m-horizontal-120,  .m-h-120 { @include margin-horizontal-120 }
+.margin-vertical-120,   .m-vertical-120,    .m-v-120 { @include margin-vertical-120 }
+
+
+@mixin border-120             { border: 120px; }
+@mixin border-top-120         { border-top: 120px; }
+@mixin border-right-120       { border-right: 120px; }
+@mixin border-bottom-120      { border-bottom: 120px; }
+@mixin border-left-120        { border-left: 120px; }
+@mixin border-horizontal-120  { border-left: 120px; border-right: 120px; }
+@mixin border-vertical-120    { border-top: 120px; border-bottom: 120px; }
+
+.border-120,                              .b-120   { @include border-120 }
+.border-top-120,        .b-top-120,         .b-t-120 { @include border-top-120 }
+.border-right-120,      .b-right-120,       .b-r-120 { @include border-right-120 }
+.border-bottom-120,     .b-bottom-120,      .b-b-120 { @include border-bottom-120 }
+.border-left-120,       .b-left-120,        .b-l-120 { @include border-left-120 }
+.border-horizontal-120, .b-horizontal-120,  .b-h-120 { @include border-horizontal-120 }
+.border-vertical-120,   .b-vertical-120,    .b-v-120 { @include border-vertical-120 }
+
+@mixin padding-120            { padding: 120px; }
+@mixin padding-top-120        { padding-top: 120px; }
+@mixin padding-right-120      { padding-right: 120px; }
+@mixin padding-bottom-120     { padding-bottom: 120px; }
+@mixin padding-left-120       { padding-left: 120px; }
+@mixin padding-horizontal-120 { padding-left: 120px; padding-right: 120px; }
+@mixin padding-vertical-120   { padding-top: 120px; padding-bottom: 120px; }
+
+.padding-120,                              .p-120   { @include padding-120 }
+.padding-top-120,        .p-top-120,         .p-t-120 { @include padding-top-120 }
+.padding-right-120,      .p-right-120,       .p-r-120 { @include padding-right-120 }
+.padding-bottom-120,     .p-bottom-120,      .p-b-120 { @include padding-bottom-120 }
+.padding-left-120,       .p-left-120,        .p-l-120 { @include padding-left-120 }
+.padding-horizontal-120, .p-horizontal-120,  .p-h-120 { @include padding-horizontal-120 }
+.padding-vertical-120,   .p-vertical-120,    .p-v-120 { @include padding-vertical-120 }

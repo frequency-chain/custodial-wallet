@@ -1,0 +1,66 @@
+
+a:not(.no-materialize) {
+  text-decoration: underline;
+}
+
+// Header Styles ==========================
+h1, h2, h3, h4, h5, h6 {
+  font-family: $h-font-stack;
+  color: $header-color;
+  font-weight: 700;
+  line-height: 1.3;
+  letter-spacing: -0.03em;
+}
+
+h1 a, h2 a, h3 a, h4 a, h5 a, h6 a { font-weight: inherit; }
+h1 { font-size: $h1-fontsize; line-height: $h1-lineheight; margin: calc($h1-fontsize / 2.5) 0 calc($h1-fontsize / 2.5) 0;}
+h2 { font-size: $h2-fontsize; line-height: $h2-lineheight; margin: calc($h2-fontsize / 2.5) 0 calc($h2-fontsize / 2.5) 0;}
+h3 { font-size: $h3-fontsize; line-height: $h3-lineheight; margin: calc($h3-fontsize / 2.5) 0 calc($h3-fontsize / 2.5) 0;}
+h4 { font-size: $h4-fontsize; line-height: $h4-lineheight; margin: calc($h4-fontsize / 2.5) 0 calc($h4-fontsize / 2.5) 0;}
+h5 { font-size: $h5-fontsize; line-height: $h5-lineheight; margin: calc($h5-fontsize / 2.5) 0 calc($h5-fontsize / 2.5) 0;}
+h6 { font-size: $h6-fontsize; line-height: $h6-lineheight; margin: calc($h6-fontsize / 2.5) 0 calc($h6-fontsize / 2.5) 0;}
+
+// Text Styles ==============================
+@mixin large-text { font-size: $lt-fontsize; line-height: $lt-lineheight; margin: calc($lt-fontsize / 1.5) 0 calc($lt-fontsize / 2.5) 0;}
+@mixin big-text { font-size: $bt-fontsize; line-height: $bt-lineheight; margin: calc($bt-fontsize / 1.5) 0 calc($bt-fontsize / 2.5) 0;}
+@mixin medium-text { font-size: $mt-fontsize; line-height: $mt-lineheight; margin: calc($mt-fontsize / 1.5) 0 calc($mt-fontsize / 2.5) 0;}
+@mixin small-text { font-size: $st-fontsize; line-height: $st-lineheight; margin: calc($st-fontsize / 1.5) 0 calc($st-fontsize / 2.5) 0;}
+@mixin tiny-text { font-size: $tt-fontsize; line-height: $tt-lineheight; margin: calc($tt-fontsize / 1.5) 0 calc($tt-fontsize / 2.5) 0;}
+
+@mixin large-text-no-margin { font-size: $lt-fontsize; line-height: $lt-lineheight;}
+@mixin big-text-no-margin { font-size: $bt-fontsize; line-height: $bt-lineheight;}
+@mixin medium-text-no-margin { font-size: $mt-fontsize; line-height: $mt-lineheight;}
+@mixin small-text-no-margin { font-size: $st-fontsize; line-height: $st-lineheight;}
+@mixin tiny-text-no-margin { font-size: $tt-fontsize; line-height: $tt-lineheight;}
+
+
+html{
+
+  font-family: $font-stack;
+  font-size: $mt-fontsize;
+  line-height: $mt-lineheight;
+  font-weight: normal;
+  color: $text-color;
+  text-rendering: optimizeLegibility; /* enable common ligatures and kerning */
+
+  .large-text, .lt { @include large-text }
+  .big-text,   .bt { @include big-text }
+  .medium-text,.mt { @include medium-text }
+  .small-text, .st { @include small-text }
+  .tiny-text,  .tt { @include tiny-text }
+
+  .large-text-nm, .lt { @include large-text-no-margin }
+  .big-text-nm,   .bt { @include big-text-no-margin }
+  .medium-text-nm,.mt { @include medium-text-no-margin }
+  .small-text-nm, .st { @include small-text-no-margin }
+  .tiny-text-nm,  .tt { @include tiny-text-no-margin }
+
+}
+
+// Text Styles
+em { font-style: italic; }
+strong { font-weight: 500;}
+small { font-size: 75%; }
+.light { font-weight: 300; }
+.thin { font-weight: 200; }
+.bold { font-weight: bold; }

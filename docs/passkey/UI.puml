@@ -1,0 +1,32 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+participant Provider as Pr
+actor User
+participant Browser as Br
+participant Iframe as If
+participant CustodialWallet as CW
+autonumber
+
+User -> Pr: Log in to provider
+Pr -> CW: Log in with SIWA request
+CW -> User: Log in with SIWA and ask for passkey wallet
+User -> CW: Agree to make passkey and wallet
+CW -> User: Passkey and Wallet creation
+User -> Br: Click create wallet
+Br -> If: On page load
+If -> Br: Display Seed Phrase
+Br -> User: Show Iframe seed phrase
+User -> Br: Confirm Seed Phrase is written down
+Br -> Br: Hide Iframe
+Br -> User: Show passkey creation confirmation
+User -> Br: Click create passkey
+Br -> If: Create passkey
+If -> Br: store passkey
+Br -> User: Display creation successful
+User -> Br: Click done
+Br -> CW: Finalize creation of passkey and wallet
+CW -> User: Redirect to Provider
+User -> Pr: Redirect to Provider
+
+
+@enduml

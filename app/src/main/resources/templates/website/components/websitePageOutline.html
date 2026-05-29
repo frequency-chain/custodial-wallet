@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Website Page Outliner</title>
+</head>
+<body>
+    <div th:fragment="websitePageOutline">
+        <div th:replace="~{website/components/websiteHeader :: websiteHeader}"></div>
+        <main class="website-page-outline" th:with="page='__${template}__Page', pagePath='website/pages/__${template}__Page', title='__${template}__PageTitle', titlePath='website/components/__${template}__PageTitle'">
+            <div class="splash"></div>
+            <section class="website-page-overview">
+                <div th:replace="~{__${titlePath}__ :: __${title}__}"></div>
+                <div class="card white">
+                    <div class="card-content" th:replace="~{__${pagePath}__ :: __${page}__}"></div>
+                </div>
+            </section>
+        </main>
+        <div th:replace="~{website/components/websiteFooter :: websiteFooter}"></div>
+    </div>
+</body>
+</html>

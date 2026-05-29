@@ -1,0 +1,48 @@
+@mixin margin-4             { margin: 4px; }
+@mixin margin-top-4         { margin-top: 4px; }
+@mixin margin-right-4       { margin-right: 4px; }
+@mixin margin-bottom-4      { margin-bottom: 4px; }
+@mixin margin-left-4        { margin-left: 4px; }
+@mixin margin-horizontal-4  { margin-left: 4px; margin-right: 4px; }
+@mixin margin-vertical-4    { margin-top: 4px; margin-bottom: 4px; }
+
+.margin-4,                              .m-4   { @include margin-4 }
+.margin-top-4,        .m-top-4,         .m-t-4 { @include margin-top-4 }
+.margin-right-4,      .m-right-4,       .m-r-4 { @include margin-right-4 }
+.margin-bottom-4,     .m-bottom-4,      .m-b-4 { @include margin-bottom-4 }
+.margin-left-4,       .m-left-4,        .m-l-4 { @include margin-left-4 }
+.margin-horizontal-4, .m-horizontal-4,  .m-h-4 { @include margin-horizontal-4 }
+.margin-vertical-4,   .m-vertical-4,    .m-v-4 { @include margin-vertical-4 }
+
+
+@mixin border-4             { border: 4px; }
+@mixin border-top-4         { border-top: 4px; }
+@mixin border-right-4       { border-right: 4px; }
+@mixin border-bottom-4      { border-bottom: 4px; }
+@mixin border-left-4        { border-left: 4px; }
+@mixin border-horizontal-4  { border-left: 4px; border-right: 4px; }
+@mixin border-vertical-4    { border-top: 4px; border-bottom: 4px; }
+
+.border-4,                              .b-4   { @include border-4 }
+.border-top-4,        .b-top-4,         .b-t-4 { @include border-top-4 }
+.border-right-4,      .b-right-4,       .b-r-4 { @include border-right-4 }
+.border-bottom-4,     .b-bottom-4,      .b-b-4 { @include border-bottom-4 }
+.border-left-4,       .b-left-4,        .b-l-4 { @include border-left-4 }
+.border-horizontal-4, .b-horizontal-4,  .b-h-4 { @include border-horizontal-4 }
+.border-vertical-4,   .b-vertical-4,    .b-v-4 { @include border-vertical-4 }
+
+@mixin padding-4            { padding: 4px; }
+@mixin padding-top-4        { padding-top: 4px; }
+@mixin padding-right-4      { padding-right: 4px; }
+@mixin padding-bottom-4     { padding-bottom: 4px; }
+@mixin padding-left-4       { padding-left: 4px; }
+@mixin padding-horizontal-4 { padding-left: 4px; padding-right: 4px; }
+@mixin padding-vertical-4   { padding-top: 4px; padding-bottom: 4px; }
+
+.padding-4,                              .p-4   { @include padding-4 }
+.padding-top-4,        .p-top-4,         .p-t-4 { @include padding-top-4 }
+.padding-right-4,      .p-right-4,       .p-r-4 { @include padding-right-4 }
+.padding-bottom-4,     .p-bottom-4,      .p-b-4 { @include padding-bottom-4 }
+.padding-left-4,       .p-left-4,        .p-l-4 { @include padding-left-4 }
+.padding-horizontal-4, .p-horizontal-4,  .p-h-4 { @include padding-horizontal-4 }
+.padding-vertical-4,   .p-vertical-4,    .p-v-4 { @include padding-vertical-4 }

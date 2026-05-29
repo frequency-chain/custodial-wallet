@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Claim Handle Permission</title>
+    <th:block th:fragment="claimHandleScript">
+        <script defer>
+            const callbacks = []
+
+            $(function() {
+                const handleInput = $("#handle-input")
+                handleInput.on("keydown input", (event) => {
+                    console.log("input")
+                    callbacks.forEach(callback => {
+                        callback(event)
+                    });
+                });
+            });
+
+            function doOnHandleInput(callback) {
+                callbacks.push(callback)
+            }
+            function getHandleInputVal() {
+                return $("#handle-input").val()
+            }
+
+            /*
+            https://github.com/frequency-chain/frequency/blob/5803afafe097ec5772e08f85a3f44412491f2812/pallets/handles/README.md#pre-normalization-validation
+            Pre-Normalization Validation
+                MUST be UTF-8
+                MUST NOT be more than 26 bytes
+                MUST not contain one of the blocked characters: " # % ( ) , . / : ; < > @ \ ` { }
+             */
+            const byteSize = (str) => new Blob([str]).size;
+            function isProperHandle() {
+                const handle = getHandleInputVal()
+                const handleSize = byteSize(handle)
+                return handleSize <= 26 && /^[^"#%(),.\/:;<>@\\`{}]{3,}$/.test(getHandleInputVal())
+            }
+
+        </script>
+    </th:block>
+</head>
+<body>
+<div th:if="${props.claimHandle}" class="claim-handle payload" th:fragment="claimHandle"
+     th:with="isInvalidHandle=${helper.hasError('INVALID_HANDLE', props.error)},
+      isUnavailableHandle=${helper.hasError('HANDLE_UNAVAILABLE', props.error)}">
+    <div class="handle-title">
+        <h5 data-th-text="#{siwa.payloads.claim-handle.title}"></h5>
+        <p class="small-text" data-th-text="#{siwa.payloads.claim-handle.desc}"></p>
+    </div>
+    <label for="handle-input" class="small-text bold required" data-th-text="#{siwa.payloads.claim-handle.input-label}"></label>
+    <div>
+        <div class="handle-input-fields">
+            <input id="handle-input" name="handle" class="claim-handle-input-field small-text-nm"
+                   data-testid="claim-handle-input" type="text"
+                   th:classappend="${isInvalidHandle || isUnavailableHandle} ? 'invalid' : ''"
+                   th:placeholder="#{siwa.payloads.claim-handle.input-placeholder}"
+                   th:value="${props.prefillUserHandle}">
+            <input class="handle-number" value="##" disabled>
+        </div>
+        <span class="small-text bold frequency-text text-red" th:if="${isInvalidHandle}" data-th-text="#{siwa.error.invalid-handle}"></span>
+        <span class="small-text bold frequency-text text-red" th:if="${isUnavailableHandle}" data-th-text="#{siwa.error.unavailable-handle}"></span>
+    </div>
+
+    <div class="handle-reqs">
+        <p class="handle-reqs-title frequency-text text-dark-blue bold" data-th-text="#{siwa.payloads.claim-handle.reqs.title}"></p>
+        <ul class="handle-reqs-list margin-horizontal-24">
+            <li class="small-text inline-text">
+                <p data-th-text="#{siwa.payloads.claim-handle.reqs.item1}"></p>
+                <a href="/#faq" data-th-text="#{siwa.payloads.claim-handle.reqs.learn-more}"></a>
+            </li>
+            <li class="small-text inline-text" >
+                <p data-th-text="#{siwa.payloads.claim-handle.reqs.item2}"></p>
+                <a href="/terms.html" data-th-text="#{siwa.footer.terms-of-service}"></a>
+            </li>
+        </ul>
+    </div>
+</div>
+</body>
+</html>

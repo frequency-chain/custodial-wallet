@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Terms and Conditions Tabs Component</title>
+    <th:block th:fragment="tacTabsScript">
+        <script>
+            function tacTabInit(
+                tabsContainer,
+                tabElementList,
+                isDeveloperTerms,
+                userTermsTab,
+                developerTermsTab,
+                userTermsTabLink,
+                developerTermsTabLink,
+                tabsInstance,
+            ) {
+                setInitialTab(
+                    isDeveloperTerms,
+                    userTermsTab,
+                    developerTermsTab,
+                    userTermsTabLink,
+                    developerTermsTabLink,
+                    tabsInstance,
+                )
+                clickWholeTab(tabElementList)
+                showTabSwitch(tabsContainer, tabElementList)
+            }
+
+            function clickWholeTab(tabElementList) {
+                tabElementList.each(function () {
+                    $(this).on("click", function (e) {
+                        if (!$(e.target).is("a")) {
+                            const link = $(this).find("a")
+                            if (link.length > 0) {
+                                link[0].click()
+                            }
+                        }
+                    })
+                })
+            }
+
+            function showTabSwitch(tabsContainer, tabElementList) {
+                $(tabsContainer).on("click", ".tab", function () {
+                    $(tabElementList).removeClass("tac-tab-active")
+                    $(tabElementList).find("a").removeClass("active")
+                    $(this).addClass("tac-tab-active")
+                    $(this).find("a").addClass("active")
+                })
+            }
+
+            function setInitialTab(
+                isDeveloperTerms,
+                userTermsTab,
+                developerTermsTab,
+                userTermsTabLink,
+                developerTermsTabLink,
+                tabsInstance,
+            ) {
+                if (isDeveloperTerms === "true") {
+                    tabsInstance.tabs("select", "developerTerms")
+                    developerTermsTab.addClass("tac-tab-active")
+                    userTermsTab.removeClass("tac-tab-active")
+                    developerTermsTabLink.addClass("active")
+                    userTermsTabLink.removeClass("active")
+                } else {
+                    userTermsTab.addClass("tac-tab-active")
+                    developerTermsTab.removeClass("tac-tab-active")
+                    userTermsTabLink.addClass("active")
+                    developerTermsTabLink.removeClass("active")
+                }
+            }
+        </script>
+    </th:block>
+</head>
+<body>
+<div class="tac-tabs-container" th:fragment="tacTabs">
+    <ul class="tabs tabs-fixed-width tac-tabs">
+        <li id="userTermsTab" class="tab"><a id="userTermsTabLink" href="#userTerms">User Terms</a></li>
+        <li id="developerTermsTab" class="tab"><a id="developerTermsTabLink" href="#developerTerms">Developer Terms</a></li>
+    </ul>
+</div>
+</body>
+</html>

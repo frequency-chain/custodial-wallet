@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title> Footer </title>
+</head>
+<body>
+
+<div class="footer-main center-align" th:fragment="footer">
+    <hr>
+    <span class="footer-message" th:if="${isSignup}" data-th-text="#{footer.signup}"></span>
+    <span class="footer-message" th:unless="${isSignup}" data-th-text="#{footer.login}"></span>
+    <br>
+    <a id="footer-terms" class="footer-terms" target="_blank" th:href="#{terms.link}" data-th-text="#{footer.terms}"></a>
+    <span class="footer-and" data-th-text="#{footer.and}"></span>
+    <a id="footer-pp" class="footer-pp inline" target="_blank" th:href="#{pp.link}" data-th-text="#{footer.pp}"></a>
+</div>
+</body>
+</html>

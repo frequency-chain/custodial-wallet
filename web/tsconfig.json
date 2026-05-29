@@ -1,0 +1,20 @@
+{
+  "compilerOptions": {
+    "outDir": "build/generated/src/main/js",
+    "skipLibCheck": true,
+    "target": "ES6", // Target environment. Most modern browsers support ES6, but you may want to set it to newer or older. (defaults to ES3)
+    "esModuleInterop": true, // fixes some issues TS originally had with the ES6 spec where TypeScript treats CommonJS/AMD/UMD modules similar to ES6 module
+    "alwaysStrict": true, // Ensures that your files are parsed in the ECMAScript strict mode, and emit “use strict” for each source file.
+    "strictNullChecks": true,
+    "noImplicitAny": true,
+    "moduleResolution": "node", // Pretty much always node for modern JS. Other option is "classic"
+    "paths": {
+      // Enables absolute imports for local files beginning with `@` prefix (`@/foo/bar`)
+      "@/*": ["./src/main/ts/*"]
+    },
+  },
+  "include": [
+    "src/main/ts/*",
+    "src/main/ts/**/*"
+  ],
+}

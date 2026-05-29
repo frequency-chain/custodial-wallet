@@ -1,0 +1,33 @@
+sequenceDiagram
+  title How to obtain a ContextItemKey
+  participant mcpc as MCP Client
+  participant mcp as MCP Server
+  participant fa as Frequency Access
+  participant bc as Frequency
+  participant ss as Storage Service
+
+  mcpc->>mcp: Save out fragment for contextItemId
+  mcp-->>mcpc: ACK
+  mcp->>mcp: Check for ContextItemKey for contextItemId
+  mcp->>fa: POST /hcp/api/key/contextItem
+  fa->>bc: verify provider msaId
+  bc-->>fa: msaId of provider publicKey
+  fa->>fa: Find Control Keypair
+  fa-->>bc: verify user msaId
+  bc-->>fa: msaId of user
+  note over fa: Requires that the creation of ICS payloads has occurred
+  fa->>bc: Get provider ICS public Key
+  bc-->>fa: Provider's ICS public key
+  fa->>bc: Get ACL for this user's msaId
+  bc-->>fa: ACL for user's msaId
+  fa->>fa: Check providerMsaId exists in ACL
+  fa->>fa: find ICS ContextItemKey for contextItemId
+  alt ContextItemKey is not found
+    fa->>fa: Generate ContextItemKey for contextItemId
+  else ContextItemKey is found
+    fa-->>mcp: Failure, we don't reissue keys (TBD maybe some trick with signatures)
+  end
+  fa-->>mcp: return ContextItemKey for contextItemId
+  mcp->>mcp: Encrypt Fragment
+  mcp->>ss: submit batch with fragments
+  ss-->>mcp: ACK

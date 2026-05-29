@@ -1,0 +1,14 @@
+@startuml
+start
+:Incoming Identifer;
+if(isEmail) then(Yes)
+    :Send Email;
+    :Display Email Sent Page;
+    :User Clicks Email Link;
+elseif(isSms) then(Yes)
+    :Send Sms;
+    :Display SMS Form;
+    :User Submits SMS Form;
+endif
+stop
+@enduml

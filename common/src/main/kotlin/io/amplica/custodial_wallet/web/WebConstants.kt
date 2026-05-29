@@ -1,0 +1,17 @@
+package io.amplica.custodial_wallet.web
+
+const val SESSION_ID_COOKIE_NAME = "SESSION_ID"
+const val X_UNFINISHED_SESSION_ID_NAME = "X-Unfinished-Session-Id"
+const val X_SESSION_ID_NAME = "X-Session-Id"
+const val X_TRACE_ID_NAME = "X-Trace-Id"
+const val SHARED_SECRET = "X-Shared-Secret"
+const val OVERRIDE_BLOCKING_SECRET_NAME = "X-Override-Blocking-Secret"
+const val AUTHORIZATION_CODE_PARAMETER_NAME = "authorizationCode"
+const val SIGNED_REQUEST_PARAMETER_NAME = "signedRequest"
+const val X_CAPTCHA_NAME = "X-CAPTCHA"
+const val PREFILL_EMAIL_PARAMETER_NAME = "email"
+const val PREFILL_PHONE_NUMBER_PARAMETER_NAME = "phoneNumber"
+const val PREFILL_USER_HANDLE_PARAMETER_NAME = "userHandle"
+const val PASSKEY_WALLET_RECOVERY = "passkeyWalletRecovery"
+const val USER_KEY_TYPE = "userKeyType"
+const val SIWA_FLOW_VARIANT_PARAMETER_NAME = "flow"

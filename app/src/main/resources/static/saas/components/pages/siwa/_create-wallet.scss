@@ -1,0 +1,32 @@
+.passkey-create-wallet {
+  .feature-list {
+    .wallet-feature {
+      display: flex;
+      gap: 16px;
+
+
+
+      @media #{$large-and-up} {
+        @include medium-text;
+        @include padding-horizontal-16;
+      }
+
+      @media #{$extra-large-and-up} {
+        @include padding-horizontal-56;
+      }
+
+      @media #{$medium-and-down} {
+        @include small-text;
+        @include padding-horizontal-16;
+      }
+    }
+  }
+  .create-wallet-submission {
+    .create-wallet-form {
+      .unsupported-browser-device {
+        @include small-text;
+        color: $error-color;
+      }
+    }
+  }
+}

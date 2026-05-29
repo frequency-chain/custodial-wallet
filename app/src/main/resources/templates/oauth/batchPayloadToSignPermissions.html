@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
+    <title>Signing Permission</title>
+    <meta name="description" content="For Amplica Access to sign this payload we need you to accept the required permissions.">
+
+    <!-- CSS  -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link th:href="@{~/css/materialize.css}" type="text/css" rel="stylesheet" media="screen,projection"/>
+    <link href="https://cdn.jsdelivr.net/npm/round-flag-icons/css/round-flag-icons.min.css" rel="stylesheet">
+
+    <!--favicons -->
+    <link rel="apple-touch-icon" sizes="180x180" th:href="@{~/apple-touch-icon.png}">
+    <link rel="icon" type="image/png" sizes="32x32" th:href="@{~/favicon-v2-32x32.png}">
+    <link rel="icon" type="image/png" sizes="16x16" th:href="@{~/favicon-v2-16x16.png}">
+    <link rel="manifest" th:href="@{~/site.webmanifest}">
+    <link rel="mask-icon" th:href="@{~/safari-pinned-tab.svg}" color="#109da3">
+    <meta name="msapplication-TileColor" content="#053031">
+    <meta name="theme-color" content="#053031">
+
+    <!--  Scripts-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script th:src="@{~/js/materialize.js(BUILD_NUMBER=${BUILD_NUMBER})}"></script>
+    <script th:src="@{~/js/common.js(BUILD_NUMBER=${BUILD_NUMBER})}"></script>
+    <script th:src="@{~/js/bundle/errorsBundle.js(BUILD_NUMBER=${BUILD_NUMBER})}"></script>
+    <script th:src="@{~/js/init.js(BUILD_NUMBER=${BUILD_NUMBER})}"></script>
+
+    <!-- Sentry browser javascript -->
+    <script th:src="@{~/js/bundle/sentryBundle.js(BUILD_NUMBER=${BUILD_NUMBER})}"></script>
+    <script>
+        const sentryEnv = "[[${sentryEnv}]]";
+        const sentryRelease = "[[${sentryRelease}]]"
+        SENTRY.configure(sentryEnv, sentryRelease)
+    </script>
+
+    <script type="text/javascript">
+        const messages = parseMessages("[[${messagesJson}]]")
+        const sessionId = "[[${sessionId}]]";
+        const targetOrigin = "[[${targetOrigin}]]";
+    </script>
+</head>
+<body>
+<div>
+    <div class="page-wrapper">
+        <div th:replace="~{oauth/pages/batchPermissions :: batchPermissions}"></div>
+    </div>
+    <div th:replace="~{components/errorModal :: errorModal(${targetOrigin})}"></div>
+</div>
+
+</body>
+</html>

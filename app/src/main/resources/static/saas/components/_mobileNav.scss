@@ -1,0 +1,71 @@
+.mobile-nav {
+
+  .corner-close {
+    top: 28px;
+    right: 30px;
+  }
+
+  ul {
+    padding-top: 72px;
+
+    li {
+      float: none;
+      line-height: $mobile-nav-line-height;
+
+      &.active {
+        background-color: rgba(0, 0, 0, .05);
+      }
+    }
+
+    li > a {
+      color: $mobile-nav-font-color;
+      display: block;
+      font-size: $mobile-nav-font-size;
+      font-weight: 500;
+      height: $mobile-nav-item-height;
+      line-height: $mobile-nav-line-height;
+      padding: 0 ($mobile-nav-padding * 2);
+
+      &:hover {
+        background-color: rgba(0, 0, 0, .05);
+      }
+
+      &.btn, &.btn-large, &.btn-flat, &.btn-floating {
+        font-size: $button-font-size;
+        margin: 10px 15px;
+        color: $neutral-white;
+      }
+
+      &.btn:hover,
+      &.btn-large:hover {
+        background-color: lighten($button-raised-background, 5%);
+      }
+
+      &.btn-floating:hover {
+        background-color: $button-raised-background;
+      }
+
+      & > i,
+      & > [class^="mdi-"], li > a > [class*="mdi-"],
+      & > i.material-icons {
+        float: left;
+        height: $mobile-nav-item-height;
+        line-height: $mobile-nav-line-height;
+        margin: 0 ($mobile-nav-padding * 2) 0 0;
+        width: $mobile-nav-item-height / 2;
+      }
+    }
+
+    form {
+      padding: 10px 15px;
+
+      button {
+        &.btn, &.btn-large, &.btn-flat, &.btn-floating {
+          width: 100%;
+          color: $neutral-white;
+        }
+      }
+    }
+  }
+
+}

@@ -1,0 +1,103 @@
+@startuml
+title "Obtaining a Signed Payload as a Provider - Email"
+'https://plantuml.com/sequence-diagram
+
+actor "ResourceOwner(User)" as ro
+participant "Client Useragent" as cu
+participant "Client(Provider)" as c
+participant "AuthorizationServer(AA)" as aa
+participant "ResourceServer(Blockchain)" as rs
+participant "Redis" as r
+participant "KMS" as k
+participant "Postgres" as p
+
+autonumber
+note across: It is assumed that provider payloads are signed and have nonce handling
+ro -> c: Requires a signed payload for an action
+c -> aa: Signed Provider Payload w/callback
+aa -> aa: validate signature
+aa -> rs: fetch msaId by public key
+return msaId
+aa -> p: fetch UserKeyData by UserIdentifier and providerMsaId
+return UserKeyData
+aa -> r: Persist payload w/associated SessionId (UUID)
+aa -> c: sessionId associated with request (202 w/Location header)
+c -> cu: Location header value
+cu -> aa: GET to Location
+aa -> r: retrieve initial payload by sessionId
+return Payload
+aa -> ro: display permissions screen for payload
+ro -> aa: Accepts payload permissions
+aa -> aa: Generate authentication code
+aa -> r: Persist payload w/associated authentication code and sessionId,
+aa -> ro: Email authentication code
+ro -> aa: Clicks link w/authentication code and sessionId
+aa -> r: Fetch payload by authentication code and sessionId
+return Payload
+aa -> aa: Generate authorization code
+aa -> r: Persist by authorization code and sessionId
+aa -> cu: Redirect to callback url with authorization code and sessionId\n (app link deep link or website)
+cu -> aa: trade authorization code and sessionId for signed payload
+aa -> r: Fetch by authorization code and sessionId
+return: Payload
+aa -> p: fetch UserKeyData by UserIdentifier and providerMsaId
+return UserKeyData
+aa -> k: Decrypt call to get the private key decrypted
+return decrypted private key
+aa -> aa: Sign Payload w/Private Key
+aa -> cu: Signed Payload
+cu -> c: Signed Payload
+c -> rs: mutate resource with signed provider payload
+
+newpage "Obtaining a Signed Payload as a Provider - SMS"
+title "Obtaining a Signed Payload as a Provider - SMS"
+'https://plantuml.com/sequence-diagram
+
+actor "ResourceOwner(User)" as ro
+participant "Client Useragent" as cu
+participant "Client(Provider)" as c
+participant "AuthorizationServer(AA)" as aa
+participant "ResourceServer(Blockchain)" as rs
+participant "Redis" as r
+participant "KMS" as k
+participant "Postgres" as p
+
+autonumber
+note across: It is assumed that provider payloads are signed and have nonce handling
+ro -> c: Requires a signed payload for an action
+c -> aa: Signed Provider Payload w/callback
+aa -> aa: validate signature
+aa -> rs: fetch msaId by public key
+return msaId
+aa -> p: fetch UserKeyData by UserIdentifier and providerMsaId
+return UserKeyData
+aa -> r: Persist payload w/associated SessionId (UUID)
+aa -> c: sessionId associated with request (202 w/Location header)
+c -> cu: Location header value
+cu -> aa: GET to Location
+aa -> r: retrieve initial payload by sessionId
+return Payload
+aa -> ro: display permissions screen for payload
+ro -> aa: Accepts payload permissions
+aa -> aa: Generate authentication code
+aa -> r: Persist payload w/associated authentication code and sessionId,
+aa -> ro: SMS authentication code
+aa -> ro: Display SMS Code input
+ro -> aa: Enters authentication code
+aa -> r: Fetch payload by authentication code and sessionId
+return Payload
+aa -> aa: Generate authorization code
+aa -> r: Persist by authorization code and sessionId
+aa -> cu: Redirect to callback url with authorization code and sessionId\n (app link deep link or website)
+cu -> aa: trade authorization code and sessionId for signed payload
+aa -> r: Fetch by authorization code and sessionId
+return: Payload
+aa -> p: fetch UserKeyData by UserIdentifier and providerMsaId
+return UserKeyData
+aa -> k: Decrypt call to get the private key decrypted
+return decrypted private key
+aa -> aa: Sign Payload w/Private Key
+aa -> cu: Signed Payload
+cu -> c: Signed Payload
+c -> rs: mutate resource with signed provider payload
+@enduml

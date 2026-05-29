@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Website Page Scripts</title>
+    <th:block th:fragment="websiteScripts">
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
+        <!-- CSS  -->
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <link th:href="@{~/css/materialize.css(BUILD_NUMBER=${BUILD_NUMBER})}" type="text/css" rel="stylesheet" media="screen,projection"/>
+
+        <!--favicons -->
+        <link rel="apple-touch-icon" sizes="180x180" th:href="@{~/img/favicon/favicon-v2-180x180.png}">
+        <link rel="icon" type="image/png" sizes="32x32" th:href="@{~/img/favicon/favicon-v2-32x32.png}">
+        <link rel="icon" type="image/png" sizes="16x16" th:href="@{~/img/favicon/favicon-v2-16x16.png}">
+        <link rel="manifest" th:href="@{~/site.webmanifest}">
+        <link rel="mask-icon" th:href="@{~/safari-pinned-tab.svg}" color="#790E70">
+        <meta name="msapplication-TileColor" content="#242527">
+        <meta name="theme-color" content="#242527">
+
+        <!-- Klaro - make sure the config gets loaded before Klaro -->
+        <script defer type="text/javascript" th:src="@{~/js/klaro-config.js(BUILD_NUMBER=${BUILD_NUMBER})}"></script>
+        <script defer type="text/javascript" th:src="@{~/js/klaro.js(BUILD_NUMBER=${BUILD_NUMBER})}"></script>
+
+        <!-- Matomo -->
+        <script  type="text/plain"
+                 data-type="application/javascript"
+                 data-name="matomo">
+            var _paq = window._paq = window._paq || [];
+            /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
+            _paq.push(['trackPageView']);
+            _paq.push(['enableLinkTracking']);
+            (function() {
+            var u="https://dsnp.matomo.cloud/";
+            _paq.push(['setTrackerUrl', u+'matomo.php']);
+            _paq.push(['setSiteId', '5']);
+            var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+            g.async=true; g.src='//cdn.matomo.cloud/dsnp.matomo.cloud/matomo.js'; s.parentNode.insertBefore(g,s);
+            })();
+        </script>
+
+        <!--  Scripts-->
+        <script th:src="@{~/js/jquery-3.6.0.min.js(BUILD_NUMBER=${BUILD_NUMBER})}"></script>
+        <script th:src="@{~/js/materialize.js(BUILD_NUMBER=${BUILD_NUMBER})}"></script>
+        <script th:src="@{~/js/common.js(BUILD_NUMBER=${BUILD_NUMBER})}"></script>
+        <script th:src="@{~/js/bundle/errorsBundle.js(BUILD_NUMBER=${BUILD_NUMBER})}"></script>
+        <script th:src="@{~/js/init.js(BUILD_NUMBER=${BUILD_NUMBER})}"></script>
+        <script src="/js/bundle/registrationBundle.js"></script>
+
+        <!-- H-Captcha Script -->
+        <script src="https://js.hcaptcha.com/1/api.js" async defer></script>
+
+        <!-- Materialize Fix - make sure to run after materialize.js -->
+        <!-- https://github.com/ignasdamunskis/materialize-css-helper/tree/main -->
+        <script> window.materializeHelper = {}</script>
+        <script th:src="@{~/js/materialize-fix.js(BUILD_NUMBER=${BUILD_NUMBER})}"></script>
+
+        <!-- Sentry browser javascript -->
+        <script th:src="@{~/js/bundle/sentryBundle.js(BUILD_NUMBER=${BUILD_NUMBER})}"></script>
+        <script>
+            const sentryEnv = "[[${sentryEnv}]]";
+            const sentryRelease = "[[${sentryRelease}]]"
+            SENTRY.configure(sentryEnv, sentryRelease)
+        </script>
+    </th:block>
+</head>
+<body>
+
+</body>
+</html>

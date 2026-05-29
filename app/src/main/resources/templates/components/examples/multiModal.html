@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div id="multi-modal" class="modal" th:fragment="multiModal">
+    <a class="modal-close corner-close" href="#" ><i class="material-icons small">close</i></a>
+    <div class="modal-content">
+        <div id="first-modal" class="multi-modal">
+            <div class="modal-header">
+                <h4>First</h4>
+                <p>This first modal has a subtitle</p>
+            </div>
+            <div class="modal-body">
+                <p>-------</p>
+            </div>
+            <div class="modal-footer">
+                <p class="toggleForm" onclick="toggleMultiModal('#second-modal')">Switch to Second Modal</p>
+            </div>
+        </div>
+        <div id="second-modal" class="multi-modal" style="display:none;">
+            <div class="modal-header">
+                <h4>Second</h4>
+            </div>
+            <div class="modal-body">
+                <p>This second modal</p>
+                <p>has a body</p>
+            </div>
+            <div class="modal-footer">
+                <p class="toggleForm" onclick="toggleMultiModal('#first-modal')">Switch to First Modal</p>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Add Provider Permission</title>
+</head>
+<body>
+<div class="addProvider" th:fragment="addProvider">
+    <h5>Add Provider Permissions</h5>
+    <div class="addProvider-msaId">
+        <p>
+            <span><b>Msa ID: </b></span><span data-th-text="${addProviderMsaId}" data-testId="addProvider-msaId"></span>
+        </p>
+    </div>
+    <div class="addProvider-schemaIdLoop" th:each="schemaId: ${addProviderSchemaIds}">
+        <p>
+            <span><b>Schema ID: </b></span><span data-th-text="${schemaId}"></span>
+        </p>
+    </div>
+    <div class="addProvider-url">
+        <p>
+            <span><b>Callback URL: </b></span><span data-th-text="${addProviderUrl}" data-testId="addProvider-url"></span>
+        </p>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <!-- SMS SENT TEMPLATE -->
+  <title>Amplica Authentication Code SMS Sent</title>
+</head>
+<body>
+<div class="sms" th:fragment="authenticationSmsCodeSent" th:with="pageId=${'smsPage'}" th:id="${pageId}" data-testid="auth-sms-code">
+  <header th:title="#{sms.header-title-payloadToSign}">
+    <div th:replace="~{oauth/components/header :: header}"></div>
+  </header>
+  <main>
+    <form id="codeForm" class="sms-code" name="form">
+      <div class="sms-instruction-1">
+        <p class="sms-instruction-1-main" data-th-text="#{sms.instruct-1}"></p>
+        <p class="sms-instruction-1-number" data-th-text="${phoneLastFour}"></p>
+      </div>
+<!--      TODO: Resend Logic-->
+<!--      <div class="sms-otp-timeout">-->
+<!--        <p data-th-text="#{sms.timeout} + ' ' + ${otpTimeout} + ' ' + #{sms.minutes} + '.'"></p>-->
+<!--      </div>-->
+<!--      <div class="sms-instruction-2">-->
+<!--        <p th:if="${isSignup}" data-th-text="#{sms.instruct-2-signup}"></p>-->
+<!--        <p th:unless="${isSignup}" data-th-text="#{sms.instruct-2-login}"></p>-->
+<!--      </div>-->
+      <div class="sms-input input-field">
+        <i class="sms-input-icon material-icons prefix">dialpad</i>
+        <label for="code_input"></label>
+        <input class="sms-input-field validate" id="code_input" type="text" maxlength="6" autocomplete="one-time-code" data-testId="auth-sms-code-input">
+      </div>
+      <div class="form-top-button center-align">
+        <button class="sms-submit-button btn waves-effect waves-light center" disabled="disabled" type="submit" name="Submit Code" data-th-text="#{button.submit}" id="smsCodeSubmitButton" data-testId="auth-sms-code-submit-button">
+          <i class="material-icons right">check</i>
+        </button>
+      </div>
+    </form>
+  </main>
+  <footer>
+    <div th:replace="~{oauth/components/footer :: footer}"></div> <!-- Needs the ${pageId} th variable set to the page id -->
+  </footer>
+</div>
+</body>
+</html>

@@ -1,0 +1,48 @@
+@mixin margin-80             { margin: 80px; }
+@mixin margin-top-80         { margin-top: 80px; }
+@mixin margin-right-80       { margin-right: 80px; }
+@mixin margin-bottom-80      { margin-bottom: 80px; }
+@mixin margin-left-80        { margin-left: 80px; }
+@mixin margin-horizontal-80  { margin-left: 80px; margin-right: 80px; }
+@mixin margin-vertical-80    { margin-top: 80px; margin-bottom: 80px; }
+
+.margin-80,                              .m-80   { @include margin-80 }
+.margin-top-80,        .m-top-80,         .m-t-80 { @include margin-top-80 }
+.margin-right-80,      .m-right-80,       .m-r-80 { @include margin-right-80 }
+.margin-bottom-80,     .m-bottom-80,      .m-b-80 { @include margin-bottom-80 }
+.margin-left-80,       .m-left-80,        .m-l-80 { @include margin-left-80 }
+.margin-horizontal-80, .m-horizontal-80,  .m-h-80 { @include margin-horizontal-80 }
+.margin-vertical-80,   .m-vertical-80,    .m-v-80 { @include margin-vertical-80 }
+
+
+@mixin border-80             { border: 80px; }
+@mixin border-top-80         { border-top: 80px; }
+@mixin border-right-80       { border-right: 80px; }
+@mixin border-bottom-80      { border-bottom: 80px; }
+@mixin border-left-80        { border-left: 80px; }
+@mixin border-horizontal-80  { border-left: 80px; border-right: 80px; }
+@mixin border-vertical-80    { border-top: 80px; border-bottom: 80px; }
+
+.border-80,                              .b-80   { @include border-80 }
+.border-top-80,        .b-top-80,         .b-t-80 { @include border-top-80 }
+.border-right-80,      .b-right-80,       .b-r-80 { @include border-right-80 }
+.border-bottom-80,     .b-bottom-80,      .b-b-80 { @include border-bottom-80 }
+.border-left-80,       .b-left-80,        .b-l-80 { @include border-left-80 }
+.border-horizontal-80, .b-horizontal-80,  .b-h-80 { @include border-horizontal-80 }
+.border-vertical-80,   .b-vertical-80,    .b-v-80 { @include border-vertical-80 }
+
+@mixin padding-80            { padding: 80px; }
+@mixin padding-top-80        { padding-top: 80px; }
+@mixin padding-right-80      { padding-right: 80px; }
+@mixin padding-bottom-80     { padding-bottom: 80px; }
+@mixin padding-left-80       { padding-left: 80px; }
+@mixin padding-horizontal-80 { padding-left: 80px; padding-right: 80px; }
+@mixin padding-vertical-80   { padding-top: 80px; padding-bottom: 80px; }
+
+.padding-80,                              .p-80   { @include padding-80 }
+.padding-top-80,        .p-top-80,         .p-t-80 { @include padding-top-80 }
+.padding-right-80,      .p-right-80,       .p-r-80 { @include padding-right-80 }
+.padding-bottom-80,     .p-bottom-80,      .p-b-80 { @include padding-bottom-80 }
+.padding-left-80,       .p-left-80,        .p-l-80 { @include padding-left-80 }
+.padding-horizontal-80, .p-horizontal-80,  .p-h-80 { @include padding-horizontal-80 }
+.padding-vertical-80,   .p-vertical-80,    .p-v-80 { @include padding-vertical-80 }

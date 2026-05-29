@@ -1,0 +1,8 @@
+.siwa-email-sent {
+
+  @media #{$large-and-up} {
+    text-align: center;
+    @include padding-horizontal-24
+  }
+}
+

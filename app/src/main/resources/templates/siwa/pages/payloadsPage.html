@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Payloads Page</title>
+</head>
+<body>
+<main class="siwa-payloads" th:fragment="payloadsPage">
+    <form id="payloads-form" class="payloads-form" name="payloads-form" method="POST" action="/siwa/accepted">
+
+        <div class="payloads">
+            <div class="siwa-payload" th:replace="~{siwa/components/payloads/claimHandle :: claimHandle}"></div>
+            <div class="siwa-payload" th:replace="~{siwa/components/payloads/addProvider :: addProvider}"></div>
+        </div>
+
+        <div class="payload-account-holder inline-text small-text padding-bottom-16">
+            <p class="bold" data-th-text="#{siwa.payloads.account-holder}"></p>
+            <p data-th-text="${props.identifier}"></p>
+        </div>
+
+        <p th:if="${props.showIcsTerms}" data-th-text="#{siwa.payloads.ics-terms}" class="inline-text small-text padding-bottom-16"></p>
+
+        <div class="payload-submit padding-bottom-16">
+            <button id="payloads-submit" class="btn waves-effect waves-light full-width" type="submit" name="action"
+                    data-testid="payloads-submit" data-th-text="#{siwa.payloads.submit}" disabled></button>
+        </div>
+
+        <div class="payloads-agree inline-text tiny-text center-align">
+            <p data-th-text="#{siwa.payloads.agree}"></p>
+            <p data-th-text="${props.providerName}"></p>
+        </div>
+    </form>
+</main>
+</body>
+</html>

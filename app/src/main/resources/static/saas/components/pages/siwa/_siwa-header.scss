@@ -1,0 +1,38 @@
+.siwa-header {
+  @include padding-horizontal-16;
+
+  @media #{$medium-and-down} {
+    // Set text for background
+    p {
+      @include small-text;
+    }
+    h4, p {
+      color: $neutral-white;
+    }
+
+    // Set header content padding
+    @include padding-vertical-72;
+
+    //Set Background
+    background-color: $primary-color-dark;
+    background-image: url("../img/frequency_saw_wave_background.svg");
+    background-position: center;
+    background-size: cover;
+
+    // Set Bottom Line attached to header bottom
+    position: relative;
+    img.header-frequency-line {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      width: 100%;
+    }
+  }
+
+  @media #{$large-and-up} {
+    .header-main {
+      text-align: center;
+    }
+  }
+}
+

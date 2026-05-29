@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Sign in with Access SMS Sent</title>
+  <meta name="description" content="Signing up with Frequency Access is the gateway to the Social Web.">
+  <th:block th:replace="~{siwa/components/siwaScripts :: siwaScripts}"></th:block>
+  <th:block th:replace="~{components/resendTimer :: resendTimerScript}"></th:block>
+  <th:block th:replace="~{components/smsCodeInputs :: smsCodeInputsScript}"></th:block>
+  <script>
+    const disableButtonId = '#resend-code-button'
+
+    function resubmit() {
+      const resendButton = $(disableButtonId)
+      disableButton(resendButton)
+      matomoHelper.trackEvent("resend")
+      $("#resend-code-form").trigger("submit")
+    }
+
+    $(function() {
+      const codeForm = $("#submit-code-form")
+      const smsCode = $('#sms-code')
+      const codeSubmit = $('#sms-code-submit')
+
+      doOnCodeInput(() => {
+        if (codeIsTyped()) {
+          enableButton(codeSubmit)
+        } else {
+          disableButton(codeSubmit)
+        }
+      });
+
+      // Required due to needing the code input outside the submit form.
+      // So we move it into a hidden field when submitted.
+      codeForm.on("submit", () => {
+        matomoHelper.trackEvent("code submit")
+        const code = getCodeInputVal()
+        smsCode.val(code)
+
+        disableButton(codeSubmit)
+
+        return true;
+      });
+
+      // Initialize the resend timer.
+
+      const resendInterval = parseInt("[[${props.resendInterval}]]")
+      const resendLimit = "[[${props.resendLimit}]]";
+      initializeTimer(disableButtonId, resendInterval, resendLimit);
+    });
+  </script>
+</head>
+<body th:with="template='smsSent',splashText=${#messages.msg('siwa.start.desktop-splash', props.providerName)}">
+  <div th:replace="~{siwa/components/siwaPageOutline :: siwaPageOutline}"></div>
+</body>
+</html>

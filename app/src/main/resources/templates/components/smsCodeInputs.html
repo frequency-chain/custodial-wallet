@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>SMS Code Input</title>
+  <th:block th:fragment="smsCodeInputsScript">
+    <script defer>
+      const callbacks = []
+
+      $(function() {
+        const inputs = document.getElementById("code-inputs");
+
+        inputs.addEventListener("input", (event) => {
+          callbacks.forEach(callback => {
+            callback(event)
+          })
+          const target = event.target;
+          const val = target.value;
+
+          if (isNaN(val)) {
+            target.value = "";
+          } else if (val !== "") {
+            focusNext(target)
+          }
+
+        });
+
+        inputs.addEventListener("keyup", (event) => {
+          const target = event.target;
+          const key = coerceKeyboardEventToString(event);
+
+          if (key === "backspace" || key === "delete") {
+            target.value = "";
+            focusPrev(target)
+          } else if (key === "arrowleft") {
+            focusPrev(target)
+          } else if (key === "arrowright") {
+            focusNext(target)
+          } else {
+            if(!event.key) {
+              //In the undefined key case we are covering here I want to know what the values ACTUALLY are since
+              //we can't replicate this. TODO remove this after we learn to cut out noise.
+              SENTRY.captureException(new Error(`Coerced key had value ${key} but was unhandled`));
+            }
+          }
+        });
+
+        inputs.addEventListener("paste", (event) => {
+          const target = event.target;
+          const data = (event.clipboardData || window.clipboardData).getData("text");
+          fillNext(target, data)
+          callbacks.forEach(callback => {
+            callback(event)
+          })
+        });
+      });
+
+      function fillNext(target, data) {
+        target.value = data[0]; // Apply first item to first input
+        data = data.substring(1); // remove the first char.
+        let next = focusNext(target)
+        if ( next && data.length ) {
+          // Do the same with the next element and next data
+          fillNext(next, data);
+        }
+      }
+
+      function focusPrev(target) {
+        const prev = target.previousElementSibling;
+        if (prev) {
+          prev.focus();
+        }
+        return prev;
+      }
+
+      function focusNext(target) {
+        const next = target.nextElementSibling;
+        if (next) {
+          next.focus();
+        }
+        return next;
+      }
+
+
+      function doOnCodeInput(callback) {
+        callbacks.push(callback)
+      }
+
+      function getCodeInputVal() {
+        const code1 = $("#code1").val();
+        const code2 = $("#code2").val();
+        const code3 = $("#code3").val();
+        const code4 = $("#code4").val();
+        const code5 = $("#code5").val();
+        const code6 = $("#code6").val();
+        return `${code1}${code2}${code3}${code4}${code5}${code6}`;
+      }
+
+      function codeIsTyped() {
+        const code1 = $("#code1").val() !== '';
+        const code2 = $("#code2").val() !== '';
+        const code3 = $("#code3").val() !== '';
+        const code4 = $("#code4").val() !== '';
+        const code5 = $("#code5").val() !== '';
+        const code6 = $("#code6").val() !== '';
+        return code1 && code2 && code3 && code4 && code5 && code6
+      }
+
+    </script>
+  </th:block>
+</head>
+<body>
+  <div class="sms-code-inputs" th:fragment="smsCodeInputs(isValid, inputId, inputClasses)" th:id="${inputId}" th:classappend="${inputClasses}">
+    <div id="code-inputs" class="code-inputs">
+      <input id="code1" class="code-input" type="text" maxLength="1" name="code1" data-testid="code-input-0" inputmode="numeric" th:classappend="${isValid} ? '' : 'invalid'"/>
+      <input id="code2" class="code-input" type="text" maxLength="1" name="code2" data-testid="code-input-1" inputmode="numeric" th:classappend="${isValid} ? '' : 'invalid'"/>
+      <input id="code3" class="code-input" type="text" maxLength="1" name="code3" data-testid="code-input-2" inputmode="numeric" th:classappend="${isValid} ? '' : 'invalid'"/>
+      <input id="code4" class="code-input" type="text" maxLength="1" name="code4" data-testid="code-input-3" inputmode="numeric" th:classappend="${isValid} ? '' : 'invalid'"/>
+      <input id="code5" class="code-input" type="text" maxLength="1" name="code5" data-testid="code-input-4" inputmode="numeric" th:classappend="${isValid} ? '' : 'invalid'"/>
+      <input id="code6" class="code-input" type="text" maxLength="1" name="code6" data-testid="code-input-5" inputmode="numeric" th:classappend="${isValid} ? '' : 'invalid'"/>
+    </div>
+  </div>
+</body>
+</html>

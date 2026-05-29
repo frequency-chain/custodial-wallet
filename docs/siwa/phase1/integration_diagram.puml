@@ -1,0 +1,34 @@
+@startuml
+title "SIWA Integration for a Provider"
+actor "User" as u
+participant "UserAgent" as ua
+participant "Provider" as p
+participant "Frequency\nAccess" as fa
+participant "Frequency" as bc
+
+autonumber
+u->ua: Clicks sign in with Access
+ua->p: Sign in with access
+p->fa: POST /siwa/api/request SiwaRequest
+return 201 Created with Location Header
+p->ua: Location in which to launch Embedded Browser or window.location
+ua->fa: GET Location Header Value
+fa->fa: SIWA Stuff
+fa->ua: Redirect to callback url in SiwaRequest with authorizationCode
+alt Provider Backend resolves payload
+    ua->p: GET against callback url with authoricationCode
+    p->fa: GET /siwa/api/payload trade authorizationCode for SiwaPayloadResponse
+    return SiwaPayloadResponse {sign payloads and credential}
+    p->ua: Post SIWA Screen
+    p->bc: Sign and Submit Batch request with payloads
+    return Extrinsic statuses
+else UserAgent resolves payload
+    ua->ua: Pre-empted by OS (Universal Link)
+    ua->fa: GET /siwa/api/payload trade authorizationCode for SiwaPayloadResponse
+    return SiwaPayloadResponse {sign payloads and credential}
+    ua->ua: Post SIWA Screen
+    ua->p: Submit to blockchain
+    p->bc: Sign and Submit Batch request with payloads
+    return Extrinsic statuses
+end
+@enduml

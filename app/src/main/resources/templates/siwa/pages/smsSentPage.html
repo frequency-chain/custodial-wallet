@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>SMS Sent and Code Entry Page</title>
+</head>
+<body>
+<main class="siwa-sms-sent" th:fragment="smsSentPage"
+      th:with="hasCodeError=${helper.hasError('SIWA_SESSION_NOT_FOUND_FOR_TOKEN', props.error)},
+      hasResendError=${helper.hasError('RESEND_REQUEST_INVALID', props.error)}">
+    <div class="siwa-sms-desc small-text-nm inline-text padding-bottom-8">
+        <p th:if="${props.userIdentifier.type.toString() == 'PHONE_NUMBER'}" data-th-text="#{siwa.sms-sent.desc.text1}"></p>
+        <p th:unless="${props.userIdentifier.type.toString() == 'PHONE_NUMBER'}" data-th-text="#{siwa.sms-sent.desc.text1.email}"></p>
+        <p class="bold frequency-text text-black" data-th-text="${props.userIdentifier.value}"></p>
+        <p data-th-text="#{siwa.sms-sent.desc.text2}"></p>
+    </div>
+    <p class="siwa-sms-desc small-text-nm padding-bottom-16" data-th-text="#{siwa.sms-sent.desc.text3(${props.otpTimeoutMinutes})}"></p>
+    <div class="sms-code-section padding-bottom-8">
+        <div th:replace="~{components/smsCodeInputs :: smsCodeInputs(isValid=!${hasCodeError}, inputId='sms-input-code', inputClasses='')}"></div>
+        <span class="small-text bold frequency-text text-red" th:if="${hasCodeError}" data-th-text="#{siwa.error.invalid-code}"></span>
+    </div>
+    <div class="resend-section padding-bottom-16">
+        <form id="resend-code-form" class="resend-code-form small-text" method="post" action="/siwa/verify">
+            <div class="inline-text">
+                <input hidden id="sms-identifier-type" name="type" type="text" th:value="${props.userIdentifier.type}">
+                <input hidden id="sms-identifier" name="value" type="text" th:value="${props.userIdentifier.value}">
+                <p data-th-text="#{siwa.sms-sent.resend.text}"></p>
+                <a href="#" id="resend-code-button" onclick="resubmit();" data-th-text="#{siwa.sms-sent.resend.button}"></a>
+            </div>
+            <div class="inline-text">
+                <p class="frequency-text text-dark-gray" data-th-text="#{siwa.sms-sent.resend.timer}"></p>
+                <p th:replace="~{components/resendTimer :: resendTimer(timerClasses='frequency-text text-dark-gray')}"></p>
+            </div>
+        </form>
+    </div>
+    <div class="submit-section padding-bottom-16">
+        <form id="submit-code-form" class="submit-code-form" method="post" action="/siwa/payloads">
+            <input id="sms-code" class="verification-code" type="text" maxLength="6" name="smsCode" value="666666" hidden/>
+            <button id="sms-code-submit" class="btn waves-effect waves-light full-width " type="submit"
+                    data-testid="sms-code-submit" data-th-text="#{siwa.sms-sent.submit}" disabled></button>
+            <div class="padding-top-16">
+                <div th:replace="~{siwa/components/siwaAgreeDisclaimer :: siwaAgreeDisclaimer(isSms='false')}"></div>
+            </div>
+        </form>
+    </div>
+    <div>
+        <div th:replace="~{siwa/components/siwaReturnToProvider :: siwaReturnToProvider (returnUrl=${props.userIdentifierAdminUrl}, providerName=${props.providerName})}"></div>
+    </div>
+    <th:block th:if="${hasResendError}">
+        <th:block th:replace="~{siwa/components/siwaErrorModal :: siwaErrorModal}"></th:block>
+        <script>
+            $(() => {
+                // Open the error modal automatically when an error is present
+                const title = "[[#{siwa.error.modal.title.resend-sms}]]"
+                const desc = "[[#{siwa.error.modal.desc.resend-sms}]]"
+                displayErrorModal(title, desc)
+            })
+        </script>
+    </th:block>
+</main>
+</body>
+</html>

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div class="passkey-wallet-phrase" th:fragment="walletPhrase">
+    <div class="wallet-phrase-title center-align">
+        <img class="passkey-wallet-warn-check" th:src="@{~/img/warn-icon.svg}" alt="warn icon" style="width:20px;">
+        <h6 class="padding-left-4 padding-top-4" data-th-text="#{wallet.passkey.phrase.title}"></h6>
+    </div>
+    <div class="wallet-phrase-benefit">
+        <p class="" data-th-text="#{wallet.passkey.phrase.remember}"></p>
+        <ul class="wallet-phrase-benefit-list padding-vertical-16 padding-left-32">
+            <li data-th-text="#{wallet.passkey.phrase.list1}"></li>
+            <li data-th-text="#{wallet.passkey.phrase.list2}"></li>
+        </ul>
+        <p class="bold" data-th-text="#{wallet.passkey.phrase.forget}"></p>
+    </div>
+
+    <div class="padding-vertical-32">
+        <button id="wallet-phrase-button" class="btn waves-effect waves-light full-width"
+                th:onclick="displayConfirmPage([[#{wallet.passkey.confirm.desktop-splash}]], [[#{wallet.passkey.confirm.header}]]);"
+                data-testid="wallet-phrase-button" data-th-text="#{wallet.passkey.phrase.button}"></button>
+    </div>
+</div>
+</body>
+</html>

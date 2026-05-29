@@ -1,0 +1,26 @@
+[
+  {
+    "relation": [
+      "delegate_permission/common.handle_all_urls"
+    ],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.unfinished.dsnp_wallet_kotlin.dev",
+      "sha256_cert_fingerprints": [
+        "96:22:8F:C7:BB:54:C7:79:B7:A3:DC:67:B2:68:F4:4D:31:E9:24:36:00:CA:D2:67:2B:E1:20:E9:BE:20:D0:8E"
+      ]
+    }
+  },
+  {
+    "relation": [
+      "delegate_permission/common.handle_all_urls"
+    ],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.unfinished.dsnp_wallet_kotlin.dev",
+      "sha256_cert_fingerprints": [
+        "E2:68:10:9E:80:23:54:48:33:F1:34:C7:9F:AF:13:CD:AC:DE:C1:63:69:FF:F4:4C:CC:A7:D0:2D:86:7B:AF:6B"
+      ]
+    }
+  }
+]

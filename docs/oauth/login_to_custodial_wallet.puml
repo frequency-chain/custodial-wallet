@@ -1,0 +1,26 @@
+@startuml
+title "Login To Custodial Wallet"
+'https://plantuml.com/sequence-diagram
+
+actor "User" as u
+participant "Amplica Access" as aa
+
+autonumber
+note left: It is assumed that payloads are signed with nonce handling
+u -> aa: Wants to Login
+aa -> u: Login Page
+u -> aa: Enter User identifier (email or phone)
+aa -> aa: Search for the UserIdentifier
+autonumber stop
+alt Single UserIdentifier found
+    aa -> u: **5A** Message User with authentication code
+else Multiple UserIdentifiers found
+    aa -> u: **5B** Display screen on which keypair they want to be using (presumably tied to Provider)
+    u -> aa: **6B** Select keypair
+    aa -> u: **7B** Message User with authentication code
+end
+autonumber 8
+u -> aa: Clicks link, or enters authentication code
+aa -> aa: validate code
+aa -> u: Display logged in page
+@enduml

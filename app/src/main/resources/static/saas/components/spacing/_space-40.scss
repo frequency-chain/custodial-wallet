@@ -1,0 +1,48 @@
+@mixin margin-40             { margin: 40px; }
+@mixin margin-top-40         { margin-top: 40px; }
+@mixin margin-right-40       { margin-right: 40px; }
+@mixin margin-bottom-40      { margin-bottom: 40px; }
+@mixin margin-left-40        { margin-left: 40px; }
+@mixin margin-horizontal-40  { margin-left: 40px; margin-right: 40px; }
+@mixin margin-vertical-40    { margin-top: 40px; margin-bottom: 40px; }
+
+.margin-40,                              .m-40   { @include margin-40 }
+.margin-top-40,        .m-top-40,         .m-t-40 { @include margin-top-40 }
+.margin-right-40,      .m-right-40,       .m-r-40 { @include margin-right-40 }
+.margin-bottom-40,     .m-bottom-40,      .m-b-40 { @include margin-bottom-40 }
+.margin-left-40,       .m-left-40,        .m-l-40 { @include margin-left-40 }
+.margin-horizontal-40, .m-horizontal-40,  .m-h-40 { @include margin-horizontal-40 }
+.margin-vertical-40,   .m-vertical-40,    .m-v-40 { @include margin-vertical-40 }
+
+
+@mixin border-40             { border: 40px; }
+@mixin border-top-40         { border-top: 40px; }
+@mixin border-right-40       { border-right: 40px; }
+@mixin border-bottom-40      { border-bottom: 40px; }
+@mixin border-left-40        { border-left: 40px; }
+@mixin border-horizontal-40  { border-left: 40px; border-right: 40px; }
+@mixin border-vertical-40    { border-top: 40px; border-bottom: 40px; }
+
+.border-40,                              .b-40   { @include border-40 }
+.border-top-40,        .b-top-40,         .b-t-40 { @include border-top-40 }
+.border-right-40,      .b-right-40,       .b-r-40 { @include border-right-40 }
+.border-bottom-40,     .b-bottom-40,      .b-b-40 { @include border-bottom-40 }
+.border-left-40,       .b-left-40,        .b-l-40 { @include border-left-40 }
+.border-horizontal-40, .b-horizontal-40,  .b-h-40 { @include border-horizontal-40 }
+.border-vertical-40,   .b-vertical-40,    .b-v-40 { @include border-vertical-40 }
+
+@mixin padding-40            { padding: 40px; }
+@mixin padding-top-40        { padding-top: 40px; }
+@mixin padding-right-40      { padding-right: 40px; }
+@mixin padding-bottom-40     { padding-bottom: 40px; }
+@mixin padding-left-40       { padding-left: 40px; }
+@mixin padding-horizontal-40 { padding-left: 40px; padding-right: 40px; }
+@mixin padding-vertical-40   { padding-top: 40px; padding-bottom: 40px; }
+
+.padding-40,                              .p-40   { @include padding-40 }
+.padding-top-40,        .p-top-40,         .p-t-40 { @include padding-top-40 }
+.padding-right-40,      .p-right-40,       .p-r-40 { @include padding-right-40 }
+.padding-bottom-40,     .p-bottom-40,      .p-b-40 { @include padding-bottom-40 }
+.padding-left-40,       .p-left-40,        .p-l-40 { @include padding-left-40 }
+.padding-horizontal-40, .p-horizontal-40,  .p-h-40 { @include padding-horizontal-40 }
+.padding-vertical-40,   .p-vertical-40,    .p-v-40 { @include padding-vertical-40 }

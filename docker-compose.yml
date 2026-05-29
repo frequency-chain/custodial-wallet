@@ -1,0 +1,112 @@
+include:
+  - matomo/docker-compose.yml
+services:
+  postgres:
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=custodial_wallet_app
+      - POSTGRES_PASSWORD=x
+      - POSTGRES_DB=custodial_wallet_dev
+    image: "postgres:17.7"
+  redis:
+    ports:
+      - "6379:6379"
+    image: "valkey/valkey:8.1.5"
+  localstack:
+    container_name: localstack
+    environment:
+      - DEBUG=1
+      - LOCALSTACK_HOSTNAME=localhost
+      - TEST_AWS_ACCOUNT_ID=000000000000
+      - AWS_DEFAULT_REGION=us-west-2
+      - DOCKER_HOST=unix:///var/run/docker.sock
+      - DATA_DIR=/tmp/localstack/data
+    image: localstack/localstack:2.3.2
+    ports:
+      - "4566:4566"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+
+  frequency:
+    image: frequencychain/standalone-node:v2.0.0-rc1
+    platform: linux/amd64
+    # Uncomment SEALING_MODE and SEALING_INTERVAL if you want to use interval sealing.
+    # Other options you may want to add depending on your test scenario.
+    environment:
+      - SEALING_MODE=interval
+      - SEALING_INTERVAL=1
+    #   - CREATE_EMPTY_BLOCKS=true
+    # The 'command' may contain additional CLI options to the Frequency node,
+    # such as:
+    # --state-pruning=archive
+    command: --offchain-worker=always --enable-offchain-indexing=true
+    ports:
+      - 9944:9944
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          'curl --silent --fail -H "Content-Type: application/json" -d ''{"id":1, "jsonrpc":"2.0", "method": "schemas_getBySchemaId", "params": [11]}'' http://localhost:9944/ | grep -qv ''{"jsonrpc":"2.0","result":null,"id":1}'' || exit 1',
+        ]
+      interval: 15s # Equivalent to the "15s" in Dockerfile
+      timeout: 15s # Equivalent to "0s" as a default timeout
+      retries: 3 # Retries is a new parameter for robustness
+      start_period: 0s
+
+  # GATEWAY SERVICES
+  account-service-api:
+    image: projectlibertylabs/account-service:1.4.0
+    pull_policy: always
+    ports:
+      - 3013:3000
+    command: account-api
+    env_file:
+      - common.env
+      - account-service.env
+    depends_on:
+      frequency:
+        condition: service_healthy
+      redis:
+        condition: service_started
+
+  account-service-worker:
+    image: projectlibertylabs/account-service:1.4.0
+    pull_policy: always
+    command: account-worker
+    env_file:
+      - common.env
+      - account-service.env
+    depends_on:
+      frequency:
+        condition: service_healthy
+      redis:
+        condition: service_started
+
+  graph-service-api:
+    image: projectlibertylabs/graph-service:1.4.0
+    pull_policy: always
+    ports:
+      - 3012:3000
+    env_file:
+      - common.env
+      - graph-service.env
+    environment:
+      START_PROCESS: graph-api
+    depends_on:
+      - redis
+    profiles:
+      - graph
+
+  graph-service-worker:
+    image: projectlibertylabs/graph-service:1.4.0
+    pull_policy: always
+    env_file:
+      - common.env
+      - graph-service.env
+    environment:
+      START_PROCESS: graph-worker
+    depends_on:
+      - redis
+    profiles:
+      - graph

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Passkey Wallet Home</title>
+  </head>
+  <body>
+    <div>
+      <header>
+        <h1>Passkey Wallet Home</h1>
+      </header>
+    </div>
+    <div>
+      <form id="transaction" name="transaction" method="POST" action="/wallet/passkey-playwright/transaction">
+        <button id="transactionButton" data-testid="transactionButton" type="submit">
+          Transaction
+        </button>
+      </form>
+    </div>
+    <div>
+      <form id="recovery" name="recovery" method="GET" action="/wallet/recovery">
+        <button id="recoveryButton" data-testid="recoveryButton" type="submit">
+          Recovery
+        </button>
+      </form>
+    </div>
+  </body>
+</html>

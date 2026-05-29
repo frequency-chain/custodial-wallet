@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Siwa Return to Provider</title>
+</head>
+<body>
+<div th:fragment="siwaReturnToProvider (returnUrl, providerName)" th:if="${returnUrl} != null"
+     class="center-align small-text inline-text padding-horizontal-24">
+    <p data-th-text="#{siwa.return-to-provider.text1}"></p>
+    <a th:href="${returnUrl}" data-testid="user-identifier-admin-url"
+       data-th-text="#{siwa.return-to-provider.text2} + ' ' + ${providerName}"></a>
+    <p data-th-text="#{siwa.return-to-provider.text3}"></p>
+</div>
+</body>
+</html>

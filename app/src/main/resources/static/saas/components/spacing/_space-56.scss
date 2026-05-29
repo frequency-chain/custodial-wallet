@@ -1,0 +1,48 @@
+@mixin margin-56             { margin: 56px; }
+@mixin margin-top-56         { margin-top: 56px; }
+@mixin margin-right-56       { margin-right: 56px; }
+@mixin margin-bottom-56      { margin-bottom: 56px; }
+@mixin margin-left-56        { margin-left: 56px; }
+@mixin margin-horizontal-56  { margin-left: 56px; margin-right: 56px; }
+@mixin margin-vertical-56    { margin-top: 56px; margin-bottom: 56px; }
+
+.margin-56,                              .m-56   { @include margin-56 }
+.margin-top-56,        .m-top-56,         .m-t-56 { @include margin-top-56 }
+.margin-right-56,      .m-right-56,       .m-r-56 { @include margin-right-56 }
+.margin-bottom-56,     .m-bottom-56,      .m-b-56 { @include margin-bottom-56 }
+.margin-left-56,       .m-left-56,        .m-l-56 { @include margin-left-56 }
+.margin-horizontal-56, .m-horizontal-56,  .m-h-56 { @include margin-horizontal-56 }
+.margin-vertical-56,   .m-vertical-56,    .m-v-56 { @include margin-vertical-56 }
+
+
+@mixin border-56             { border: 56px; }
+@mixin border-top-56         { border-top: 56px; }
+@mixin border-right-56       { border-right: 56px; }
+@mixin border-bottom-56      { border-bottom: 56px; }
+@mixin border-left-56        { border-left: 56px; }
+@mixin border-horizontal-56  { border-left: 56px; border-right: 56px; }
+@mixin border-vertical-56    { border-top: 56px; border-bottom: 56px; }
+
+.border-56,                              .b-56   { @include border-56 }
+.border-top-56,        .b-top-56,         .b-t-56 { @include border-top-56 }
+.border-right-56,      .b-right-56,       .b-r-56 { @include border-right-56 }
+.border-bottom-56,     .b-bottom-56,      .b-b-56 { @include border-bottom-56 }
+.border-left-56,       .b-left-56,        .b-l-56 { @include border-left-56 }
+.border-horizontal-56, .b-horizontal-56,  .b-h-56 { @include border-horizontal-56 }
+.border-vertical-56,   .b-vertical-56,    .b-v-56 { @include border-vertical-56 }
+
+@mixin padding-56            { padding: 56px; }
+@mixin padding-top-56        { padding-top: 56px; }
+@mixin padding-right-56      { padding-right: 56px; }
+@mixin padding-bottom-56     { padding-bottom: 56px; }
+@mixin padding-left-56       { padding-left: 56px; }
+@mixin padding-horizontal-56 { padding-left: 56px; padding-right: 56px; }
+@mixin padding-vertical-56   { padding-top: 56px; padding-bottom: 56px; }
+
+.padding-56,                              .p-56   { @include padding-56 }
+.padding-top-56,        .p-top-56,         .p-t-56 { @include padding-top-56 }
+.padding-right-56,      .p-right-56,       .p-r-56 { @include padding-right-56 }
+.padding-bottom-56,     .p-bottom-56,      .p-b-56 { @include padding-bottom-56 }
+.padding-left-56,       .p-left-56,        .p-l-56 { @include padding-left-56 }
+.padding-horizontal-56, .p-horizontal-56,  .p-h-56 { @include padding-horizontal-56 }
+.padding-vertical-56,   .p-vertical-56,    .p-v-56 { @include padding-vertical-56 }

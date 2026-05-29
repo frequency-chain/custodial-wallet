@@ -1,0 +1,38 @@
+sequenceDiagram
+  title Provision User Endpoint
+  participant u as User
+  participant mcp as MCP Server
+  participant fa as Frequency Access
+  participant db as Postgres
+  participant kms as KMS
+  participant bc as Frequency
+
+  u->>mcp: Login or Create user by identifier
+  mcp->>mcp: Sign provision user payload
+  mcp->>fa: POST /hcp/api/user signed payload
+  fa->>bc: verify provider msaId
+  bc-->>fa: msaId of provider publicKey
+  fa->>db: Find UserKeyData for ACCOUNT
+  alt UserKeyData Not Found
+    fa->>fa: Generate Control Key Pair
+    fa->>kms: encrypt sensitive data
+    kms-->>fa: Encrypted blobs
+    fa->>db: saveNewUserKeyData
+    db-->>fa: userKeyData
+    fa->>fa: sign `createSponsoredAccountWithDelegation` payload
+    fa->>mcp: Signed Payload
+    mcp->>bc: Submits payload to create/update msa
+    bc-->>mcp: Success
+  else UserKeyData Found
+    fa->>bc: find userMsaId by ACCOUNT public key
+    bc->>fa: userMsaId
+    alt userMsaId not found
+      fa->>fa: sign `createSponsoredAccountWithDelegation` payload
+      fa->>mcp: Signed Payload
+      mcp->>bc: Submits payload to create/update msa
+      bc-->>mcp: Success
+    else userMsaId found
+      fa->>mcp: return HTTP 204 No Content
+    end
+  end
+

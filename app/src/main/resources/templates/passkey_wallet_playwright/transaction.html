@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Passkey Transaction</title>
+  <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src *; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; script-src-elem * 'unsafe-inline' 'unsafe-eval'" />
+  <script th:src="@{~/js/jquery-3.6.0.min.js}"></script>
+</head>
+<body>
+  <div>
+    <header>
+      <h1>Transaction</h1>
+    </header>
+  </div>
+  <div>
+    <h2>Fund</h2>
+    <label for="fundAmount">Fund Amount</label><input type="text" id="fundAmount" name="fundAmount" data-testid="fundAmount" placeholder="1000000" />
+    <button id="fundBtn" data-testid="fundBtn" type="button" disabled>
+      Fund
+    </button>
+  </div>
+  <div>
+    <h2>Transfer</h2>
+    <label for="transferAmount">Transfer Amount</label><input type="text" id="transferAmount" name="transferAmount" data-testid="transferAmount" placeholder="1000000" />
+    <label for="receiverAddress">Receiving Address (in hex)</label><input type="text" id="receiverAddress" name="receiverAddress" data-testid="receiverAddress" />
+    <button id="transferBtn" data-testid="transferBtn" type="button" disabled>
+      Transfer
+    </button>
+  </div>
+  <br />
+  <br />
+  <div id="success" data-testid="success" hidden></div>
+  <div id="error" data-testid="error" hidden></div>
+</body>
+<script
+    th:src="@{~/js/bundle/passkeyTransactionBundle.js}"
+    th:onload="PASSKEY_WALLET.startTransactionProcess([[${props.frequencyAddress}]])"
+    async
+    defer
+></script>
+</html>

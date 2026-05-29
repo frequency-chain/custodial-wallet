@@ -1,0 +1,142 @@
+.intro {
+    display: flex;
+    flex-direction: row;
+
+    @media #{$large-and-up} {
+        justify-content: center;
+    }
+
+    padding-top: 80px;
+    padding-bottom: 80px;
+
+    .intro-text {
+        align-content: center;
+
+        h1 {
+            margin-top: 0;
+        }
+    }
+
+    .intro-img {
+        flex-grow: 1;
+        max-width: 720px;
+        margin-right: 60px;
+
+        @media #{$extra-large-and-up} {
+            margin-right: 120px;
+        }
+
+        align-content: center;
+
+        img {
+            width: 100%;
+        }
+    }
+}
+
+.spotlight {
+    padding-top: 56px;
+    padding-bottom: 20px;
+
+    @media #{$large-and-up} {
+        padding-top: 120px;
+        padding-bottom: 120px;
+    }
+
+    div {
+        margin-top: 20px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        h3 {
+            margin-top: 0;
+            margin-bottom: 32px;
+
+            @media #{$large-and-up} {
+                margin-bottom: 16px;
+            }
+        }
+    }
+
+    background: $primary-color-dark;
+    background: linear-gradient(90deg, #aa40a1 0%, #790e70 50%, #311e48 100%);
+
+    .spotlight-logos {
+        display: flex;
+        flex-direction: column;
+
+        @media #{$large-and-up} {
+            flex-direction: row;
+        }
+
+        a {
+            margin-bottom: 64px;
+
+            @media #{$large-and-up} {
+                margin: 16px;
+            }
+
+            @media #{$extra-large-and-up} {
+                margin: 32px;
+            }
+        }
+    }
+}
+
+.glossary {
+    display: flex;
+    flex-direction: column;
+    .glossary-terms {
+        // The materialize grid system cannot do everything flex box can. Like for example
+        // make 3 boxes spread out to cover the width given with equal spacing while also
+        // making the boxes all the same height.
+
+        // Possibly worth making a flex-box scss file with classes for these things
+        @media #{$large-and-up} {
+            display: flex;
+            gap: 16px
+        }
+
+        .term-container {
+            border: 1px solid $neutral-gray3;
+            border-radius: 24px;
+            flex-basis: 100%;
+
+            // This is special positioning for handling icons
+            // they need to move significantly depending on size
+            @media #{$medium-and-down} { position: relative }
+
+            @media #{$large-and-up} {
+                .term-icon {
+                    height: 6.5rem;
+                }
+            }
+
+            // For narrow screen sizes display the header text and icon side by side in reverse order
+            @media #{$medium-and-down} {
+                .term-header {
+                    display: flex;
+                    flex-direction: row-reverse;
+
+                    h4 {
+                        // Left-justify the header text element
+                        margin-right: auto;
+                        margin-top: 0rem;
+                    }
+
+                    .term-icon {
+                        height: 3rem;
+                        margin-left: 1rem;
+                        margin-bottom: 0.5rem;
+                    }
+                }
+            }
+        }
+    }
+}
+
+
+.faq {
+    margin-bottom: 120px;
+}

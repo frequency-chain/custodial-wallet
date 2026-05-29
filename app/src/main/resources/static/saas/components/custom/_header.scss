@@ -1,0 +1,11 @@
+header:not(.no-materialize){
+    nav {
+        @media #{$medium-and-down} {
+            @include padding-left-16;
+        }
+        @media #{$large-and-up} {
+            @include padding-horizontal-120;
+        }
+    }
+}
+

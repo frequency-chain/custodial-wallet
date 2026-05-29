@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<body>
+<main class="siwa-submission-in-progress" th:fragment="submissionInProgressPage">
+    <siwa-submission-in-progress
+      th:submission-id="${props.submissionId}"
+      th:redirect-url="${props.redirect}"
+      th:messages-json="${messagesJson}"
+    >
+    </siwa-submission-in-progress>
+</main>
+</body>
+</html>

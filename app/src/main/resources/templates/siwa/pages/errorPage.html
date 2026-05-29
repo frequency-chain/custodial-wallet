@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<main class="siwa-start" th:fragment="errorPage">
+    <div>
+        <h5>Info:</h5>
+        <div class="inline-text">
+            <p class="bold">Session-ID:</p>
+            <p data-th-text="${props.sessionId}"></p>
+        </div>
+        <div class="inline-text">
+            <p class="bold">X-Session-ID:</p>
+            <p data-th-text="${props.xSessionId}"></p>
+        </div>
+        <div class="inline-text">
+            <p class="bold">X-Trace-ID:</p>
+            <p data-th-text="${props.xTraceId}"></p>
+        </div>
+        <div class="inline-text">
+            <p class="bold">Provider Name</p>
+            <p data-th-text="${props.providerName}"></p>
+        </div>
+    </div>
+    <div>
+        <div>
+            <h5>Error:</h5>
+            <p th:if="${props.siwaErrorTitle != null}" data-th-text="#{__${props.siwaErrorTitle}__}"></p>
+            <p th:unless="${props.siwaErrorTitle != null}" data-th-text="${props.apiError}"></p>
+        </div>
+        <div>
+            <h5>Message:</h5>
+            <p th:if="${props.siwaErrorDescription != null}" data-th-text="#{__${props.siwaErrorDescription}__}"></p>
+            <p th:unless="${props.siwaErrorDescription != null}" data-th-text="${props.errorMessage}"></p>
+        </div>
+        <div th:if="${env.type != 'main'}">
+            <h5>Stacktrace:</h5>
+            <textarea style="height: 500px" rows="20" data-th-text="${props.stackTrace}" disabled></textarea>
+        </div>
+    </div>
+</main>
+</body>
+</html>

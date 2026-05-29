@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<main th:fragment="emailSentPage"
+      th:with="hasResendError=${helper.hasError('RESEND_REQUEST_INVALID', props.error)},
+      hasTokenError=${helper.hasError('SIWA_SESSION_NOT_FOUND_FOR_TOKEN', props.error)}">
+    <div class="siwa-email-sent">
+        <div class="email-sent-identifier inline-text margin-bottom-8">
+            <p data-th-text="#{siwa.email-sent.desc.text1}"></p>
+            <p class="bold" data-th-text="${props.email}"></p>
+            <p data-th-text="#{siwa.email-sent.desc.text2}"></p>
+        </div>
+        <div class="email-sent-link-expire inline-text margin-bottom-16">
+            <p data-th-text="#{siwa.email-sent.link-expire.text}"></p>
+            <p data-testid="email-expire-time" data-th-text="${props.expireTime}"></p>
+            <p data-th-text="#{siwa.email-sent.link-expire.time}"></p>
+        </div>
+        <div class="email-sent-resend margin-bottom-16">
+            <form id="email-start-form" class="start-form inline small-text" method="post" action="/siwa/verify">
+                <div class="inline-text">
+                    <input hidden id="email-identifier-type" name="type" type="text" value="EMAIL">
+                    <input hidden id="email-address" name="value" type="text" th:value="${props.email}">
+                    <p data-th-text="#{siwa.email-sent.resend.text}"></p>
+                    <a href="#" id="resend-code-button" onclick="resubmit();" data-th-text="#{siwa.email-sent.resend.button}"></a>
+                </div>
+                <div class="inline-text">
+                    <p class="frequency-text text-dark-gray" data-th-text="#{siwa.email-sent.resend.timer}"></p>
+                    <p th:replace="~{components/resendTimer :: resendTimer(timerClasses='frequency-text text-dark-gray')}"></p>
+                </div>
+            </form>
+        </div>
+        <div th:replace="~{siwa/components/siwaReturnToProvider :: siwaReturnToProvider (returnUrl=${props.userIdentifierAdminUrl}, providerName=${props.providerName})}"></div>
+    </div>
+    <th:block th:if="${hasResendError}">
+        <script>
+            $(() => {
+                // Open the error modal automatically when an error is present
+                const title = "[[#{siwa.error.modal.title.resend-email}]]"
+                const desc = "[[#{siwa.error.modal.desc.resend-email}]]"
+                displayErrorModal(title, desc)
+            })
+        </script>
+        <th:block th:replace="~{siwa/components/siwaErrorModal :: siwaErrorModal}"></th:block>
+    </th:block>
+    <th:block th:if="${hasTokenError}">
+        <script>
+            $(() => {
+                // Open the error modal automatically when an error is present
+                const title = "[[#{siwa.error.modal.title.expired-email}]]"
+                const desc = "[[#{siwa.error.modal.desc.expired-email}]]"
+                displayErrorModal(title, desc)
+            })
+        </script>
+        <th:block th:replace="~{siwa/components/siwaErrorModal :: siwaErrorModal}"></th:block>
+    </th:block>
+</main>
+</body>
+</html>

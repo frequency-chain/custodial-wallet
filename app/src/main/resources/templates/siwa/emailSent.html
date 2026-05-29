@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Sign in with Access Email Sent</title>
+  <meta name="description" content="Signing up with Frequency Access is the gateway to the Social Web.">
+  <th:block th:replace="~{siwa/components/siwaScripts :: siwaScripts}"></th:block>
+  <th:block th:replace="~{components/resendTimer :: resendTimerScript}"></th:block>
+  <script>
+
+    const disableButtonId = '#resend-code-button'
+
+    function resubmit() {
+      const resendButton = $(disableButtonId)
+      matomoHelper.trackEvent("resend")
+      disableButton(resendButton)
+      $("#email-start-form").trigger("submit")
+    }
+
+    $(function() {
+      // Initialize the resend timer.
+      const resendInterval = parseInt("[[${props.resendInterval}]]")
+      const resendLimit = "[[${props.resendLimit}]]";
+      initializeTimer(disableButtonId, resendInterval, resendLimit);
+    });
+  </script>
+</head>
+<body th:with="template='emailSent',splashText=${#messages.msg('siwa.start.desktop-splash', props.providerName)}">
+  <div th:replace="~{siwa/components/siwaPageOutline :: siwaPageOutline}"></div>
+</body>
+</html>

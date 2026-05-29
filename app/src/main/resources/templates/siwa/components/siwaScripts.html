@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Siwa Scripts</title>
+    <th:block th:fragment="siwaScripts">
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
+
+        <!--favicons -->
+        <link rel="apple-touch-icon" sizes="180x180" th:href="@{~/img/favicon/favicon-v2-180x180.png}">
+        <link rel="icon" type="image/png" sizes="32x32" th:href="@{~/img/favicon/favicon-v2-32x32.png}">
+        <link rel="icon" type="image/png" sizes="16x16" th:href="@{~/img/favicon/favicon-v2-16x16.png}">
+        <link rel="manifest" th:href="@{~/site.webmanifest}">
+        <link rel="mask-icon" th:href="@{~/img/favicon/favicon_v2.svg}" color="#790E70">
+        <meta name="msapplication-TileColor" content="#242527">
+        <meta name="theme-color" content="#242527">
+
+        <!-- CSS  -->
+        <link th:href="@{~/css/materialize.css(BUILD_NUMBER=${BUILD_NUMBER})}" type="text/css" rel="stylesheet" media="screen,projection"/>
+
+        <!--  Scripts-->
+        <script th:src="@{~/js/jquery-3.6.0.min.js(BUILD_NUMBER=${BUILD_NUMBER})}"></script>
+        <script th:src="@{~/js/common.js(BUILD_NUMBER=${BUILD_NUMBER})}"></script>
+        <script th:src="@{~/js/bundle/errorsBundle.js(BUILD_NUMBER=${BUILD_NUMBER})}"></script>
+        <script th:src="@{~/js/materialize.js(BUILD_NUMBER=${BUILD_NUMBER})}"></script>
+
+        <!-- Materialize Fix - make sure to run after materialize.js -->
+        <!-- https://github.com/ignasdamunskis/materialize-css-helper/tree/main -->
+        <script> window.materializeHelper = {}</script>
+        <script th:src="@{~/js/materialize-fix.js(BUILD_NUMBER=${BUILD_NUMBER})}"></script>
+
+        <!-- Sentry -->
+        <script th:src="@{~/js/bundle/sentryBundle.js(BUILD_NUMBER=${BUILD_NUMBER})}"></script>
+        <script>
+            const sentryEnv = "[[${sentryEnv}]]";
+            const sentryRelease = "[[${sentryRelease}]]"
+            SENTRY.configure(sentryEnv, sentryRelease)
+        </script>
+
+        <!-- Error handling -->
+        <th:block th:insert="~{siwa/components/siwaErrorModal :: SiwaErrorModalScript}"></th:block>
+        <script th:inline="javascript">
+            const errorMessages = JSON.parse([[${messagesJson}]])
+        </script>
+
+        <!-- Matomo Analytics -->
+        <script th:src="@{~/js/matomoHelper.js(BUILD_NUMBER=${BUILD_NUMBER})}"></script>
+        <script data-type="application/javascript"
+                data-name="matomo"
+                th:inline="javascript">
+            const enabled = [[${matomo.enabled}]]
+            const matomoUrl = [[${matomo.url}]]
+            const siteId = [[${matomo.siteId}]]
+            const data = [[${matomo.data}]]
+            const heartbeatEnabled = [[${matomo.enableHeartbeat}]]
+            let dimensions = null;
+            let title = null;
+            let event = null;
+            if(data){
+              dimensions = data.dimensions;
+              title = data.title;
+              event = data.event;
+            }
+            const finalDimensions = dimensions != null ? dimensions.dimensions : null;
+            const matomoHelper = new MatomoHelper(enabled, matomoUrl.replace("\\", ""), siteId, heartbeatEnabled, title, finalDimensions, event);
+            matomoHelper.trackEvent("view");
+        </script>
+    </th:block>
+
+</head>
+<body>
+
+</body>
+</html>

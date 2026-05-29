@@ -1,0 +1,48 @@
+@mixin margin-96             { margin: 96px; }
+@mixin margin-top-96         { margin-top: 96px; }
+@mixin margin-right-96       { margin-right: 96px; }
+@mixin margin-bottom-96      { margin-bottom: 96px; }
+@mixin margin-left-96        { margin-left: 96px; }
+@mixin margin-horizontal-96  { margin-left: 96px; margin-right: 96px; }
+@mixin margin-vertical-96    { margin-top: 96px; margin-bottom: 96px; }
+
+.margin-96,                              .m-96   { @include margin-96 }
+.margin-top-96,        .m-top-96,         .m-t-96 { @include margin-top-96 }
+.margin-right-96,      .m-right-96,       .m-r-96 { @include margin-right-96 }
+.margin-bottom-96,     .m-bottom-96,      .m-b-96 { @include margin-bottom-96 }
+.margin-left-96,       .m-left-96,        .m-l-96 { @include margin-left-96 }
+.margin-horizontal-96, .m-horizontal-96,  .m-h-96 { @include margin-horizontal-96 }
+.margin-vertical-96,   .m-vertical-96,    .m-v-96 { @include margin-vertical-96 }
+
+
+@mixin border-96             { border: 96px; }
+@mixin border-top-96         { border-top: 96px; }
+@mixin border-right-96       { border-right: 96px; }
+@mixin border-bottom-96      { border-bottom: 96px; }
+@mixin border-left-96        { border-left: 96px; }
+@mixin border-horizontal-96  { border-left: 96px; border-right: 96px; }
+@mixin border-vertical-96    { border-top: 96px; border-bottom: 96px; }
+
+.border-96,                              .b-96   { @include border-96 }
+.border-top-96,        .b-top-96,         .b-t-96 { @include border-top-96 }
+.border-right-96,      .b-right-96,       .b-r-96 { @include border-right-96 }
+.border-bottom-96,     .b-bottom-96,      .b-b-96 { @include border-bottom-96 }
+.border-left-96,       .b-left-96,        .b-l-96 { @include border-left-96 }
+.border-horizontal-96, .b-horizontal-96,  .b-h-96 { @include border-horizontal-96 }
+.border-vertical-96,   .b-vertical-96,    .b-v-96 { @include border-vertical-96 }
+
+@mixin padding-96            { padding: 96px; }
+@mixin padding-top-96        { padding-top: 96px; }
+@mixin padding-right-96      { padding-right: 96px; }
+@mixin padding-bottom-96     { padding-bottom: 96px; }
+@mixin padding-left-96       { padding-left: 96px; }
+@mixin padding-horizontal-96 { padding-left: 96px; padding-right: 96px; }
+@mixin padding-vertical-96   { padding-top: 96px; padding-bottom: 96px; }
+
+.padding-96,                              .p-96   { @include padding-96 }
+.padding-top-96,        .p-top-96,         .p-t-96 { @include padding-top-96 }
+.padding-right-96,      .p-right-96,       .p-r-96 { @include padding-right-96 }
+.padding-bottom-96,     .p-bottom-96,      .p-b-96 { @include padding-bottom-96 }
+.padding-left-96,       .p-left-96,        .p-l-96 { @include padding-left-96 }
+.padding-horizontal-96, .p-horizontal-96,  .p-h-96 { @include padding-horizontal-96 }
+.padding-vertical-96,   .p-vertical-96,    .p-v-96 { @include padding-vertical-96 }

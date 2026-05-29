@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta
+                http-equiv="Content-Security-Policy"
+                content="default-src *; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; script-src-elem * 'unsafe-inline' 'unsafe-eval'" />
+        <title>Copy Seed Phrase Example</title>
+        <script type="text/javascript">
+          const seedPhrase = "Let's hope this gets copied!";
+          function bootstrap() {
+            document.getElementById("seedPhrase").textContent = seedPhrase;
+          }
+
+          async function copyToClipboard() {
+            console.log("Copy called");
+            await navigator.clipboard.writeText(seedPhrase);
+            parent.postMessage("COPIED");
+          }
+        </script>
+
+    </head>
+    <body onload="bootstrap()">
+        <div id="seedPhrase"></div>
+        <button onclick="copyToClipboard()">Copy</button>
+    </body>
+</html>

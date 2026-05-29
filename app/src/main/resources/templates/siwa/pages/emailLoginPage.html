@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<main class="siwa-email-login" th:fragment="emailLoginPage">
+    <div class="center-align">
+        <img class="email-login-checkmark center-align padding-bottom-16" th:src="@{~/img/checkmark_v2.svg}" alt="Frequency checkmark" style="width:25%;">
+        <div class="email-login-text margin-bottom-24">
+            <p class="frequency-text text-dark-blue bold" data-th-text="#{siwa.email-login.desc}"></p>
+        </div>
+    </div>
+
+    <div class="email-login inline-text margin-bottom-16">
+        <a th:href="${props.redirect}" data-testid="login-link">
+            <button class="btn waves-effect waves-light full-width" data-th-text="#{siwa.email-login.button} + ' ' + ${props.providerName}"></button>
+        </a>
+    </div>
+</main>
+</body>
+</html>

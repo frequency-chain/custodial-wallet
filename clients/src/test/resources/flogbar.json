@@ -1,0 +1,7 @@
+{
+  "type": "FlogBar",
+  "fooishBar": {
+    "flog": "flog",
+    "bar": "bar"
+  }
+}

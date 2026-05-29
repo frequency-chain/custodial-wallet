@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Amplica Authentication Code Email Sent</title>
+</head>
+<body>
+<div class="email" th:fragment="authenticationCodeEmailSent" th:id="${pageId}" data-testid="auth-code-email-sent">
+  <header th:title="#{email.header-title-payloadToSign}">
+    <div th:replace="~{oauth/components/header :: header}"></div>
+  </header>
+  <main>
+    <div class="email-instruction">
+      <p data-th-text="#{email.instruct-payloadToSign}"></p>
+    </div>
+    <!--      TODO: Resend Logic-->
+  </main>
+  <footer>
+    <div th:replace="~{oauth/components/footer :: footer}"></div> <!-- Needs the ${pageId} th variable set to the page id -->
+  </footer>
+</div>
+</body>
+</html>

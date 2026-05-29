@@ -1,0 +1,27 @@
+.siwa-sms-sent {
+  .siwa-sms-desc {
+    @media #{$large-and-up} {
+      text-align: center;
+    }
+  }
+  .resend-section{
+    @media #{$large-and-up} {
+      text-align: center;
+    }
+  }
+
+  // This is to match the fixed width
+  // of the smsCodeInput. It looks weird
+  // if they vary in size
+  // this is calculated from:
+  // max-width of input = 60px
+  // gap between is 10px
+  // 60 * 6 + 10 * 5 = 410px
+  #sms-code-submit {
+    @media #{$large-and-up} {
+      max-width: 410px;
+      margin: 0 auto;
+      display: block;
+    }
+  }
+}

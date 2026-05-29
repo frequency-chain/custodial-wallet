@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>SMS Code Input Modal Component</title>
+</head>
+<body>
+<div id="login-verify" style="display:none;" th:fragment="smsCodeModal" data-testId="component.sms-code-modal">
+    <div class="modal-heading center-align">
+        <h4 data-th-text="#{sms-verification.title}"></h4>
+    </div>
+    <p class="padding-top-16 center-align">
+        <span class="small-text" data-th-text="#{sms-verification.description-start} + ' '"></span>
+        <b><span class="small-text" id="sms-identifier"></span></b>
+        <span class="small-text" data-th-text="' ' + #{sms-verification.description-end}"></span>
+    </p>
+    <div class="modal-body row" th:switch="${modalUseType}">
+        <form th:case="'LOGIN'" id="login-verify-form" name="sms-code-form">
+            <div th:replace="~{components/smsCodeInputs :: smsCodeInputs(isValid=true,inputId='sms-input-code', inputClasses='')}"></div>
+            <input id="sms-code" class="code-input-final" type="text" maxLength="6" name="smsCode" value="666666" inputmode="numeric" hidden/>
+            <button id="sms-code-submit" class="btn waves-effect waves-light full-width" type="submit"
+                    data-testid="sms-code-submit" data-th-text="#{button.submit}"></button>
+        </form>
+        <form th:case="'ADD'" id="add-sms-verify-form" name="sms-code-form" method="POST" action="/web/add/sms">
+            <div th:replace="~{components/smsCodeInputs :: smsCodeInputs(isValid=true,inputId='sms-input-code', inputClasses='')}"></div>
+            <input id="sms-code" class="code-input-final" type="text" maxLength="6" name="smsCode" value="666666" inputmode="numeric" hidden/>
+            <button id="sms-code-submit" class="btn waves-effect waves-light full-width" type="submit"
+                    data-testid="sms-code-submit" data-th-text="#{button.submit}"></button>
+        </form>
+    </div>
+    <div class="inline-text padding-top-16 center-align">
+        <p class="small-text" data-th-text="#{sms-verification.resend-description}"></p>
+        <a class="small-text" href="#" id="resend-code-button-email" onClick="resendSms()" data-th-text="#{sms-verification.resend-link}"></a>
+    </div>
+</div>
+</body>
+</html>

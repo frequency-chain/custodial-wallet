@@ -1,0 +1,19 @@
+sequenceDiagram
+  title How to refresh a FA.com JWT, First Party App
+  participant app as Host App
+  participant fa as Frequency Access
+  participant db as Postgres
+
+  app->>app: Detects it should refresh it's JWT
+  app-->>fa: Refresh FA.com JWT Token
+  fa->>db: find refresh token data by token
+  db-->>fa: Refresh Token Data
+  alt Refresh Token Data Found
+    fa->>fa: Determine if JWT should be refreshed
+    fa->>fa: Generate new FA.com JWT (w/new refresh token?)
+    fa-->>app: FA.com JWT (w/new refresh token?)
+  else Refresh Token Data Not Found
+    fa-->>app: 403 (or some 4xx level for app to respond to)
+    note over fa, app: Refresh token code be revoked, code have expired<br>We need to round trip with the user again
+  end
+

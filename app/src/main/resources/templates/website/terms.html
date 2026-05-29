@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
+    <title>Frequency Access</title>
+    <meta name="description" content="Frequency Access is the gateway to the Social Web.">
+
+    <!-- Custom elements from `frontend` -->
+    <script type="module" th:src="@{~/js/frontend.js(BUILD_NUMBER=${BUILD_NUMBER})}"></script>
+    <link th:href="@{~/css/frontend.css(BUILD_NUMBER=${BUILD_NUMBER})}" type="text/css" rel="stylesheet" />
+
+    <!-- Sentry browser javascript -->
+    <script th:src="@{~/js/bundle/sentryBundle.js(BUILD_NUMBER=${BUILD_NUMBER})}"></script>
+</head>
+<body data-testId="page.terms">
+<terms-of-service-page th:user-is-logged-in="${isLoggedIn}"
+                       th:is-developer-terms="${isDeveloperTerms}"
+                       th:captcha-enabled="${captchaEnabled}"
+                       th:site-key="${siteKey}"
+                       th:messages-json="${messagesJson}"
+                       class="no-materialize"
+>
+</terms-of-service-page>
+</body>
+</html>

@@ -1,0 +1,25 @@
+.splashPage {
+  .website-page-outline {
+    width: 100%;
+    position: relative;
+  }
+
+  .splash {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    z-index: -100;
+    background-color: $primary-color-dark;
+    background-image: url("../../img/frequency_saw_wave_background.svg");
+    background-size: cover;
+
+    @media #{$large-and-up} {
+      height: 400px;
+    }
+
+    @media #{$medium-and-down} {
+      background-position: center;
+      height: 260px;
+    }
+  }
+}

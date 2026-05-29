@@ -1,0 +1,42 @@
+<html>
+<head>
+  <title>Secure Wallet Generation</title>
+  <meta charset="utf-8" />
+  <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src *; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; script-src-elem * 'unsafe-inline' 'unsafe-eval'">
+  <!-- CSS  -->
+  <link th:href="@{~/css/materialize.css}" type="text/css" rel="stylesheet" media="screen,projection"/>
+
+  <!--  Scripts-->
+  <script th:src="@{~/js/jquery-3.6.0.min.js}"></script>
+  <script th:src="@{~/js/common.js}"></script>
+  <script th:src="@{~/js/materialize.js}"></script>
+
+  <!-- Materialize Fix - make sure to run after materialize.js -->
+  <!-- https://github.com/ignasdamunskis/materialize-css-helper/tree/main -->
+  <script> window.materializeHelper = {}</script>
+  <script th:src="@{~/js/materialize-fix.js}"></script>
+
+  <script
+      th:src="@{~/js/bundle/iframeBundle.js}"
+      th:onload="PASSKEY_WALLET_IFRAME.startPasskeyWalletCreationFlow([[${props.passkeyWalletRecovery}]], '[[${env}]]')"
+      async
+      defer
+  ></script>
+</head>
+<body class="registration-iframe" data-testid="generator" id="generator">
+  <div class="iframe-seed-phrase" id="seedPhraseDisplay" hidden>
+    <ol class="iframe-seed-phrase-list" id="seedPhraseList" data-testid="seedPhraseList" data-columns="3" style="columns: 3; -webkit-columns: 3; -moz-columns: 3;">
+    </ol>
+  </div>
+  <div class="iframe-passkey-start align" id="newRegistration" hidden>
+    <button id="registrationBtn" class="iframe-passkey-start-button btn waves-effect waves-light full-width" data-testid="registrationBtn" type="button" th:onclick="PASSKEY_WALLET.startPasskeyRegistrationFlow([[${props.username}]])" data-th-text="#{wallet.passkey.iframe-modal.create}"></button>
+  </div>
+  <div class="full-width full-height" id="enterWalletRecovery" hidden>
+    <label for="walletRecoveryInput">
+      <textarea class="full-width full-height" id="walletRecoveryInput" data-testid="walletRecoveryInput" type="text" placeholder="Sample Text"></textarea>
+    </label>
+  </div>
+</body>
+</html>

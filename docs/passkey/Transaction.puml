@@ -1,0 +1,88 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+title "Passkey Transaction Flow"
+actor User as u
+participant "Wallet Client/Browser" as wc
+participant "Authenticator" as a
+participant "Wallet Backend" as wb
+database "Postgres" as p
+participant "Blockchain" as bc
+
+note over u
+Changes to be made based on what UI/UX will be like
+end note
+note over u
+How will username/userIdentifier be known, will it be given on ingress to this flow?
+end note
+u -> wc: User would like to submit a transaction
+u -> wc: User clicks button to start transaction process
+wc -> wb: GET user passkey data to create passkey transaction payload (userIdentifier (or whatever username))
+wb -> p: Retrieve credential record data, (compressed) passkey public key, account public key, passkey signature from db using username/(userIdentifier (or whatever username)
+p -> wb: Send user's data to "Wallet Backend" (credential record id, public keys, signature)
+wb -> wc: Send payload with user passkey data to client
+note over wb
+User Keys Data {
+  Compressed Passkey Public Key Object
+  Account Public Key Object
+  Account Signature of Compressed Passkey Public Key
+  Credential IDs associated with this user
+}
+end note
+
+u -> wc: User fills out form (or whatever it is) to submit a transaction
+wc -> wc: On submit, actual transaction call to Frequency is created
+note over wc
+Assuming this transaction call will be done client side and sent to blockchain
+end note
+wc -> wc: Create passkey call data to submit to Frequency using transaction call, account signature, and account public key
+note over wc
+Passkey Call Data
+{
+  accountId: Account Public Key,
+  accountOwnershipProof: { Account Signature of Passkey Public Key },
+  call: PasskeyCall (the one created in the step above)
+}
+end note
+wc -> a: Using @simplewebauthn/browser, do the handleAuthentication(options) call
+note over wc
+Options {
+  challenge: Passkey Call Data (in UInt8 array format),
+  timeout: Number in seconds (60000 is fine),
+  rpId: Relying Party Id,
+  allowCredentials: Array of authenticators credentialIds, this will need to be gotten from db,
+  userVerification: "required"
+}
+end note
+a -> wc: Signs and returns credential data if successful, error if not
+note over a
+Credential Data {
+        - Id: credential id
+        - rawId: credential id in binary
+        - response:
+            - authenticatorData: Similar to authData in registration but doesn’t include the public key
+            - clientDataJSON (parsed as a UTF-8 string)
+                - Challenge: Passkey Call Data
+                - origin: Server must validate that the origin string matches with application origin
+                - type: Server validates that this is a “WebAuthn.get” object
+            - Signature: This will effectively be the passkey call data signature since that was the challenge given
+            - clientExtensionJSON
+}
+end note
+wc -> wc: Parse signature, authenticatorData, clientExtensionJSON and ClientDataJSON from credential data
+wc -> wc: Create Passkey Payload
+note over wc
+Passkey Payload
+{
+    passkeyPublicKey: Array.from(Passkey Public Key),
+    passkeySignature: Array.from(base64UrlToUint8Array(Passkey Signature from Credential Data)),
+    passkeyAuthenticator: Array.from(base64UrlToUint8Array(Passkey Authenticator Data)),
+    passkeyClientDataJson: Array.from(base64UrlToUint8Array(Passkey Client Data)),
+    passkeyCall: Passkey Call Data (like the challenge)),
+}
+end note
+wc -> bc: Create transaction from Passkey Payload and send to blockchain as unsigned extrinsic
+bc -> wc: Get some verification that transaction was successful
+wc -> u: Notify user transaction was successful
+@enduml

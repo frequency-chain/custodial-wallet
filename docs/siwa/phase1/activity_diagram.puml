@@ -1,0 +1,59 @@
+@startuml
+start
+:Provider sends user who would like to SiWA request(publicKey,callbackUrl,permissions,nonce,signature);
+note left
+    Lots of conditionals but as far as "screens" are concerned
+    these are the unique ones
+    1. User Enters in Email or SMS
+    2. Display Email Sent Page
+    3. Display SMS Form
+    4. Permissions Acceptance Screen and Data to be sent screen
+    5. Permissions, Capture Data and Data to be sent screen
+       which is really just a permutation of #4
+
+    This is just how I've mapped them for this document,
+    not dictating it be this way, merged or split apart up to design
+end note
+:User Enters in Email or SMS;
+if(Exists in FA?) then(Yes)
+    if(isEmail) then(Yes)
+        :Send Email;
+        :Display Email Sent Page;
+        :User Clicks Email Link;
+    elseif(isSms) then(Yes)
+        :Send Sms;
+        :Display SMS Form;
+        :User Submits SMS Form;
+    endif
+    :Identifier Verified;
+    note
+    Login or Mutate Existing Key
+    end note
+    if(Has All Permissions For Provider) then(True, Is A Login)
+        :Display Selection of Data to be sent to Provider;
+        :Redirect to Provider callbackUrl with authorizationCode\n that will resolve the loginPayload;
+    else if(Has Some Permissions) then(Adding or removing permissions)
+        :Display Permissions Acceptance Screen , Send Single Identifier to Provider;
+        :Redirect to Provider callbackUrl with authorizationCode\n that will resolve the addPermissionsPayload;
+    else if(New Delegation) then(Delegation for new Provider)
+        :Display Permissions Acceptance Screen and Send Single Identifier to Provider;
+        :Redirect to Provider callbackUrl with authorizationCode\n that will resolve the addPermissionsPayload;
+    endif
+else(Doesn't Exist)
+    note left
+        New FA Account, New Key
+    end note
+    if(isEmail) then(Yes)
+        :Send Email;
+        :Display Email Sent Page;
+        :User Clicks Email Link;
+    elseif(isSms) then(Yes)
+        :Send Sms;
+        :Display SMS Form;
+        :User Submits SMS Form;
+    endif
+    :Display Permissions, Capture Data and Send Single Identifier to Provider;
+    :Redirect to Provider callbackUrl with authorizationCode\n that will resolve the createSponsoredAccountPayload;
+endif
+stop
+@enduml

@@ -1,0 +1,14 @@
+<html lang="en">
+<body>
+<header class="no-materialize" th:fragment="websiteHeader">
+  <header-element class="no-materialize" th:user-is-logged-in="${isLoggedIn}"
+                  th:is-account-page="${isAccount}"
+                  th:is-home-page="${isHome != null}"
+                  th:captcha-enabled="${captchaEnabled}"
+                  th:site-key="${siteKey}"
+                  th:messages-json="${messagesJson}"
+  >
+  </header-element>
+</header>
+</body>
+</html>

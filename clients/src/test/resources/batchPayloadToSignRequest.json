@@ -1,0 +1,47 @@
+{
+  "id": "batchPayloadsRequest",
+  "externalUserId": "saas-devs@unfinished.com",
+  "userIdentifier": {
+    "type": "EMAIL",
+    "value": "saas-devs@unfinished.com"
+  },
+  "publicKey": {
+    "encodedValue": "5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY",
+    "encoding": "base58",
+    "format": "ss58",
+    "type": "Sr25519"
+  },
+  "callback": "google.com",
+  "payloads": [
+    {
+      "signature": {
+        "algo": "SR25519",
+        "encoding": "base16",
+        "encodedValue": "0xc8d6f0cc3876400af71680dfae9f3dc26e0db7e930cfab32744cbe4067630e6bfa055d8589a6397947f2f3608f5a48945d267a3aa5e89c2a19ccd153fab9b384"
+      },
+      "type": "addProvider",
+      "payload": {
+        "msaId": 1,
+        "schemaIds": [
+          5,
+          7,
+          8,
+          9,
+          10
+        ],
+        "url": "https://www.mewe.com/authenticate"
+      }
+    },
+    {
+      "signature": {
+        "algo": "SR25519",
+        "encoding": "base16",
+        "encodedValue": "0x0a9a8eb485d5e5a68aef7228d1d87b61b1c83877cbee058d116ca2813c63841d769486b5d07a63e28497692b05bbec7f9effbd0d7112358110656b4b6ccecc8d"
+      },
+      "type": "claimHandle",
+      "payload": {
+        "baseHandle": "sampleHandle"
+      }
+    }
+  ]
+}

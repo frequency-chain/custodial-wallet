@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div class="passkey-wallet-create" th:fragment="passkeyCreate">
+    <div class="padding-bottom-16">
+        <h6 data-testid="passkey-create-setup-title" data-th-text="#{wallet.passkey.create.set-up.title}"></h6>
+        <p data-th-text="#{wallet.passkey.create.set-up.desc}"></p>
+    </div>
+    <div class="passkey-create-benefit padding-bottom-16">
+        <h6 data-th-text="#{wallet.passkey.create.benefit.title}"></h6>
+        <ul class="passkey-create-benefit-list padding-vertical-16 padding-left-32">
+            <li data-th-text="#{wallet.passkey.create.benefit.list1}"></li>
+            <li data-th-text="#{wallet.passkey.create.benefit.list2}"></li>
+        </ul>
+    </div>
+    <div class="padding-vertical-16">
+        <button id="passkey-create-button" class="btn waves-effect waves-light full-width"
+                th:onclick="passkeyConfirm()"
+                data-testid="passkey-create-button" data-th-text="#{wallet.passkey.create.button}"></button>
+    </div>
+</div>
+</body>
+</html>

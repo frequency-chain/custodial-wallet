@@ -1,0 +1,38 @@
+{
+  "compilerOptions": {
+    "alwaysStrict": true,
+    "allowUnreachableCode": false,
+    "allowUnusedLabels": false,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "lib": [
+      "DOM",
+      "DOM.Iterable"
+    ],
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "noEmit": true,
+    "noUncheckedIndexedAccess": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "paths": {
+      "$lib/*": ["./src/main/lib/*"],
+      "$components/*": ["./src/main/components/*"],
+      "$style/*": ["./src/main/style/*"]
+    },
+    "resolveJsonModule": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "strictNullChecks": true,
+    "target": "ES2015"
+  },
+  "include": [
+    "src/**/*.js",
+    "src/**/*.ts",
+    "src/**/*.svelte",
+    "node_modules/vitest/globals.d.ts"
+  ],
+  "exclude": [
+    "node_modules/"
+  ]
+}

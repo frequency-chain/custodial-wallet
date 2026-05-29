@@ -1,0 +1,57 @@
+sequenceDiagram
+  title How to obtain a ContextGroupKey
+  participant u as User
+  participant mcp as MCP Server
+  participant fa as Frequency Access
+  participant bc as Frequency
+
+  u->>mcp: Login or Create user by identifier
+  mcp->>mcp: Sign provision user payload
+  mcp->>fa: POST /hcp/api/user signed payload
+  fa->>bc: verify provider msaId
+  bc-->>fa: msaId of provider publicKey
+  fa->>fa: Find or Generate Control Keypair
+  fa->>fa: Sign `createSponsoredAccount` or `grantDelegation` payload
+  fa->>mcp: Signed Payload
+  mcp->>bc: Submission 1. Submits payload to create/update msa
+  bc-->>mcp: Success
+
+  mcp->>mcp: Sign get ICS payloads for user payload
+  mcp->>fa: POST /hcp/api/user/payloads
+  fa->>bc: verify provider msaId
+  bc-->>fa: msaId of provider publicKey
+  fa->>bc: Get provider ICS public Key
+  note over fa, bc: Requires the Provider has a ICS public Key registered on chain
+  bc-->>fa: Provider's ICS public key
+  fa->>fa: Find Control Keypair
+  fa-->>bc: verify user msaId
+  note over fa, bc: Requires that the creation of the user's msa has occurred in Submission 1
+  bc-->>fa: msaId of user
+  fa->>fa: Create ICS Master Seeds and Keys
+  fa->>fa: Calculate PRId
+  note over fa: This is a combo of X25519 derived from provider's ICS public key and derived user's ICS private key
+  fa->>fa: Persist ICS seeds and keys
+  fa->>fa: Sign ICS payloads
+  fa->>mcp: Signed ICS Payloads
+  note over mcp, fa: 1. Payload to add user ICS Public Key<br>2. Payload to add "ACL" for provider to user msaId<br>3. Payload to add new ContextGroupMetadata
+  mcp->>bc: Submission 2. Submits batch of calls to chain for ICS Payloads
+
+  mcp->>mcp: Sign get ContextGroupKey for user payload
+  mcp->>fa: POST /hcp/api/key/contextGroup
+  fa->>bc: verify provider msaId
+  bc-->>fa: msaId of provider publicKey
+  fa->>fa: Find Control Keypair
+  fa-->>bc: verify user msaId
+  bc-->>fa: msaId of user
+  note over fa: Requires that the creation of ICS payloads has occurred in Submission 2
+  fa->>bc: Get provider ICS public Key
+  bc-->>fa: Provider's ICS public key
+  fa->>bc: Get ACL for this user's msaId
+  bc-->>fa: ACL for user's msaId
+  fa->>fa: Check providerMsaId exists in ACL
+  fa->>fa: find ICS Keys for user msaId
+  fa->>fa: Calculate PRId
+  note over fa: This is a combo of X25519 derived from provider's ICS public key and derived user's ICS private key
+  fa->>bc: Get ContextGroupMetadata for user msaId
+  bc-->>fa: verify ContextGroupMetadata for user msaId and provider
+  fa-->>mcp: Return ContextGroupKey for PRId

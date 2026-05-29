@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Resend Timer</title>
+    <th:block th:fragment="resendTimerScript">
+        <script>
+
+            let resendCounter = 0;
+
+            function getTimeRemaining(endTime) {
+                const t = Date.parse(endTime) - Date.parse(new Date());
+                const seconds = Math.floor((t / 1000) % 60);
+                const minutes = Math.floor((t / 1000 / 60) % 60);
+                return {
+                    'total': t,
+                    'minutes': minutes,
+                    'seconds': seconds
+                };
+            }
+
+            function initializeTimer(disableId, resendInterval, resendLimit) {
+                let currentTime = new Date().getTime()
+                let endTime = new Date(currentTime + resendInterval);
+                const timer = document.getElementById('resend-timer');
+
+                const resend = $(disableId)
+                if(resend) {
+                    disableHref(resend)
+                }
+
+                function updateTimer() {
+                    let t = getTimeRemaining(endTime);
+                    let minutes = (t.minutes.toString()).slice(-2);
+                    let seconds = ('0' + t.seconds).slice(-2);
+                    timer.innerHTML = `${minutes}:${seconds}s`;
+
+                    if (t.total <= 0) {
+                        clearInterval(timeInterval);
+                        timer.innerHTML = `0:00s`;
+                        if(resend && resendCounter < resendLimit) {
+                            enableHref(resend)
+                        }
+                    }
+                }
+
+                updateTimer();
+                const timeInterval = setInterval(updateTimer, 1000);
+            }
+        </script>
+    </th:block>
+
+</head>
+<body>
+    <p class="timer" id="resend-timer" th:fragment="resendTimer(timerClasses)" th:class="${timerClasses}">
+        <span id="full-timer"></span>
+    </p>
+</body>
+</html>

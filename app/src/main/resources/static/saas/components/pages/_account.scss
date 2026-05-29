@@ -1,0 +1,63 @@
+.accountPage {
+
+  .account-page-title {
+    padding: 32px 0;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .user-handle-first-letter-background {
+    .user-handle-first-letter {
+      background-color: $secondary-color;
+      align-content: center;
+      height: 80px;
+      line-height: 80px;
+      width: 80px;
+      border-radius: 80px;
+      font-weight: bold;
+      margin: auto;
+      font-size: 30px;
+    }
+  }
+
+  .card {
+    .card-content {
+      .email-identifier {
+        word-wrap: break-word;
+      }
+
+      .collapsible {
+        li {
+          .collapsible-body {
+            .provider-permissions {
+              .provider-permissions-list {
+                display: flex;
+                gap: 16px;
+
+                .perm-icon {
+                  max-width: 40px;
+                }
+              }
+            }
+
+            .revoke-div {
+              .revoke-modal-trigger {
+                @media #{$medium-and-down} {
+                  width: 100%;
+                }
+              }
+            }
+
+            .change-password {
+              .change-password-modal-trigger {
+                @media #{$medium-and-down} {
+                  width: 100%;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,62 @@
+<configuration>
+    <!-- Import spring properties into logback -->
+    <springProperty scope="context" name="prettyPrint" source="unfinished.logging.pretty-print"/>
+    <springProperty name="sentryDsn" source="sentry.dsn"/>
+    <springProperty name="sentryEventLevel" source="sentry.level.event"/>
+    <springProperty name="sentryBreadcrumbLevel" source="sentry.level.breadcrumb"/>
+
+    <appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder class="net.logstash.logback.encoder.LogstashEncoder"/>
+    </appender>
+
+    <appender name="Sentry" class="io.sentry.logback.SentryAppender">
+        <options>
+            <dsn>${sentryDsn}</dsn>
+        </options>
+        <minimumEventLevel>${sentryEventLevel}</minimumEventLevel>
+        <minimumBreadcrumbLevel>${sentryBreadcrumbLevel}</minimumBreadcrumbLevel>
+    </appender>
+
+    <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <!-- Note: This includes mdc fields (via %X{field}) which may be deprecated if we switch to structured arguments -->
+            <pattern>%d{HH:mm:ss.SSS} | thread_name: %-30.30thread | logger_name: %40logger{40} | level: %-5p | message: %m | mdc.XTraceId: %X{XTraceId} | mdc.XSessionId: %X{XSessionId} | mdc.SessionId: %X{SessionId} | mdc.ProviderName: %X{ProviderName}%n
+            </pattern>
+            <charset>utf8</charset>
+        </encoder>
+    </appender>
+
+    <springProfile name="!(test | dev)">
+        <!-- We don't want to emit certain logs to sentry, so we define custom loggers (additivity=false prevents log -->
+        <!-- continuing up logger hierarchy and being emitted by root) -->
+        <logger name="io.lettuce.core.protocol" level="INFO" additivity="false">
+            <appender-ref ref="stdout"/>
+        </logger>
+        <logger name="io.amplica.custodial_wallet" level="INFO" additivity="false">
+            <appender-ref ref="stdout"/>
+        </logger>
+
+        <!-- Note: This logger configuration is identical to the root logger and therefore may be redundant -->
+        <logger name="reactor.netty.http.server.AccessLog" level="INFO" additivity="false">
+            <appender-ref ref="stdout"/>
+            <appender-ref ref="Sentry"/>
+        </logger>
+
+        <root level="INFO">
+            <appender-ref ref="stdout"/>
+            <appender-ref ref="Sentry"/>
+        </root>
+    </springProfile>
+
+    <springProfile name="test | dev">
+        <logger name="com.github.tomakehurst.wiremock" level="DEBUG" additivity="false">
+            <appender-ref ref="console"/>
+        </logger>
+        <logger name="io.amplica.custodial_wallet" level="DEBUG" additivity="false">
+            <appender-ref ref="console"/>
+        </logger>
+        <root level="INFO">
+            <appender-ref ref="console"/>
+        </root>
+    </springProfile>
+</configuration>

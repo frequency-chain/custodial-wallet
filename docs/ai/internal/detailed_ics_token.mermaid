@@ -1,0 +1,61 @@
+sequenceDiagram
+  title How to obtain a ICS JWT Access Token, first party app
+  participant u as User
+  participant app as Host App
+  participant mcp as MCP Server
+  participant bc as Frequency
+  participant fa as Frequency Access
+  participant db as Postgres
+  participant r as Redis
+  participant ns as Notification Service
+
+  u->>app: Login or New User (No existing FA.com JWT)
+  app-->>u: Displays login/create screen
+  u->>app: Enters identifier
+  app->>fa: Accept identifier
+  fa->>r: Save Session
+  r-->>fa: Success
+  fa->>ns: Send notification OTP
+  ns-->>u: Sent OTP notification
+  u->>app: Enters OTP
+  app->>fa: Verify OTP w/{sessionId, OTP}
+  fa->>r: Retrieve Session
+  fa->>fa: Verify OTP
+  fa->>db: find user by identifier
+  db-->>fa: return User
+  alt Not found, New User
+    fa->>fa: Generate user control Key related data
+    fa->>db: Persist user data
+    db-->>fa: Control Key
+    fa->>fa: Sign AddProviderPayload
+    fa->>bc: `createSponsoredAccount`
+    bc-->>fa: Success
+  else User Found
+    fa->>bc: find userMsaId by public key
+    bc-->>fa: userMsaId
+    alt userMsaId not found
+      fa->>fa: Sign AddProviderPayload
+      fa->>bc: `createSponsoredAccount`
+      bc-->>fa: Success
+    end
+  end
+  fa->>fa: Generate FA.com JWT w/refresh token
+  fa->>r: Persist FA.com Refresh Token
+  r-->>fa: Success
+  fa->>fa: Generate JWT Access token for ICS
+  fa-->>app: return ICS Access Token and FA.com JWT w/refresh token
+  app->>mcp: some action w/ICS Access Token
+  alt Validation via signature
+    alt via blockchain
+      mcp->>bc: retrieve msaId by publicKey
+      bc-->>mcp: msaId of FA.com
+    else Non Blockchain
+      mcp->>fa: retrieve public key by URL
+      fa-->>mcp: PublicKey
+    end
+    mcp->>mcp: Validate Signature
+    mcp->>mcp: validate claims
+  else Validation via endpoint
+    mcp->>fa: ICS Access token
+    fa-->>mcp: Success Fail
+  end

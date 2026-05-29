@@ -1,0 +1,12 @@
+.website-page-title {
+  align-content: center;
+  text-align: center;
+  height: 164px;
+  border-radius: 80px;
+  font-weight: bold;
+  margin: auto;
+
+  @media #{$medium-and-down} {
+    padding-top:0;
+  }
+}

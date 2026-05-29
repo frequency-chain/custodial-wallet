@@ -1,0 +1,59 @@
+name: "Publish Storybook"
+
+on:
+  pull_request:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
+jobs:
+  # Checks if any files in the `frontend` project have changed
+  files-changed:
+    name: Check which projects changed
+    runs-on: ubuntu-22.04
+    outputs:
+      frontend: ${{ steps.changes.outputs.frontend }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Check for frontend file changes
+        uses: dorny/paths-filter@v3
+        id: changes
+        with:
+          filters: |
+            frontend:
+              - 'frontend/**'
+
+  chromatic:
+    name: Run Chromatic
+    needs: files-changed
+    if: needs.files-changed.outputs.frontend == 'true'
+    runs-on: ubuntu-22.04
+    defaults:
+      run:
+        working-directory: frontend
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Setup node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22.14.0
+      - name: Install dependencies
+        run: npm ci
+      - name: Run Chromatic
+        id: chromatic
+        uses: chromaui/action@latest
+        with:
+          projectToken: ${{ secrets.CW_FRONTEND_CHROMATIC_TOKEN }}
+          workingDir: frontend/
+      - name: Comment URL in PR
+        uses: thollander/actions-comment-pull-request@v3
+        with:
+          message: "Storybook link: ${{ steps.chromatic.outputs.storybookUrl }}"

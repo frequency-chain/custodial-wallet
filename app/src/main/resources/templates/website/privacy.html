@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
+  <title>Frequency Access</title>
+  <meta name="description" content="Frequency Access is the gateway to the Social Web.">
+
+  <!-- Custom elements from `frontend` -->
+  <script type="module" th:src="@{~/js/frontend.js(BUILD_NUMBER=${BUILD_NUMBER})}"></script>
+  <link th:href="@{~/css/frontend.css(BUILD_NUMBER=${BUILD_NUMBER})}" type="text/css" rel="stylesheet" />
+
+  <!-- CSS  -->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link th:href="@{~/css/materialize.css(BUILD_NUMBER=${BUILD_NUMBER})}" type="text/css" rel="stylesheet" media="screen,projection"/>
+  <link th:href="@{~/css/style.css(BUILD_NUMBER=${BUILD_NUMBER})}" type="text/css" rel="stylesheet" media="screen,projection"/>
+
+    <!--favicons -->
+    <link rel="apple-touch-icon" sizes="180x180" th:href="@{~/apple-touch-icon.png}">
+    <link rel="icon" type="image/png" sizes="32x32" th:href="@{~/favicon-v2-32x32.png}">
+    <link rel="icon" type="image/png" sizes="16x16" th:href="@{~/favicon-v2-16x16.png}">
+    <link rel="manifest" th:href="@{~//site.webmanifest}">
+    <link rel="mask-icon" th:href="@{~/safari-pinned-tab.svg}" color="#790E70">
+    <meta name="msapplication-TileColor" content="#242527">
+    <meta name="theme-color" content="#242527">
+    <!-- Klaro - make sure the config gets loaded before Klaro -->
+    <script defer type="text/javascript" th:src="@{~/js/klaro-config.js(BUILD_NUMBER=${BUILD_NUMBER})}"></script>
+    <script defer type="text/javascript" th:src="@{~js/klaro.js(BUILD_NUMBER=${BUILD_NUMBER})}"></script>
+    <!-- Matomo -->
+    <script  type="text/plain"
+        data-type="application/javascript"
+        data-name="matomo">
+        var _paq = window._paq = window._paq || [];
+        /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
+        _paq.push(['trackPageView']);
+        _paq.push(['enableLinkTracking']);
+        (function() {
+        var u="https://dsnp.matomo.cloud/";
+        _paq.push(['setTrackerUrl', u+'matomo.php']);
+        _paq.push(['setSiteId', '5']);
+        var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+        g.async=true; g.src='//cdn.matomo.cloud/dsnp.matomo.cloud/matomo.js'; s.parentNode.insertBefore(g,s);
+        })();
+    </script>
+</head>
+<body>
+
+<div th:replace="~{website/components/websiteHeader :: websiteHeader}"></div>
+
+    <section class="legalIntro">
+        <div class="inner">
+            <div class="row">
+                <h3>Frequency Access Privacy Notice</h3>
+                <p class="subheading">Last Updated: October 23, 2024</p>
+                <p>
+                    This Privacy Notice is designed to help you understand how Project Liberty LLC (“<b>Project Liberty</b>,” “<b>we</b>,” “<b>us</b>,” or “<b>our</b>”)
+                    collects, uses, and shares your personal information, and to help you understand and exercise your privacy rights.
+                </p>
+                <p>
+                    This Privacy Notice applies to personal information processed by us for Frequency Access, including on our websites, mobile applications,
+                    and other online or offline offerings for Frequency Access. To make our Privacy Notice easier to read, our websites,
+                    mobile applications, and other offerings are collectively called the “<b>Services.</b>”
+                </p>
+                <p>
+                    The Services do not include, and this Privacy Notice does not apply to, any
+                    other products or services made available by Project Liberty including the
+                    projectliberty.io and thepeoplesbid.com websites and other products and
+                    services, including websites, mobile apps, registration forms, or other
+                    digital properties.
+                </p>
+            </div>
+        </div>
+    </section>
+    <section class="legal-header">
+        <div class="inner">
+            <p>
+                Click on one of the links below to go to the listed section:
+            </p>
+            <ol class="legal-toc">
+                <li><a href="#toc1">OVERVIEW OF THE SERVICES; NOTICE REGARDING USE OF THE BLOCKCHAIN</a></li>
+                <li><a href="#toc2">UPDATES TO THIS PRIVACY NOTICE</a></li>
+                <li><a href="#toc3">PERSONAL INFORMATION WE COLLECT</a></li>
+                <li><a href="#toc4">HOW WE USE YOUR PERSONAL INFORMATION</a></li>
+                <li><a href="#toc5">HOW WE DISCLOSE YOUR PERSONAL INFORMATION</a></li>
+                <li><a href="#toc6">YOUR PRIVACY CHOICES AND RIGHTS</a></li>
+                <li><a href="#toc7">INTERNATIONAL TRANSFERS OF PERSONAL INFORMATION</a></li>
+                <li><a href="#toc8">RETENTION OF PERSONAL INFORMATION</a></li>
+                <li><a href="#toc9">SUPPLEMENTAL NOTICE FOR EU/UK GDPR</a></li>
+                <li><a href="#toc10">SUPPLEMENTAL NOTICE FOR NEVADA RESIDENTS</a></li>
+                <li><a href="#toc11">CHILDREN'S INFORMATION</a></li>
+                <li><a href="#toc12">THIRD-PARTY WEBSITES/APPLICATIONS</a></li>
+                <li><a href="#toc13">CONTACT US</a></li>
+            </ol>
+        </div>
+    </section>
+    <section>
+        <div class="inner">
+            <ul class="legal-list">
+                <li id="toc1">
+                    <h6>1. OVERVIEW OF THE SERVICES; NOTICE REGARDING USE OF THE BLOCKCHAIN</h6>
+                    <p>Aspects of the Services enable you to interact with the Frequency chain, a layer 1 blockchain integrated into the
+                        Polkadot platform, and/or other <b>supported networks</b> (together, the “Supported Networks”). Through such
+                        interaction, you will be able to: (a) establish a message source account that allows you to set certain permissions
+                        and access functions (the "<b>MSA</b>”); (b) store the digital representation of your online relationships in the form of a
+                        social graph (the “<b>Social Graph</b>”); (c) establish a self-selected, human readable identifier used to identify the user's
+                        MSA (“<b>Handle</b>”) and (d) interact with other applications, including such applications' services, content, features,
+                        products, or other functionalities, that Project Liberty may, in our sole discretion, elect to support through integration
+                        with our API, browser plugins, websites and/or mobile applications (together, the “<b>Supported Apps</b>”). The Social
+                        Graph, Handle and other information on the Supported Networks are tied to your MSA.</p>
+                    <p>    
+                        As mentioned above, aspects of our Services may be hosted on or interact with the blockchain. Where you use
+                        aspects of our Services that are hosted on or interact with the blockchain, information about your interactions
+                        and/or transactions will be provided to the applicable blockchain network and may be accessible to third parties
+                        due to the nature of the blockchain protocol.
+                    </p>
+                </li>
+                <li id="toc2">
+                    <h6>2. UPDATES TO THIS PRIVACY NOTICE</h6>
+                    <p>
+                        We may update this Privacy Notice from time to time in our sole discretion. If we do, we'll let you know by posting 
+                        the updated Privacy Notice on the Services and/or may also send other communications.
+                    </p>
+                </li>
+                <li id="toc3">
+                    <h6>3. PERSONAL INFORMATION WE COLLECT</h6>
+                    <p>
+                        The categories of personal information we collect depend on how you interact with us, our Services, and the
+                        requirements of applicable law. We collect information that you provide to us, information we obtain 
+                        automatically when you use our Services, and information from other sources such as third-party services and
+                        organizations, as described below.
+                    </p>
+                    <ol>
+                        <li>
+                            <b>A. Personal Information You Provide to Us Directly</b>
+                            <p>We may collect personal information that you provide to us.</p>
+                            <ul>
+                                <li>
+                                    <b>Account Information.</b> We may collect personal information in connection with the creation or
+                                    administration of your account, such as your name, email address phone number, MSA ID, Handle, Social
+                                    Graph, the public and private cryptographic keys associated with your MSA, and any other information
+                                    that you provide to us or that we otherwise collect.
+                                </li>
+                                <li>
+                                    <b>Your Communications with Us.</b> We may collect personal information, such as your name, email address,
+                                    or phone number when you contact us.
+                                </li>
+                                <li>
+                                    <b>Surveys.</b> We may contact you to participate in surveys. If you decide to participate, we may collect
+                                    personal information from you in connection with the survey.
+                                </li>
+                                <li>
+                                    <b>Interactive Features.</b> We and others who use our Services may collect personal information that you
+                                    submit or make available through our interactive features (e.g., commenting functionalities, forums,
+                                    blogs, and social media pages). Any information you provide using the public sharing features of the
+                                    Services will be considered public. Please exercise care when deciding what to share.
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <b>B. Personal Information Collected Automatically.</b>
+                            <p>We may collect personal information automatically when you use our Services.</p>
+                            <ul>        
+                                <li>
+                                    <b>Automatic Collection of Personal Information.</b> We may collect certain information automatically when
+                                    you use our Services, such as your Internet protocol (IP) address, user settings, MAC address, cookie
+                                    identifiers, mobile carrier, mobile advertising and other unique identifiers, browser or device information,
+                                    location information (including approximate location derived from IP address), and Internet service
+                                    provider. We may also automatically collect information regarding your use of our Services, such as pages
+                                    that you visit before, during and after using our Services, items that you search for via the Services,
+                                    information about the links you click, the types of content you interact with, the frequency and duration
+                                    of your activities, and other information about how you use our Services.
+                                </li>
+                                <li>
+                                    <p>
+                                        <b>Cookie Policy (and Other Technologies).</b> We, as well as third parties that provide content, advertising, or
+                                        other functionality on our Services, may use cookies, pixel tags, and other technologies ("<b>Technologies</b>")
+                                        to automatically collect information through your use of our Services.
+                                    </p>
+                                    <ul>
+                                        <li>
+                                            <b>Cookies.</b> Cookies are small text files placed in device browsers that store preferences and
+                                            facilitate and enhance your experience.
+                                        </li>
+                                        <li>
+                                            <b>Pixel Tags/Web Beacons</b> A pixel tag (also known as a web beacon) is a piece of code embedded
+                                            in our Services that collects information about engagement on our Services. The use of a pixel tag
+                                             allows us to record, for example, that a user has visited, a particular web page or clicked on a
+                                            particular advertisement. We may also include web beacons in e-mails to understand whether
+                                            messages have been opened, acted on, or forwarded.
+                                        </li>
+                                    </ul>
+                                    <p>Some of the Technologies we use include:</p>
+                                    <ul>
+                                        <li>
+                                            <b>Matomo Analytics.</b> We use Matomo Analytics&#39; analytics cookies to gain a better understanding
+                                            of the traffic to the Services - things like how many people visit our website, how much time they
+                                            spend on our website and which pages of our website they visit. To learn more about Matomo
+                                            Analytics and its use of cookies, please see Matomo Analytics&#39; <a target="_blank" href="https://matomo.org/privacy-policy/">privacy policy</a>.
+                                        </li>
+                                    </ul>
+                                    <p><em>See <a href="#toc6">"Your Privacy Choices and Rights"</a> below to understand your choices regarding these Technologies.</em></p>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <b>C. Personal Information Collected from Other Sources</b>
+                            <ul>
+                                <li>
+                                    <b>Third Parties.</b> We may collect personal information from third parties. For example, if you access our Services
+                                    through a Third-Party Service (as defined below), we may collect personal information about you from that Third-
+                                    Party Service that you have made available via your privacy settings.
+                                </li>
+                                <li>
+                                    <b>Referrals and Sharing Features.</b> Our Services may offer various tools and functionalities that allow you to provide
+                                    personal information about other individuals through a referral or sharing feature.
+                                </li>
+                            </ul>
+                        </li>
+                    </ol>
+                </li>
+                <li id="toc4">
+                    <h6>4. HOW WE USE YOUR PERSONAL INFORMATION</h6>
+                    <p>We use your personal information for a variety of business purposes, including to provide our Services, for
+                        administrative purposes, and to market our products and Services, as described below.</p>
+                        <ol>
+                            <li>
+                                <b>A. Provide Our Services</b>
+                                <p>We use your personal information to fulfill our contract with you and provide you with our Services, such as:</p>
+                                <ul class="subList">
+                                    <li>Managing your information and accounts;</li>
+                                    <li>Providing access to certain areas, functionalities, and features of our Services;</li>
+                                    <li>Answering requests for customer or technical support;</li>
+                                    <li>Communicating with you about your account, activities on our Services, and policy changes;</li>
+                                    <li>Processing applications if you apply for a job we post on our Services; and</li>
+                                    <li>Allowing you to register for events.</li>
+                                </ul>
+                            </li>
+                            <li>
+                                <b>Administrative Purposes</b>
+                                <p>We use your personal information for various administrative purposes, such as:</p>
+                                <ul class="subList">
+                                    <li>Pursuing our legitimate interests such as direct marketing, research and development, network and
+                                        information security, and fraud prevention;</li>
+                                    <li>Detecting security incidents, protecting against malicious, deceptive, fraudulent or illegal activity, and
+                                        prosecuting those responsible for that activity;</li>
+                                    <li>Measuring interest and engagement in our Services;</li>
+                                    <li>Improving, upgrading, or enhancing our Services;</li>
+                                    <li>Carrying out analytics;</li>
+                                    <li>Developing new products and services;</li>
+                                    <li>Creating de-identified and/or aggregated information;</li>
+                                    <li>Ensuring internal quality control and safety;</li>
+                                    <li>Authenticating and verifying individual identities, including requests to exercise your rights under this
+                                        Privacy Notice;
+                                    </li>
+                                    <li>Authenticating and verifying individual identities, including requests to exercise your rights under this
+                                        Privacy Notice;</li>
+                                    <li>Debugging to identify and repair errors with our Services;</li>
+                                    <li>Auditing relating to interactions, transactions, and other compliance activities;</li>
+                                    <li>Sharing personal information with third parties as needed to provide the Services;</li>
+                                    <li>Enforcing our agreements and policies; and</li>
+                                    <li>Carrying out activities that are required to comply with our legal obligations.</li>   
+                                </ul>
+                            </li>
+                            <li>
+                                <b>C. Marketing our Services</b>
+                                <p>
+                                    We may use personal information to provide you with marketing about our Services. We may provide you with
+                                    these materials as permitted by applicable law.
+                                </p>
+                                <p>
+                                    If you have any questions about our marketing practices, you may contact us at any time as set forth in <a href="#toc13">"Contact
+                                    Us"</a> below. 
+                                </p>
+                            </li>
+                            <li>
+                                <b>With Your Consent</b>
+                                <p>
+                                    We may use personal information for other purposes that are clearly disclosed to you at the time you provide
+                                    personal information or with your consent.
+                                </p>    
+                            </li>
+                            <li>
+                                <b>Other Purposes</b>
+                                <p>
+                                    We also use your personal information for other purposes as requested by you or as permitted by applicable law.
+                                </p>    
+                            </li>
+                        </ol>
+                </li>
+                <li id="toc5">
+                    <h6>5. HOW WE DISCLOSE YOUR PERSONAL INFORMATION</h6>
+                    <p>
+                        We disclose your personal information to third parties for a variety of business purposes, including to provide our
+                        Services, to protect us or others, or in the event of a major business transaction such as a merger, sale, or asset
+                        transfer, as described below.
+                    </p>
+                    <ol>
+                        <li>
+                            <b>A. Disclosures to Provide our Services</b>
+                            <p>The categories of third parties with whom we may share your personal information are described below.</p>
+                            <ul>
+                                <li>
+                                    <b> Other Users and Third Parties You Share or Interact With.</b> The Services may allow you to share personal
+                                    information or interact with other users and third parties (including individuals and third parties who do not
+                                    use our Services and the general public).
+                                </li>
+                                <li>
+                                    <b>Third-Party Services You Share or Interact With.</b> The Services may allow you to share information or interact
+                                    with third-party services (each a “Third-Party Service”). For example, Third-Party Services include Supported
+                                    Apps and Supported Networks you share and interact with.
+                                    <br><br>
+                                    To enable you to create accounts with, and login into, the Supported Apps you select, the Services will share your
+                                    information with such Supported Apps.  We will not share your information with Supported Apps (i) without your
+                                    consent or (ii) that you have not elected to create or maintain an account with
+                                    <br><br>
+                                    If you share information or interact with a Third-Party Service, the information collected by the Third-Party
+                                    Service will also be subject to the Third-Party Service's privacy policy.
+                                </li>
+                                <li>
+                                    <b>Service Providers. </b> We may share your personal information with our third-party service providers and vendors
+                                    that assist us with the provision of our Services. This includes service providers and vendors that provide us
+                                    with IT support, hosting, payment processing, customer service, and related services.
+                                </li>
+                                <li>
+                                    <b>Affiliates.</b> We may share your personal information with our corporate affiliates.
+                                </li>    
+                            </ul>
+                        </li>
+                        <li>
+                            <b>B. Disclosures to Protect Us or Others</b>
+                            <p>
+                                We may access, preserve, and disclose any information we store associated with you to external parties if we, in
+                                good faith, believe doing so is required or appropriate to: comply with law enforcement or national security
+                                requests and legal process, such as a court order or subpoena; protect your, our, or others' rights, property, or
+                                safety; enforce our policies or contracts; collect amounts owed to us; or assist with an investigation or prosecution
+                                of suspected or actual illegal activity.
+                            </p>
+                        </li>
+                        <li>
+                            <b>C. Disclosure in the Event of Merger, Sale, or Other Asset Transfers</b>
+                            <p>
+                                If we are involved in a merger, acquisition, financing, reorganization, bankruptcy, receivership, purchase or sale of
+                                assets, transition of service to another provider, or other similar corporate transaction, your personal information
+                                may be disclosed, sold, or transferred as part of such a transaction.
+                            </p>
+                        </li>
+                        <li>
+                            <b>D. Disclosure Regarding Phone Numbers We Collect</b>
+                            <p>
+                                Unless we enter into a corporate transaction as described in the section immediately above, no mobile information we
+                                collect (phone numbers, text messaging originator opt-in data, and consent) will be sold or shared with
+                                third parties for their promotional or marketing purposes.
+                            </p>
+                        </li>
+                    </ol>
+                </li>
+                <li id="toc6">
+                    <h6>6. YOUR PRIVACY CHOICES AND RIGHTS</h6>
+                    <p>
+                        <b>Your Privacy Choices.</b> The privacy choices you may have about your personal information are determined by
+                        applicable law and are described below.
+                    </p>
+                    <ol>
+                        <li>
+                            <ul class="closer">
+                                <li>
+                                    <b>Email Communications.</b> If you receive an unwanted email from us, you can use the unsubscribe link found
+                                    at the bottom of the email to opt out of receiving future emails. Note that you will continue to receive
+                                    transaction-related emails regarding products or Services you have requested. We may also send you
+                                    certain non-promotional communications regarding us and our Services, and you will not be able to opt
+                                    out of those communications (e.g., communications regarding our Services or updates to this Privacy
+                                    Notice).
+                                </li>
+                                <li>
+                                    <b>Mobile Devices.</b> We may send you push notifications through our mobile application. You may opt out
+                                    from receiving these push notifications by changing the settings on your mobile device. With your
+                                    consent, we may also collect precise location-based information via our mobile application. You may opt
+                                    out of this collection by changing the settings on your mobile device.
+                                </li>
+                                <li>
+                                    <b>“Do Not Track.</b> Do Not Track <b>(“DNT”)</b> is a privacy preference that users can set in certain web browsers.
+                                    Please note that we do not respond to or honor DNT signals or similar mechanisms transmitted by web
+                                    browsers.
+                                </li>
+                                <li>
+                                    <b>Cookies. </b> You may stop or restrict the placement of Technologies on your device or remove them by
+                                    adjusting your preferences as your browser or device permits. However, if you adjust your preferences,
+                                    our Services may not work properly. Please note that cookie-based opt-outs are not effective on mobile
+                                    applications.
+                                    <br><br>
+                                    Please note you must separately opt out in each browser and on each device.
+                                </li>
+                            </ul>
+                        </li>
+                        
+                    </ol>
+                    <p>
+                        <b>Your Privacy Rights.</b> In accordance with applicable law, you may have the right to:
+                    </p>
+                    <ol>
+                        <li>
+                            <ul class="closer">
+                                <li>
+                                    <b>Request Access to and Portability of Your Personal Information,</b> including: (i) obtaining access to or a
+                                    copy of your personal information; and (ii) receiving an electronic copy of personal information that you
+                                    have provided to us, or asking us to send that information to another company in a structured, commonly
+                                    used, and machine-readable format (also known as the “right of data portability”);
+                                </li>
+                                <li>
+                                    <b>Request Correction</b> of your personal information where it is inaccurate or incomplete. In some cases, we
+                                    may provide self-service tools that enable you to update your personal information;
+                                </li>
+                                <li>
+                                    <b>Request Deletion</b> of your personal information;
+                                </li>
+                                <li>
+                                    <b>Request Restriction of or Object</b> to our processing of your personal information; and
+                                </li>
+                                <li>
+                                    <b>Withdraw your Consent</b> to our processing of your personal information. Please note that your withdrawal
+                                    will only take effect for future processing, and will not affect the lawfulness of processing before the
+                                    withdrawal.
+                                </li>
+                            </ul>
+                        </li>
+                    </ol>
+                    <p>
+                        If you would like to exercise any of these rights, please contact us as set forth in <a href="#toc13">"Contact Us"</a> below. We will
+                        process such requests in accordance with applicable laws.
+                    </p>    
+                    </p>    
+                        If your personal information is subject to the applicable data protection laws of the European Economic Area,
+                        Switzerland, or the United Kingdom, you have the right to lodge a complaint with the competent supervisory
+                        authority if you believe our processing of your personal information violates applicable law.
+                    </p>
+                    <ol>
+                        <li>
+                            <ul class="subList closer">
+                                <li>
+                                    <a target="_blank" href="https://edpb.europa.eu/about-edpb/about-edpb/members_en">EEA Data Protection Authorities (DPAs)</a>
+                                </li>
+                                <li>
+                                    <a target="_blank" href="https://www.edoeb.admin.ch/edoeb/en/home/deredoeb/kontakt.html">Swiss Federal Data Protection and Information Commissioner (FDPIC)</a>
+                                </li>
+                                <li>
+                                    <a target="_blank" href="https://ico.org.uk/global/contact-us/">UK Information Commissioner's Office (ICO)</a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ol>
+                </li>
+                <li id="toc7">
+                    <h6>7. INTERNATIONAL TRANSFERS OF PERSONAL INFORMATION</h6>
+                    <p>
+                        All personal information processed by us may be transferred, processed, and stored anywhere in the world,
+                        including, but not limited to, the United States or other countries, which may have data protection laws that are
+                        different from the laws where you live. We endeavor to safeguard your personal information consistent with the
+                        requirements of applicable laws.
+                    </p>
+                    <p>
+                        If we transfer personal information which originates in the European Economic Area, Switzerland, and/or the
+                        United Kingdom to a country that has not been found to provide an adequate level of protection under applicable
+                        data protection laws, one of the safeguards we may use to support such transfer is the 
+                        <a href="https://commission.europa.eu/publications/standard-contractual-clauses-international-transfers_en" target="_blank"></a>EU Standard Contractual Clauses</a>.
+                    </p>
+                    <p>
+                        For more information about the safeguards we use for international transfers of your personal information, please
+                        contact us as set forth below.
+                    </p>
+                </li>
+                <li id="toc8">
+                    <h6>8. RETENTION OF PERSONAL INFORMATION</h6>
+                    <p>
+                        We store the personal information we collect as described in this Privacy Notice for as long as you use our Services,
+                        or as necessary to fulfill the purpose(s) for which it was collected, provide our Services, resolve disputes, establish
+                        legal defenses, conduct audits, pursue legitimate business purposes, enforce our agreements, and comply with
+                        applicable laws.
+                    </p>
+                    <p>
+                        To determine the appropriate retention period for personal information, we may consider applicable legal
+                        requirements, the amount, nature, and sensitivity of the personal information, certain risk factors, the purposes
+                        for which we process your personal information, and whether we can achieve those purposes through other
+                        means.
+                    </p>
+                </li>
+                <li id="toc9">
+                    <h6>9. SUPPLEMENTAL NOTICE FOR EU/UK GDPR</h6>
+                    <p>
+                        This Supplemental Notice for EU/UK GDPR only applies to our processing of personal information that is subject to
+                        the EU or UK GDPR.
+                    </p>
+                    <p>    
+                        Project Liberty's processing of your personal information may be supported by one or more of the following legal bases:  
+                    </p>
+                    <ol>
+                        <li>
+                            <ul class="closer">
+                                <li>
+                                    <b>Performance of a Contract:</b> Project Liberty may need to process your personal information to perform our
+                                    contract with you.
+                                </li>
+                                <li>
+                                    <b>Legitimate Interest:</b> Project Liberty may process your personal information to further its legitimate interests, but
+                                    only where our interests are not overridden by your interests or fundamental rights and freedoms.
+                                </li>
+                                <li>
+                                    <b>Consent:</b> In some cases, Project Liberty may also rely on your consent to process your personal information.
+                                </li>
+                                <li>
+                                    <b>Compliance with our Legal Obligations:</b> Project Liberty may process your personal information to comply with
+                                    our legal obligations.
+                                </li>
+                            </ul>
+                        </li>
+                    </ol>
+                </li>
+                <li id="toc10">
+                    <h6>10. SUPPLEMENTAL NOTICE FOR NEVADA RESIDENTS</h6>
+                    <p>
+                        We do not currently sell your personal information as sales are defined in Nevada Revised Statutes Chapter 603A.
+                        If you have any questions, please contact us as set forth in <a href="#toc13">"Contact Us"</a> below.
+                    </p>
+                </li>
+                <li id="toc11">
+                    <h6>11. CHILDREN'S INFORMATION</h6>
+                    <p>
+                        The Services are not directed to children under 13 (or other age as required by local law outside the United States),
+                        and we do not knowingly collect personal information from children.
+                    </p>
+                    <p> 
+                        If you are a parent or guardian and believe your child has uploaded personal information to our site without your
+                        consent, you may contact us as described in <a href="#toc13">"Contact Us"</a> below. If we become aware that a child has provided us
+                        with personal information in violation of applicable law, we will delete any personal information we have
+                        collected, unless we have a legal obligation to keep it, and terminate the child's account, if applicable.
+                    </p>
+                </li>
+                <li id="toc12">
+                    <h6>12. THIRD-PARTY WEBSITES/APPLICATIONS</h6>
+                    <p>
+                        The Services may contain links to other websites/applications, including Supported Apps, and other
+                        websites/applications may reference or link to our Services. These third-party services are not controlled by us. We
+                        encourage our users to read the privacy policies of each website and application with which they interact. We do
+                        not endorse, screen, or approve, and are not responsible for, the privacy practices or content of such other
+                        websites or applications. Providing personal information to third-party websites or applications is at your own risk. 
+                    </p>
+                </li>
+                <li id="toc13">
+                    <h6>13. CONTACT US</h6>
+                    <p>
+                        Project Liberty is the controller of the personal information we process under this Privacy Notice.
+                    </p>
+                    <p>
+                        If you have any questions about our privacy practices or this Privacy Notice, or to exercise your rights as detailed in
+                        this Privacy Notice, please contact us at: <a href="mailto:privacy@frequencyaccess.com">privacy@frequencyaccess.com</a>.
+                    </p>
+                </li>
+            </ul>
+        </div>
+    </section>
+    <div th:replace="~{website/components/websiteFooter :: websiteFooter}"></div>
+    <script>
+        var items = document.getElementsByClassName("faq_question");
+
+         for (i = 0; i < items.length; i++) {
+         items[i].addEventListener("click", function() {
+             // If the current element is already expanded, collapse it and do nothing else (return)
+             if (this.classList.contains("expanded")) {
+             this.classList.remove("expanded");
+             return;
+             }
+
+             // Is there an expanded element?
+             let expandedItem = document.getElementsByClassName("expanded")[0] || null;
+             // If so, collapse it
+             if (expandedItem) {
+             expandedItem.classList.remove("expanded");
+             }
+
+             // Expand the current element
+             this.classList.add("expanded");
+         });
+         }
+     </script>
+       <!--  Scripts-->
+    <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script th:src="@{~/js/materialize.js}"></script>
+    <script th:src="@{~/js/init.js}"></script>
+    </body>
+</html>

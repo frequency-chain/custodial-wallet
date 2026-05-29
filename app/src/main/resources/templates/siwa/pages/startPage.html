@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<main class="siwa-start" th:fragment="startPage"
+      th:with="hasEmailError=${helper.hasError('INVALID_EMAIL', props.error)},
+      hasSmsError=${helper.hasError('NOT_A_PHONE_NUMBER', props.error)} or ${helper.hasError('PHONE_NUMBER_TOO_LONG', props.error)} or ${helper.hasError('PHONE_NUMBER_TOO_SHORT_AFTER_IDD', props.error)} or ${helper.hasError('PHONE_NUMBER_TOO_SHORT_NSN', props.error)},
+      hasBlockedPhoneNumberError=${helper.hasError('BLOCKED_PHONE_NUMBER', props.error)}">
+
+    <div class="provider-breadcrumb">
+        <!-- TODO(#1574): Add `img` here -->
+        <p data-th-text="#{siwa.start.provider.breadcrumb(${props.providerName})}"/>
+    </div>
+
+    <div class="start-forms padding-bottom-16">
+        <form th:attr="hidden=${hasSmsError}" id="email-start-form" class="start-form" method="post" action="/siwa/verify">
+            <div class="start-form-input">
+                <label for="email-address" class="start-form-input-label small-text bold required" data-th-text="#{siwa.start.email}"></label>
+                <input id="email-address" name="value" th:placeholder="#{siwa.start.email-placeholder}" th:value="${props.prefilledEmail}"
+                       class="start-form-input-field full-width required" th:classappend="${hasEmailError} ? 'invalid' : ''"
+                       data-testid="email-identifier-input" type="text" inputmode="email" autocapitalize="off">
+                <span class="small-text bold frequency-text text-red" data-testid="invalid-email-error" th:if="${hasEmailError}" data-th-text="#{siwa.error.invalid-email}"></span>
+                <span class="small-text bold frequency-text text-red" data-testid="blocked-phone-number-error" th:if="${hasBlockedPhoneNumberError && !hasEmailError}" data-th-text="#{siwa.error.blocked-phone-number}"></span>
+                <input hidden id="email-identifier-type" name="type" type="text" value="EMAIL">
+                <div class="switch-form" th:attr="hidden=!${props.phoneNumberEnabled}">
+                    <p class="toggleForm right-align small-text-nm" onclick="toggleStartForm('#sms-start-form')" data-testid="switch-button"
+                       data-th-text="#{siwa.start.use-sms}"></p>
+                </div>
+            </div>
+            <div class="start-form-submit padding-top-32 padding-bottom-16">
+                <button th:if="${props.captchaEnabled}" id="email-submit-button" class="h-captcha start-form-submit-button btn waves-effect waves-light full-width"
+                        th:disabled="${props.prefilledEmail} == null" type="submit" data-testid="email-identifier-submit"
+                        data-th-text="#{siwa.start.submit-button}" th:data-sitekey="${props.siteKey}" th:data-callback="captchaSubmitEmail"></button>
+                <button th:unless="${props.captchaEnabled}" id="email-submit-button" class="start-form-submit-button btn waves-effect waves-light full-width"
+                        th:disabled="${props.prefilledEmail} == null" type="submit" data-testid="email-identifier-submit"
+                        data-th-text="#{siwa.start.submit-button}"></button>
+            </div>
+            <div class="start-form-disclaimer">
+                <div class="provider-disclaimer inline-text tiny-text center-align padding-bottom-16">
+                    <p data-th-text="#{siwa.start.disclaimer.provider.email}"></p>
+                    <p data-th-text="${props.providerName}"></p>
+                </div>
+                <div th:replace="~{siwa/components/siwaAgreeDisclaimer :: siwaAgreeDisclaimer(isSms='false')}"></div>
+            </div>
+        </form>
+        <form th:hidden="${!props.phoneNumberEnabled || !hasSmsError}" id="sms-start-form" class="start-form" method="post" action="/siwa/verify">
+            <div class="start-form-input">
+                <div class="country-code-input">
+                    <label for="phoneForm" class="small-text bold required" data-th-text="#{siwa.start.sms}"></label>
+                    <div th:replace="~{components/phoneForm :: phoneForm(isValid=!${hasSmsError})}"></div>
+                    <span class="small-text bold frequency-text text-red" th:if="${hasSmsError}" data-th-text="#{siwa.error.invalid-phone-number}"></span>
+                </div>
+                <div class="hidden-fields">
+                    <input hidden id="sms-identifier" name="value" data-testid="sms-identifier-input" type="text">
+                    <input hidden id="sms-identifier-type" name="type" type="text" value="PHONE_NUMBER">
+                </div>
+                <div class="switch-form">
+                    <p class="toggleForm right-align small-text-nm" onclick="toggleStartForm('#email-start-form')" data-test-id="switch-button"
+                       data-th-text="#{siwa.start.use-email}"></p>
+                </div>
+            </div>
+            <div class="start-form-submit padding-top-32 padding-bottom-16">
+                <button th:if="${props.captchaEnabled}" id="sms-submit-button" class="h-captcha start-form-submit-button btn waves-effect waves-light full-width"
+                        th:disabled="${props.prefilledPhoneNumber} == null" type="submit" data-testid="sms-identifier-submit"
+                        data-th-text="#{siwa.start.submit-button}" th:data-sitekey="${props.siteKey}" th:data-callback="captchaSubmitSms"></button>
+                <button th:unless="${props.captchaEnabled}" id="sms-submit-button" class="start-form-submit-button btn waves-effect waves-light full-width"
+                        th:disabled="${props.prefilledPhoneNumber} == null" type="submit" data-testid="sms-identifier-submit"
+                        data-th-text="#{siwa.start.submit-button}"></button>
+            </div>
+            <div class="start-form-disclaimer">
+                <div class="provider-disclaimer inline-text tiny-text center-align padding-bottom-16">
+                    <p data-th-text="#{siwa.start.disclaimer.provider.sms}"></p>
+                    <p th:if="${props.providerName != null}" data-th-text="${props.providerName}"></p>
+                    <p th:unless="${props.providerName != null}" data-th-text="#{siwa.start.disclaimer.provider.generic}"></p>
+                </div>
+                <div th:replace="~{siwa/components/siwaAgreeDisclaimer :: siwaAgreeDisclaimer(isSms='true')}"></div>
+            </div>
+        </form>
+    </div>
+    <th:block
+        th:if="${helper.errorExists(props.error) && !hasEmailError && !hasSmsError && !hasBlockedPhoneNumberError}"
+        th:with="titleErrorCode='siwa.error.modal.title.__${helper.getErrorMessageCode(props.error)}__',
+            descErrorCode='siwa.error.modal.desc.__${helper.getErrorMessageCode(props.error)}__',
+            title=#{${titleErrorCode}},
+            description=#{${descErrorCode}}"
+    >
+        <script>
+            $(() => {
+                // Open the error modal automatically when an error is present
+                const title = "[[${title}]]"
+                const desc = "[[${description}]]"
+                displayErrorModal(title, desc)
+            })
+        </script>
+        <th:block th:replace="~{siwa/components/siwaErrorModal :: siwaErrorModal}"></th:block>
+    </th:block>
+</main>
+</body>
+</html>

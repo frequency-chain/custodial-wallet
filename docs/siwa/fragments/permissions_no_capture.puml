@@ -1,0 +1,7 @@
+@startuml
+start
+:Display Permissions Acceptance Screen;
+:Display Selection of Data to be sent to Provider;
+:Redirect to Provider callbackUrl with authorizationCode\n that will resolve the addPermissionsPayload;
+end
+@enduml

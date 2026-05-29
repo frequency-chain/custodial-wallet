@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Email Input Modal Component</title>
+</head>
+<body>
+<div id="login-email" class="loginForm multi-modal" th:fragment="emailFormModal">
+    <div class="modal-header" th:switch="${modalUseType}">
+        <h4 class="center-align" th:case="'LOGIN'" data-th-text="#{email-input.existing-email}"></h4>
+        <h4 class="modal-title center-align" th:case="'ADD'" data-th-text="#{email-input.new-email}"></h4>
+    </div>
+    <div class="modal-body">
+        <form id="login-email-form" class="col s12">
+            <div class="row">
+                <div class="col s12">
+                    <label for="email" class="bold" data-th-text="#{email-input.email}"></label>
+                    <label class="asterisk material-icons small-text-nm">emergency</label>
+                    <input id="email" data-testid="email-input" type="text" class="validate input-field-modal">
+                </div>
+                <div>
+                    <p th:if="${passwordEnabled && modalUseType=='LOGIN'}" class="toggleForm left" onclick="toggleMultiModal('#login-password')" data-testid="email-switch-button-password" data-th-text="#{password-input.use-password}"></p>
+                    <p class="toggleForm right small-text-nm" onclick="toggleMultiModal('#login-phone')" data-testid="switch-button" data-th-text="#{email-input.use-phone}"></p>
+                </div>
+                <div class="col s12 margin-top-16" th:switch="${modalUseType}">
+                  <th:block th:if="${captchaEnabled}">
+                    <button th:case="'LOGIN'" th:id="email-submit" data-testid="email-submit"
+                            class="h-captcha btn waves-effect waves-light col s12" type="submit" name="action"
+                            data-th-text="#{email-input.login}" th:data-sitekey="${siteKey}" th:data-callback="websiteEmailCaptchaCallback"></button>
+                    <button th:case="'ADD'" th:id="email-submit" data-testid="email-submit"
+                            class="h-captcha btn waves-effect waves-light col s12" type="submit" name="action"
+                            data-th-text="#{email-input.add-contact}" th:data-sitekey="${siteKey}" th:data-callback="websiteEmailCaptchaCallback"></button>
+                  </th:block>
+                  <th:block th:unless="${captchaEnabled}">
+                    <button th:case="'LOGIN'" th:id="email-submit" data-testid="email-submit"
+                            class="btn waves-effect waves-light col s12" type="submit" name="action"
+                            data-th-text="#{email-input.login}"></button>
+                    <button th:case="'ADD'" th:id="email-submit" data-testid="email-submit"
+                            class="btn waves-effect waves-light col s12" type="submit" name="action"
+                            data-th-text="#{email-input.add-contact}"></button>
+                  </th:block>
+
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+</html>

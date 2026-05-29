@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Batch Needed Permissions</title>
+</head>
+<body>
+<div class="batchPermissions" th:fragment="batchPermissions">
+    <main>
+        <div class="batchPermissions-instructions" data-testId="batchPermissions-instructions">
+            <h3>Permissions Needed</h3>
+            <p>Please review all permissions required for signing the payload.</p>
+        </div>
+        <div class="batchPermissions-permissions" th:each="component, index : ${componentList}">
+            <div th:id="'component' + ${index}" th:replace="~{'oauth/permissions/' + ${component} :: ${component}}"></div>
+        </div>
+        <div class="batchPermissions-accept">
+            <form id="batchPermissions-form" name="batchPermissions-form" method="POST" action="/web/sign/accept">
+                <button id="batchPermissions-submit" type="submit" name="action" data-testid="batchPermissions-submit" data-th-text="#{button.submit}"></button>
+            </form>
+        </div>
+    </main>
+</div>
+</body>
+</html>

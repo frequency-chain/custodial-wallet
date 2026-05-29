@@ -1,0 +1,25 @@
+// Remove Focus Boxes
+form {
+  select:focus {
+    outline: $select-focus;
+  }
+
+  button:focus {
+    outline: none;
+    background-color: $button-background-focus;
+  }
+
+  label {
+    font-size: $label-font-size;
+    margin-bottom: 4px;
+    color: rgba(0, 0, 0, 1); /*$input-border-color*/
+  }
+}
+
+@import 'input-fields';
+@import 'radio-buttons';
+@import 'checkboxes';
+@import 'switches';
+@import 'select';
+@import 'file-input';
+@import 'range';

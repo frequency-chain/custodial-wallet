@@ -1,0 +1,137 @@
+@startuml
+start
+:Provider sends user who would like to SiWA request(publicKey,callbackUrl,permissions,nonce,signature);
+note left
+    Lots of conditionals but as far as "screens" are concerned
+    these are the unique ones
+    1. User Enters in Email or SMS
+    2. Display Email Sent Page
+    3. Display SMS Form
+    4. Display List of Keys with Provider Delegations w/New Key Option
+    5. Display Selection of Data to be sent to Provider
+    6. Display Permissions Acceptance Screen
+    7. Display Permissions Acceptance Screen and Capture Data
+       which is really just a permutation of #6
+
+    This is just how I've mapped them for this document,
+    not dictating it be this way, merged or split apart up to design
+end note
+:User Enters in Email or SMS;
+if(Exists in FA?) then(Yes)
+    if(isEmail) then(Yes)
+        :Send Email;
+        :Display Email Sent Page;
+        :User Clicks Email Link;
+    elseif(isSms) then(Yes)
+        :Send Sms;
+        :Display SMS Form;
+        :User Submits SMS Form;
+    endif
+    :Display List of Keys with Provider Delegations w/New Key Option;
+    note
+        There is a lot going on here
+        1. Choose the Existing Key to login with
+        2. Changing Permissions for this Provider on Existing Key
+           May just be passive with #1?
+        3. Add this Provider to Existing Key, potential migration
+        4. Add this Provider to a New Key, potential migration
+        - Migrations aren't really up to the User so those aren't
+        "states".
+        - Same with changing permissions, I think it's
+        just a path for "login" state.
+        - New Key is an overt interaction
+        - Adding to an existing key is an overt interaction
+    end note
+    if(useExistingKey) then(Yes)
+        note
+        Login or Mutate Existing Key
+        end note
+        if(Has All Permissions For Provider) then(True, Is A Login)
+            :Display Selection of Data to be sent to Provider;
+            :Redirect to Provider callbackUrl with authorizationCode\n that will resolve the loginPayload;
+        else(False)
+        if(Has Some Permissions) then(True, Update Permissions)
+
+        else(False, migrationOrAddPermissions)
+            if(migrationCheckHasNoOtherIdentifiersOrNone) then(True, Add Permissions)
+
+            else(False, Delta Migration case)
+                :Choose identifier to verify;
+                if(isEmail) then(Yes)
+                    :Send Email;
+                    :Display Email Sent Page;
+                    :User Clicks Email Link;
+                elseif(isSms) then(Yes)
+                    :Send Sms;
+                    :Display SMS Form;
+                    :User Submits SMS Form;
+                endif
+            :Add Delta Identifiers to FA Account;
+            endif
+        endif
+        :Display Permissions Acceptance Screen;
+        :Display Selection of Data to be sent to Provider;
+        :Redirect to Provider callbackUrl with authorizationCode\n that will resolve the addPermissionsPayload;
+        endif
+    else(No, New Key)
+        note right
+            Existing FA Account, New Key
+        end note
+        if(migrationCheckHasNoOtherIdentifiersOrNone) then(True, New User)
+            :Add Single Identifier to existing FA Account;
+        else(Delta Migration)
+            :Choose identifier to verify;
+            if(isEmail) then(Yes)
+                :Send Email;
+                :Display Email Sent Page;
+                :User Clicks Email Link;
+            elseif(isSms) then(Yes)
+                :Send Sms;
+                :Display SMS Form;
+                :User Submits SMS Form;
+            endif
+            :Add Delta Identifiers to FA Account;
+        endif
+        :Display Permissions Acceptance Screen and Capture Data;
+        :Display Selection of Data to be sent to Provider;
+        :Redirect to Provider callbackUrl with authorizationCode\n that will resolve the createSponsoredAccountPayload;
+    endif
+stop
+else(Doesn't Exist, migrationOrNewUser)
+    if(migrationCheckHasNoOtherIdentifiersOrNone) then(True, New User)
+        note left
+            New FA Account, New Key
+        end note
+        if(isEmail) then(Yes)
+            :Send Email;
+            :Display Email Sent Page;
+            :User Clicks Email Link;
+        elseif(isSms) then(Yes)
+            :Send Sms;
+            :Display SMS Form;
+            :User Submits SMS Form;
+        endif
+        :Add Single Identifier to new FA Account;
+    else(False)
+        if(Some of the Others exist in FA, Delta Migration) then(True, Delta Migration)
+            :Add Delta Identifiers to Existing FA Account;
+        else(None of the Other Identifiers Exist In Fa, New Migration)
+            :Add All Identifiers to New FA Account;
+        endif
+        :Choose identifier to verify;
+        if(isEmail) then(Yes)
+            :Send Email;
+            :Display Email Sent Page;
+            :User Clicks Email Link;
+        elseif(isSms) then(Yes)
+            :Send Sms;
+            :Display SMS Form;
+            :User Submits SMS Form;
+        endif
+    endif
+    :Display Permissions Acceptance Screen and Capture Data;
+    :Display Selection of Data to be sent to Provider;
+    :Redirect to Provider callbackUrl with authorizationCode\n that will resolve the createSponsoredAccountPayload;
+endif
+stop
+@enduml

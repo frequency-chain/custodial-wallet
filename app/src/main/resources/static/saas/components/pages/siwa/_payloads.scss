@@ -1,0 +1,7 @@
+.siwa-payloads {
+  .payloads-form {
+    .payloads div {
+      @include padding-bottom-8
+    }
+  }
+}

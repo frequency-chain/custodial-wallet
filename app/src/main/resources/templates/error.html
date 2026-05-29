@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+  <!-- BASIC -->
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
+  <title>Error</title>
+  <!-- CSS  -->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link th:href="@{~/css/materialize.css}" type="text/css" rel="stylesheet" media="screen,projection"/>
+  <!-- JS -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script th:src="@{~/js/materialize.js(BUILD_NUMBER=${BUILD_NUMBER})}"></script>
+  <script th:src="@{~/js/js.cookie.min.js(BUILD_NUMBER=${BUILD_NUMBER})}"></script>
+  <script th:src="@{~/js/common.js(BUILD_NUMBER=${BUILD_NUMBER})}"></script>
+  <script th:src="@{~/js/bundle/errorsBundle.js(BUILD_NUMBER=${BUILD_NUMBER})}"></script>
+  <script type="text/javascript">
+    const messages = parseMessages("[[${messagesJson}]]");
+    let lastErrorIdSeen = null;
+    $(document).ready(function () {
+        console.log("Error html was called")
+      const errorPayload = {
+        id: [[${errorCode}]],
+        description: "[[${errorMessage}]]",
+        stackTrace: "[[${escapedErrorStackTrace}]]"
+      };
+      dispatchPayload(errorPayload, PayloadType.ERROR, "errorCallbackHandler", "[[${targetOrigin}]]", false);
+
+      showErrorModal({
+        responseJSON: errorPayload
+      }, messages);
+
+      // function called when cancel button is pressed
+      $("#cancelButton").click(function () {
+          cancel(targetOrigin, lastErrorIdSeen)
+      });
+    });
+  </script>
+</head>
+<body>
+
+<p data-th-text="${errorMessage}"></p>
+<p data-th-text="${showStackTrace} ? ${errorStackTrace} : ''"></p>
+<div>
+  <div th:replace="~{components/errorModal :: errorModal(${targetOrigin})}"></div> <!-- Call with ID "errorModal" -->
+</div>
+</body>
+</html>

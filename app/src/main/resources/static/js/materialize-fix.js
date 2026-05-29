@@ -1,0 +1,57 @@
+(() => {
+    "use strict";
+
+    function e(e) {
+        const t = {debug: !1, selectOptions: !0, selectTriggers: !0, autocompletedInputLabels: !0, ...e};
+        var o;
+        t.selectOptions && (o = t.debug, setTimeout((() => {
+            let e = !1;
+            const t = !!function (e = !1) {
+                let t = !1;
+                try {
+                    const e = Object.defineProperty({}, "passive", {
+                        get: function () {
+                            t = !0
+                        }
+                    });
+                    window.addEventListener("testPassive", null, e), window.removeEventListener("testPassive", null, e)
+                } catch (e) {
+                }
+                if (e) {
+                    const e = `[Passive Events Support] "passive" option is ${t ? "" : "not "}supported by your browser.`;
+                    t ? console.info(e) : console.warn(e)
+                }
+                return t
+            }() && {passive: !0}, n = document.querySelectorAll(".select-wrapper ul.select-dropdown li");
+            n.length && o && console.info("[Materialize Helper] Fixed select options", {options: n});
+            for (const o of n) o.addEventListener("touchmove", (() => {
+                e = !0
+            }), t), o.addEventListener("touchstart", (() => {
+                e = !1
+            }), t), o.addEventListener("touchend", (t => {
+                e || t.stopPropagation()
+            }), t)
+        }), 0)), t.selectTriggers && function (e) {
+            setTimeout((() => {
+                const t = document.querySelectorAll("input.select-dropdown.dropdown-trigger");
+                for (const e of t) {
+                    const t = e.closest(".select-wrapper").querySelector("select"), o = t.options[t.selectedIndex];
+                    e.placeholder = o.text
+                }
+                t.length && e && console.info("[Materialize Helper] Fixed select triggers", {triggers: t})
+            }), 0)
+        }(t.debug), t.autocompletedInputLabels && function (e) {
+            document.addEventListener("onautocomplete", (function (t) {
+                const o = t.target, n = o.parentNode.querySelector(`label[for="${o.id}"]`);
+                o.hasAttribute("autocompleted") && n && (n.classList.add("active"), o.classList.add("valid"), e && console.info("[Materialize Helper] Fixed autocompleted input label", {
+                    input: o,
+                    label: n
+                }))
+            }))
+        }(t.debug)
+    }
+
+    document.addEventListener("DOMContentLoaded", (() => {
+        e(window.materializeHelper || {})
+    }))
+})();

@@ -1,0 +1,26 @@
+footer {
+    // Put our footer always on the bottom
+    margin-top: auto;
+    @media #{$large-and-up} {
+        padding-left: 120px;
+        padding-right: 120px;
+        @include padding-top-56;
+        @include padding-bottom-16;
+    }
+    @media #{$medium-and-down} {
+        @include padding-bottom-24;
+        padding-top: 20px;
+    }
+
+    div.footer-links {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        row-gap: 8px;
+        flex-wrap: wrap;
+        @media #{$large-and-up} {
+            justify-content: right;
+
+        }
+    }
+}

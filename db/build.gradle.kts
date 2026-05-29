@@ -1,0 +1,30 @@
+plugins {
+    id("io.spring.dependency-management")
+    kotlin("jvm")
+    kotlin("plugin.spring")
+    id("java-test-fixtures")
+    id("custodial-wallet.jvm-common")
+    id("custodial-wallet.jvm-default-quick-test")
+}
+
+dependencies {
+    implementation(project(":util"))
+    implementation(project(":clients"))
+    implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
+    implementation("org.springframework.boot:spring-boot-starter-data-r2dbc")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor")
+    implementation("org.flywaydb:flyway-core")
+    implementation("com.zaxxer:HikariCP")
+    implementation("com.google.guava:guava")
+    implementation("org.postgresql:postgresql")
+    implementation("org.postgresql:r2dbc-postgresql")
+    testRuntimeOnly("ch.qos.logback.contrib:logback-jackson")
+    testRuntimeOnly("ch.qos.logback.contrib:logback-json-classic")
+    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+    testImplementation("io.projectreactor:reactor-test")
+    testImplementation("org.testcontainers:junit-jupiter")
+    testImplementation("org.springframework.boot:spring-boot-starter-test")
+    testImplementation("org.testcontainers:postgresql")
+    implementation("net.logstash.logback:logstash-logback-encoder")
+    testFixturesImplementation("org.springframework.boot:spring-boot-starter-test")
+}

@@ -1,0 +1,41 @@
+sequenceDiagram
+  autonumber
+  participant ua as UserAgent
+  participant fa as FA.com
+  participant e as Coroutine
+  participant r as Redis
+  participant bc as Frequency
+  ua->>fa: POST /siwa/accept
+  fa->>r: save(ExtrinisicStatus.SUBMITTED)
+  r-->>fa: claimCheckId
+  fa-)e: submitExtrinsic()
+  e-)bc: submitExtrinsic()
+  bc--)e: CompletableFuture<Either<Exception, DelegationGranted>>
+  alt is success
+    e-)r: update(claimCheckId, ExtrinsicStatus.SUCCESS, payload)
+    r--)e: Coroutine Ends
+  else is failure
+    e-)r: update(claimCheckId, ExtrinsicStatus.FAILED, apiErrorCode ...I think not sure here)
+    r--)e: Coroutine Ends
+  end
+  fa-->>ua: 3xx Location: /siwa/status/callback/{claimCheckId}
+  ua->>fa: GET /siwa/status/callback/{claimCheckId}
+  fa->>ua: 200 statusPage
+  loop Poll for resolution
+    ua-)fa: GET /siwa/api/status/{payloadType}/{claimCheckId}
+    alt extrinsic not resolved
+      fa-)r: find{payloadType}(claimCheckId)
+      r--)fa: Tuple(ExtrinsicStatus.{SUBMITTED | IN_PROGRESS}, null)
+      fa-)ua: 204 No Content
+    else extrinsic resolved
+      fa-)r: find{payloadType}(claimCheckId)
+      r--)fa: Tuple(ExtrinsicStatus.SUCCESS, payload)
+      fa--)ua: 200 OK payload
+    else extrinsic failed
+      fa-)r: find{payloadfType}(claimCheckId)
+      r--)fa: Tuple(ExtrinsicStatus.FAILED, apiErrorCode ...I think not sure here)
+      fa-)fa: throws ApiException(ApiError)
+      fa--)ua: 4xx or 5xx ApiError
+      ua->>ua: Update Dom with Error treatment
+    end
+  end

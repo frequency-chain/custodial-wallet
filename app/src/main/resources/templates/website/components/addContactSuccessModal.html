@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<body>
+<div id="addContactSuccessModal" class="modal" data-testid="add-contact-modal-success" th:fragment="addContactSuccessModal" >
+  <div class="modal-content center-align">
+    <h4 class="center-align" id="success-title" data-th-text="#{add-contact-success.title}"></h4>
+    <img class="success-logo margin-16" th:src="@{~/img/checkmark_v2.svg}" alt="Checkmark">
+    <p class="center-align big-text" id="success-message" data-th-text="#{add-contact-success.message}"></p>
+    <p th:if="${verificationCallbackUrl}" id="success-callbackUrl">Provider url: <a th:href="${verificationCallbackUrl}" data-th-text="${verificationCallbackUrl}">providerURL</a></p>
+  </div>
+  <a href="#!" data-testid="add-contact-modal-success-close-button" class="modal-close corner-close"><i class="material-icons small">close</i></a>
+</div>
+</body>
+</html>

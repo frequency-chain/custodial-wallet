@@ -1,0 +1,1 @@
+CREATE INDEX CONCURRENTLY user_account_id_key_usage_type ON custodial_wallet.user_key_data(user_account_id, key_usage_type);

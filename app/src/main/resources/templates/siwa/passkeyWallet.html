@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Passkey Wallet</title>
+  <th:block th:insert="~{siwa/components/siwaScripts :: siwaScripts}"></th:block>
+  <th:block th:insert="~{siwa/components/siwaDesktopSplash :: siwaDesktopSplashScript}"></th:block>
+  <th:block th:insert="~{siwa/components/siwaHeader :: siwaHeaderScript}"></th:block>
+  <th:block th:insert="~{siwa/components/iframeModal :: iframeModalScript}"></th:block>
+  <script src="/js/bundle/registrationBundle.js"></script>
+  <script src="/js/bundle/errorsBundle.js"></script>
+
+  <script>
+    const passkeyUsername = "[[${props.username}]]"
+    const finishPageSplash = "[[#{wallet.passkey.finished.desktop-splash}]]"
+    const finishPageHeader = "[[#{wallet.passkey.finished.header}]]"
+    const createPageSplash = "[[#{wallet.passkey.create.desktop-splash}]]"
+    const createPageHeader = "[[#{wallet.passkey.create.header}]]"
+    const existingAccountPublicKeyHex = "[[${props.accountPublicKeyHex}]]"
+
+    function displayConfirmPage(splashText, headerText) {
+      matomoHelper.trackPageEvent("walletPhrase", "view phrase")
+      changeSplashText(splashText)
+      changeHeaderTitleText(headerText)
+      openIframeModal()
+      $("#wallet-confirm-page").show()
+      $("#wallet-phrase-page").hide()
+    }
+
+    function displayPasskeyCreate(splashText, headerText) {
+      matomoHelper.trackPageEvent("walletConfirm", "phrase backed up")
+      changeSplashText(splashText)
+      changeHeaderTitleText(headerText)
+      $("#passkey-create-page").show()
+      $("#wallet-confirm-page").hide()
+    }
+
+    function recoveryPhraseEntered() {
+      $("#wallet-recovery-error").hide() //This is here for the re-submit case to cause it to momentarily disappear
+      matomoHelper.trackPageEvent("walletRecovery", "recovery seed entered")
+      PASSKEY_WALLET.startRecoveryFlow(existingAccountPublicKeyHex, errorHandler)
+    }
+
+    function displayPasskeyCreateFromRecoveryFlow(publicKeyMatch, splashText, headerText) {
+      if(publicKeyMatch) {
+        changeSplashText(splashText)
+        changeHeaderTitleText(headerText)
+        $("#passkey-create-page").show()
+        $("#wallet-recovery-page").hide()
+      } else {
+        $("#wallet-recovery-error").show()
+      }
+    }
+
+    function passkeyConfirm() {
+      matomoHelper.trackPageEvent("passkeyCreate", "create passkey")
+      PASSKEY_WALLET.startPasskeyRegistrationFlow(passkeyUsername, errorHandler)
+    }
+
+    function displayPasskeyFinishedPage(splashText, headerText) {
+      matomoHelper.trackPageEvent("passkeyCreate", "passkey created")
+      changeSplashText(splashText)
+      changeHeaderTitleText(headerText)
+      closeIframeModal()
+      $("#passkey-finished-page").show()
+      $("#passkey-create-page").hide()
+    }
+
+    function displayError(error) {
+      const [title, description] = ERRORS.getRuntimeErrorMessages(error, errorMessages)
+
+      closeIframeModal()
+      displayErrorModal(title, description)
+    }
+
+    const errorHandler = ERRORS.aggregate([
+      displayError,
+      ERRORS.SENTRY_ERROR_HANDLER,
+      ERRORS.LOGGING_ERROR_HANDLER("SIWA"),
+    ])
+
+    $(async function () {
+      const serverAddress = `${$(location).attr('protocol')}//${$(location).attr('host')}`
+      PASSKEY_WALLET.iframeMessageListener(
+        serverAddress,
+        (publicKeyMatch) => displayPasskeyCreateFromRecoveryFlow(publicKeyMatch, createPageSplash, createPageHeader),
+        () => displayPasskeyFinishedPage(finishPageSplash, finishPageHeader),
+        errorHandler
+      )
+
+      const passkeyFinishedRedirect = $("#passkey-finished-submit")
+
+      passkeyFinishedRedirect.on("click", () => {
+        matomoHelper.trackPageEvent("passkeyFinished", "finished passkey wallet")
+      });
+    })
+  </script>
+</head>
+
+<body th:with="template='passkeyWallet',splashText=#{wallet.passkey.phrase.desktop-splash}">
+  <div th:replace="~{siwa/components/siwaPageOutline :: siwaPageOutline}"></div>
+</body>
+
+</html>

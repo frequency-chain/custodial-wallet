@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Siwa Header</title>
+</head>
+<body>
+<div class="agree-disclaimer inline-text tiny-text center-align padding-horizontal-56" th:fragment="siwaAgreeDisclaimer(isSms)">
+    <p th:if="${isSms}" data-th-text="#{siwa.start.disclaimer.agree.sms}"></p>
+    <p data-th-text="#{siwa.start.disclaimer.agree.text1}"></p>
+    <a href="/privacy.html" data-th-text="#{siwa.footer.privacy-policy}"></a>
+    <p data-th-text="#{siwa.start.disclaimer.agree.text2}"></p>
+    <a href="/terms.html"  data-th-text="#{siwa.footer.terms-of-service}"></a>
+</div>
+</body>
+</html>

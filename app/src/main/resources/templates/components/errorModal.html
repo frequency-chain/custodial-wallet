@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<body>
+    <div id="errorModal" class="modal" th:fragment="errorModal(targetOrigin)" data-testid="error-modal">
+        <div class="modal-content">
+            <h4 id="error-title" data-testid="error-modal-title" data-th-text="#{error.generic.title}"></h4>
+            <p id="error-message" data-testid="error-modal-desc" data-th-text="#{error.generic.desc}"></p>
+        </div>
+        <div class="modal-footer">
+            <a id="cancelButton" href="#!" class="modal-close waves-effect waves-light btn-flat" data-th-text="#{button.close}" data-testid="error-modal-cancel"></a>
+        </div>
+    </div>
+</body>
+</html>

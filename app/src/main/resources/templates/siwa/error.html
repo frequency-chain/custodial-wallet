@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Sign in with Access Error</title>
+  <meta name="description" content="Signing up with Frequency Access is the gateway to the Social Web.">
+  <th:block th:insert="~{siwa/components/siwaScripts :: siwaScripts}"></th:block>
+</head>
+<body th:with="template='error',splashText=${#messages.msg('siwa.start.desktop-splash', props.providerName)}">
+  <div th:replace="~{siwa/components/siwaPageOutline :: siwaPageOutline}"></div>
+</body>
+</html>

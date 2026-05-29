@@ -1,0 +1,2 @@
+ALTER TABLE user_key_data
+ADD COLUMN  key_usage_type VARCHAR(128) NOT NULL DEFAULT 'ACCOUNT';

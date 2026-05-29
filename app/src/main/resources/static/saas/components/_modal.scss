@@ -1,0 +1,397 @@
+.modal {
+  &:focus {
+    outline: none;
+  }
+
+  @extend .z-depth-5;
+
+  display: none;
+  position: fixed;
+  left: 0;
+  right: 0;
+  background-color: $neutral-white;
+  padding: 0;
+  max-height: 70%;
+  width: 50%;
+  margin: auto;
+  min-width:250px;
+  max-width:505px;
+  overflow-y: auto;
+
+  border-radius: 30px;
+  will-change: top, opacity;
+
+  @include padding-24;
+
+  @media #{$medium-and-down} {
+   width: 80%;
+  }
+
+  h1,h2,h3,h4,h5,h6 {
+    margin-top: 0;
+  }
+
+  .modal-footer {
+    @include padding-top-32;
+  }
+
+  .modal-close {
+    cursor: pointer;
+  }
+
+  .modal-header {
+    @include margin-bottom-16;
+    @include margin-top-32;
+  }
+  .modal-body {
+    @include margin-bottom-32;
+  }
+
+  .modal-footer {
+    //border-radius: 0 0 2px 2px;
+    //background-color: #fafafa;
+    //padding: 4px 6px;
+    //height: 56px;
+    //width: 100%;
+    //text-align: right;
+    display: flex;
+    justify-content: space-around;
+
+    .btn, .btn-flat {
+      margin: 6px 0;
+    }
+
+    p {
+      margin-bottom: 0;
+    }
+  }
+}
+.modal-overlay {
+  position: fixed;
+  z-index: 999;
+  top: -25%;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  height: 125%;
+  width: 100%;
+  background: #000;
+  display: none;
+
+  will-change: opacity;
+}
+
+// Modal with fixed action footer
+.modal.modal-fixed-footer {
+  padding: 0;
+  height: 70%;
+
+  .modal-content {
+    position: absolute;
+    height: calc(100% - 56px);
+    max-height: 100%;
+    width: 100%;
+    overflow-y: auto;
+  }
+
+  .modal-footer {
+    border-top: 1px solid rgba(0,0,0,.1);
+    position: absolute;
+    bottom: 0;
+  }
+}
+
+// Modal Top Sheet Style
+// NOTE(Julian, 2025-06-06): Replaced the default 'bottom-sheet' with this in order to
+// create a mobile nav menu that matches our designs.
+.modal.top-sheet {
+  box-sizing: border-box;
+  padding: 0;
+  bottom: auto;
+  top: -100%;
+  margin: 0;
+  width: 100%;
+  height: 100%;
+  max-width: 100%;
+  max-height: 100%;
+  border-radius: 0;
+  will-change: bottom, opacity;
+}
+
+
+// -------Custom Components-------- //
+
+// icon close
+.corner-close {
+  position:absolute;
+  top:5%;
+  right:30px;
+  display:block;
+  width:20px;
+  height:20px;
+  i {
+    color:$base-color;
+    &:hover {
+      color:lighten($neutral-black, 20%);
+    }
+  }
+}
+
+.toggleForm {
+  color: $primary-color;
+  text-decoration:underline;
+  cursor:pointer;
+  background: none;
+  border: none;
+  padding: 0;
+}
+
+.loginForm {
+  input.select-dropdown {
+    text-indent:40px;
+  }
+ .select-wrapper {
+    &:before {
+      content:'';
+      background-image: url('../../img/flags/us.png');
+      background-repeat: no-repeat;
+      background-size: 24px;
+      position:absolute;
+      left:10px;
+      top:12px;
+      height:24px;
+      width:24px;
+    }
+   &#country-AF:before { background-image: url('../../img/flags/af.png'); }
+   &#country-AL:before { background-image: url('../../img/flags/al.png'); }
+   &#country-DZ:before { background-image: url('../../img/flags/dz.png'); }
+   &#country-AS:before { background-image: url('../../img/flags/as.png'); }
+   &#country-AD:before { background-image: url('../../img/flags/ad.png'); }
+   &#country-AO:before { background-image: url('../../img/flags/ao.png'); }
+   &#country-AI:before { background-image: url('../../img/flags/ai.png'); }
+   &#country-AG:before { background-image: url('../../img/flags/ag.png'); }
+   &#country-AR:before { background-image: url('../../img/flags/ar.png'); }
+   &#country-AM:before { background-image: url('../../img/flags/am.png'); }
+   &#country-AW:before { background-image: url('../../img/flags/aw.png'); }
+   &#country-AU:before { background-image: url('../../img/flags/au.png'); }
+   &#country-AT:before { background-image: url('../../img/flags/at.png'); }
+   &#country-AZ:before { background-image: url('../../img/flags/az.png'); }
+   &#country-BS:before { background-image: url('../../img/flags/bs.png'); }
+   &#country-BH:before { background-image: url('../../img/flags/bh.png'); }
+   &#country-BD:before { background-image: url('../../img/flags/bd.png'); }
+   &#country-BB:before { background-image: url('../../img/flags/bb.png'); }
+   &#country-BY:before { background-image: url('../../img/flags/by.png'); }
+   &#country-BE:before { background-image: url('../../img/flags/be.png'); }
+   &#country-BZ:before { background-image: url('../../img/flags/bz.png'); }
+   &#country-BJ:before { background-image: url('../../img/flags/bj.png'); }
+   &#country-BM:before { background-image: url('../../img/flags/bm.png'); }
+   &#country-BT:before { background-image: url('../../img/flags/bt.png'); }
+   &#country-BO:before { background-image: url('../../img/flags/bo.png'); }
+   &#country-BA:before { background-image: url('../../img/flags/ba.png'); }
+   &#country-BW:before { background-image: url('../../img/flags/bw.png'); }
+   &#country-BR:before { background-image: url('../../img/flags/br.png'); }
+   &#country-IO:before { background-image: url('../../img/flags/io.png'); }
+   &#country-BN:before { background-image: url('../../img/flags/bn.png'); }
+   &#country-BG:before { background-image: url('../../img/flags/bg.png'); }
+   &#country-BF:before { background-image: url('../../img/flags/bf.png'); }
+   &#country-BI:before { background-image: url('../../img/flags/bi.png'); }
+   &#country-CV:before { background-image: url('../../img/flags/cv.png'); }
+   &#country-KH:before { background-image: url('../../img/flags/kh.png'); }
+   &#country-CM:before { background-image: url('../../img/flags/cm.png'); }
+   &#country-CA:before { background-image: url('../../img/flags/ca.png'); }
+   &#country-KY:before { background-image: url('../../img/flags/ky.png'); }
+   &#country-CF:before { background-image: url('../../img/flags/cf.png'); }
+   &#country-TD:before { background-image: url('../../img/flags/td.png'); }
+   &#country-CL:before { background-image: url('../../img/flags/cl.png'); }
+   &#country-CN:before { background-image: url('../../img/flags/cn.png'); }
+   &#country-CO:before { background-image: url('../../img/flags/co.png'); }
+   &#country-KM:before { background-image: url('../../img/flags/km.png'); }
+   &#country-CD:before { background-image: url('../../img/flags/cd.png'); }
+   &#country-CK:before { background-image: url('../../img/flags/ck.png'); }
+   &#country-CR:before { background-image: url('../../img/flags/cr.png'); }
+   &#country-HR:before { background-image: url('../../img/flags/hr.png'); }
+   &#country-CU:before { background-image: url('../../img/flags/cu.png'); }
+   &#country-CW:before { background-image: url('../../img/flags/cw.png'); }
+   &#country-CY:before { background-image: url('../../img/flags/cy.png'); }
+   &#country-CZ:before { background-image: url('../../img/flags/cz.png'); }
+   &#country-DK:before { background-image: url('../../img/flags/dk.png'); }
+   &#country-DJ:before { background-image: url('../../img/flags/dj.png'); }
+   &#country-DM:before { background-image: url('../../img/flags/dm.png'); }
+   &#country-DO:before { background-image: url('../../img/flags/do.png'); }
+   &#country-EC:before { background-image: url('../../img/flags/ec.png'); }
+   &#country-EG:before { background-image: url('../../img/flags/eg.png'); }
+   &#country-SV:before { background-image: url('../../img/flags/sv.png'); }
+   &#country-GQ:before { background-image: url('../../img/flags/gq.png'); }
+   &#country-ER:before { background-image: url('../../img/flags/er.png'); }
+   &#country-EE:before { background-image: url('../../img/flags/ee.png'); }
+   &#country-SZ:before { background-image: url('../../img/flags/sz.png'); }
+   &#country-ET:before { background-image: url('../../img/flags/et.png'); }
+   &#country-FK:before { background-image: url('../../img/flags/fk.png'); }
+   &#country-FO:before { background-image: url('../../img/flags/fo.png'); }
+   &#country-FJ:before { background-image: url('../../img/flags/fj.png'); }
+   &#country-FI:before { background-image: url('../../img/flags/fi.png'); }
+   &#country-FR:before { background-image: url('../../img/flags/fr.png'); }
+   &#country-PF:before { background-image: url('../../img/flags/pf.png'); }
+   &#country-GA:before { background-image: url('../../img/flags/ga.png'); }
+   &#country-GM:before { background-image: url('../../img/flags/gm.png'); }
+   &#country-GE:before { background-image: url('../../img/flags/ge.png'); }
+   &#country-DE:before { background-image: url('../../img/flags/de.png'); }
+   &#country-GH:before { background-image: url('../../img/flags/gh.png'); }
+   &#country-GI:before { background-image: url('../../img/flags/gi.png'); }
+   &#country-GR:before { background-image: url('../../img/flags/gr.png'); }
+   &#country-GL:before { background-image: url('../../img/flags/gl.png'); }
+   &#country-GD:before { background-image: url('../../img/flags/gd.png'); }
+   &#country-GU:before { background-image: url('../../img/flags/gu.png'); }
+   &#country-GT:before { background-image: url('../../img/flags/gt.png'); }
+   &#country-GG:before { background-image: url('../../img/flags/gg.png'); }
+   &#country-GN:before { background-image: url('../../img/flags/gn.png'); }
+   &#country-GW:before { background-image: url('../../img/flags/gw.png'); }
+   &#country-GY:before { background-image: url('../../img/flags/gy.png'); }
+   &#country-HT:before { background-image: url('../../img/flags/ht.png'); }
+   &#country-VA:before { background-image: url('../../img/flags/va.png'); }
+   &#country-HN:before { background-image: url('../../img/flags/hn.png'); }
+   &#country-HK:before { background-image: url('../../img/flags/hk.png'); }
+   &#country-HU:before { background-image: url('../../img/flags/hu.png'); }
+   &#country-IS:before { background-image: url('../../img/flags/is.png'); }
+   &#country-IN:before { background-image: url('../../img/flags/in.png'); }
+   &#country-ID:before { background-image: url('../../img/flags/id.png'); }
+   &#country-IR:before { background-image: url('../../img/flags/ir.png'); }
+   &#country-IQ:before { background-image: url('../../img/flags/iq.png'); }
+   &#country-IE:before { background-image: url('../../img/flags/ie.png'); }
+   &#country-IM:before { background-image: url('../../img/flags/im.png'); }
+   &#country-IL:before { background-image: url('../../img/flags/il.png'); }
+   &#country-IT:before { background-image: url('../../img/flags/it.png'); }
+   &#country-JM:before { background-image: url('../../img/flags/jm.png'); }
+   &#country-JP:before { background-image: url('../../img/flags/jp.png'); }
+   &#country-JE:before { background-image: url('../../img/flags/je.png'); }
+   &#country-JO:before { background-image: url('../../img/flags/jo.png'); }
+   &#country-KZ:before { background-image: url('../../img/flags/kz.png'); }
+   &#country-KE:before { background-image: url('../../img/flags/ke.png'); }
+   &#country-KI:before { background-image: url('../../img/flags/ki.png'); }
+   &#country-KP:before { background-image: url('../../img/flags/kp.png'); }
+   &#country-KR:before { background-image: url('../../img/flags/kr.png'); }
+   &#country-KW:before { background-image: url('../../img/flags/kw.png'); }
+   &#country-KG:before { background-image: url('../../img/flags/kg.png'); }
+   &#country-LA:before { background-image: url('../../img/flags/la.png'); }
+   &#country-LV:before { background-image: url('../../img/flags/lv.png'); }
+   &#country-LB:before { background-image: url('../../img/flags/lb.png'); }
+   &#country-LS:before { background-image: url('../../img/flags/ls.png'); }
+   &#country-LR:before { background-image: url('../../img/flags/lr.png'); }
+   &#country-LY:before { background-image: url('../../img/flags/ly.png'); }
+   &#country-LI:before { background-image: url('../../img/flags/li.png'); }
+   &#country-LT:before { background-image: url('../../img/flags/lt.png'); }
+   &#country-LU:before { background-image: url('../../img/flags/lu.png'); }
+   &#country-MO:before { background-image: url('../../img/flags/mo.png'); }
+   &#country-MK:before { background-image: url('../../img/flags/mk.png'); }
+   &#country-MG:before { background-image: url('../../img/flags/mg.png'); }
+   &#country-MW:before { background-image: url('../../img/flags/mw.png'); }
+   &#country-MY:before { background-image: url('../../img/flags/my.png'); }
+   &#country-MV:before { background-image: url('../../img/flags/mv.png'); }
+   &#country-ML:before { background-image: url('../../img/flags/ml.png'); }
+   &#country-MT:before { background-image: url('../../img/flags/mt.png'); }
+   &#country-MH:before { background-image: url('../../img/flags/mh.png'); }
+   &#country-MQ:before { background-image: url('../../img/flags/mq.png'); }
+   &#country-MR:before { background-image: url('../../img/flags/mr.png'); }
+   &#country-MU:before { background-image: url('../../img/flags/mu.png'); }
+   &#country-MX:before { background-image: url('../../img/flags/mx.png'); }
+   &#country-FM:before { background-image: url('../../img/flags/fm.png'); }
+   &#country-MD:before { background-image: url('../../img/flags/md.png'); }
+   &#country-MC:before { background-image: url('../../img/flags/mc.png'); }
+   &#country-MN:before { background-image: url('../../img/flags/mn.png'); }
+   &#country-ME:before { background-image: url('../../img/flags/me.png'); }
+   &#country-MS:before { background-image: url('../../img/flags/ms.png'); }
+   &#country-MA:before { background-image: url('../../img/flags/ma.png'); }
+   &#country-MZ:before { background-image: url('../../img/flags/mz.png'); }
+   &#country-MM:before { background-image: url('../../img/flags/mm.png'); }
+   &#country-NA:before { background-image: url('../../img/flags/na.png'); }
+   &#country-NR:before { background-image: url('../../img/flags/nr.png'); }
+   &#country-NP:before { background-image: url('../../img/flags/np.png'); }
+   &#country-NL:before { background-image: url('../../img/flags/nl.png'); }
+   &#country-NZ:before { background-image: url('../../img/flags/nz.png'); }
+   &#country-NI:before { background-image: url('../../img/flags/ni.png'); }
+   &#country-NE:before { background-image: url('../../img/flags/ne.png'); }
+   &#country-NG:before { background-image: url('../../img/flags/ng.png'); }
+   &#country-NU:before { background-image: url('../../img/flags/nu.png'); }
+   &#country-NF:before { background-image: url('../../img/flags/nf.png'); }
+   &#country-MP:before { background-image: url('../../img/flags/mp.png'); }
+   &#country-NO:before { background-image: url('../../img/flags/no.png'); }
+   &#country-OM:before { background-image: url('../../img/flags/om.png'); }
+   &#country-PK:before { background-image: url('../../img/flags/pk.png'); }
+   &#country-PW:before { background-image: url('../../img/flags/pw.png'); }
+   &#country-PS:before { background-image: url('../../img/flags/ps.png'); }
+   &#country-PA:before { background-image: url('../../img/flags/pa.png'); }
+   &#country-PG:before { background-image: url('../../img/flags/pg.png'); }
+   &#country-PY:before { background-image: url('../../img/flags/py.png'); }
+   &#country-PE:before { background-image: url('../../img/flags/pe.png'); }
+   &#country-PH:before { background-image: url('../../img/flags/ph.png'); }
+   &#country-PL:before { background-image: url('../../img/flags/pl.png'); }
+   &#country-PT:before { background-image: url('../../img/flags/pt.png'); }
+   &#country-PR:before { background-image: url('../../img/flags/pr.png'); }
+   &#country-QA:before { background-image: url('../../img/flags/qa.png'); }
+   &#country-RO:before { background-image: url('../../img/flags/ro.png'); }
+   &#country-RU:before { background-image: url('../../img/flags/ru.png'); }
+   &#country-RW:before { background-image: url('../../img/flags/rw.png'); }
+   &#country-BL:before { background-image: url('../../img/flags/bl.png'); }
+   &#country-LC:before { background-image: url('../../img/flags/lc.png'); }
+   &#country-VC:before { background-image: url('../../img/flags/vc.png'); }
+   &#country-WS:before { background-image: url('../../img/flags/ws.png'); }
+   &#country-SM:before { background-image: url('../../img/flags/sm.png'); }
+   &#country-ST:before { background-image: url('../../img/flags/st.png'); }
+   &#country-SA:before { background-image: url('../../img/flags/sa.png'); }
+   &#country-SN:before { background-image: url('../../img/flags/sn.png'); }
+   &#country-RS:before { background-image: url('../../img/flags/rs.png'); }
+   &#country-SC:before { background-image: url('../../img/flags/sc.png'); }
+   &#country-SL:before { background-image: url('../../img/flags/sl.png'); }
+   &#country-SG:before { background-image: url('../../img/flags/sg.png'); }
+   &#country-SX:before { background-image: url('../../img/flags/sx.png'); }
+   &#country-SK:before { background-image: url('../../img/flags/sk.png'); }
+   &#country-SI:before { background-image: url('../../img/flags/si.png'); }
+   &#country-SB:before { background-image: url('../../img/flags/sb.png'); }
+   &#country-SO:before { background-image: url('../../img/flags/so.png'); }
+   &#country-ZA:before { background-image: url('../../img/flags/za.png'); }
+   &#country-SS:before { background-image: url('../../img/flags/ss.png'); }
+   &#country-ES:before { background-image: url('../../img/flags/es.png'); }
+   &#country-LK:before { background-image: url('../../img/flags/lk.png'); }
+   &#country-SD:before { background-image: url('../../img/flags/sd.png'); }
+   &#country-SR:before { background-image: url('../../img/flags/sr.png'); }
+   &#country-NO:before { background-image: url('../../img/flags/no.png'); }
+   &#country-SE:before { background-image: url('../../img/flags/se.png'); }
+   &#country-CH:before { background-image: url('../../img/flags/ch.png'); }
+   &#country-SY:before { background-image: url('../../img/flags/sy.png'); }
+   &#country-TW:before { background-image: url('../../img/flags/tw.png'); }
+   &#country-TJ:before { background-image: url('../../img/flags/tj.png'); }
+   &#country-TZ:before { background-image: url('../../img/flags/tz.png'); }
+   &#country-TH:before { background-image: url('../../img/flags/th.png'); }
+   &#country-TL:before { background-image: url('../../img/flags/tl.png'); }
+   &#country-TG:before { background-image: url('../../img/flags/tg.png'); }
+   &#country-TK:before { background-image: url('../../img/flags/tk.png'); }
+   &#country-TO:before { background-image: url('../../img/flags/to.png'); }
+   &#country-TT:before { background-image: url('../../img/flags/tt.png'); }
+   &#country-TN:before { background-image: url('../../img/flags/tn.png'); }
+   &#country-TR:before { background-image: url('../../img/flags/tr.png'); }
+   &#country-TM:before { background-image: url('../../img/flags/tm.png'); }
+   &#country-TC:before { background-image: url('../../img/flags/tc.png'); }
+   &#country-TV:before { background-image: url('../../img/flags/tv.png'); }
+   &#country-UG:before { background-image: url('../../img/flags/ug.png'); }
+   &#country-UA:before { background-image: url('../../img/flags/ua.png'); }
+   &#country-AE:before { background-image: url('../../img/flags/ae.png'); }
+   &#country-GB:before { background-image: url('../../img/flags/gb.png'); }
+   &#country-US:before { background-image: url('../../img/flags/us.png'); }
+   &#country-UY:before { background-image: url('../../img/flags/uy.png'); }
+   &#country-UZ:before { background-image: url('../../img/flags/uz.png'); }
+   &#country-VU:before { background-image: url('../../img/flags/vu.png'); }
+   &#country-VE:before { background-image: url('../../img/flags/ve.png'); }
+   &#country-VN:before { background-image: url('../../img/flags/vn.png'); }
+   &#country-VG:before { background-image: url('../../img/flags/vg.png'); }
+   &#country-YE:before { background-image: url('../../img/flags/ye.png'); }
+   &#country-ZM:before { background-image: url('../../img/flags/zm.png'); }
+   &#country-ZW:before { background-image: url('../../img/flags/zw.png'); }
+ }
+}
+
+#login-verify {
+  form .input-field {
+    display:flex; justify-content:space-between;
+    input {width:12%; font-size: 2rem; text-align: center;}
+  }
+}

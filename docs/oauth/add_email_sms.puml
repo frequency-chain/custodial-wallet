@@ -1,0 +1,112 @@
+@startuml
+title Adding a new Email or Phone Number - Non Overt Login
+'https://plantuml.com/sequence-diagram
+
+actor "ResourceOwner(User)" as ro
+participant "Client Useragent" as cu
+participant "Client(Provider)" as c
+participant "AuthorizationServer(AA)" as aa
+participant "ResourceServer(Blockchain)" as rs
+participant "Redis" as r
+participant "KMS" as k
+participant "Postgres" as p
+
+autonumber
+note across: It is assumed that provider payloads are signed and have nonce handling
+ro -> c: Wants to add a new email or SMS
+c -> aa: Signed AddUserIdentifier payload w/callback
+aa -> aa: validate signature
+aa -> rs: fetch msaId by public key
+return msaId
+aa -> p: fetch ProviderExternalUserDetail by user public key and providerMsaId
+return ProviderExternalUserDetail
+aa -> r: Persist payload w/associated SessionId (UUID)
+aa -> c: sessionId associated with request (202 w/Location header)
+c -> cu: Location header value
+cu -> aa: GET to Location
+aa -> r: retrieve initial payload by sessionId
+return Payload
+aa -> aa: Generate authentication code
+aa -> r: Persist payload w/associated authentication code and sessionId
+autonumber stop
+alt Sending Email
+    aa -> ro: **16a** Email authentication code
+    aa -> ro: **16b** Show check email
+    ro -> aa: **16c** Clicks link w/authentication code and sessionId
+else Sending SMS
+    aa -> ro: **16a** Send SMS authentication code (how does sessionId work here)
+    aa -> ro: **16b** Display SMS Code input
+    ro -> aa: **16c** Enters authentication code
+end
+autonumber 17
+aa -> r: Fetch payload by authentication code and sessionId
+return Payload
+aa -> ro: display add email or SMS form (or autofill from Provider?)
+ro -> aa: Submits add email or SMS form
+aa -> aa: Generate Verification Code
+aa -> r: Persist payload w/associated verification code and sessionId
+autonumber stop
+alt Email Added
+    aa -> ro: **22a** Email verification code and sessionId
+    ro -> aa: **22b** Clicks link w/verification code and sessionId
+else Phone Added
+    aa -> ro: **22a** Send SMS verification code (how does sessionId work here)
+    aa -> ro: **22b** Display SMS Code input
+    ro -> aa: **22c** Enters authentication code
+end
+autonumber 23
+aa -> r: Fetch payload by verification code and sessionId(?)
+return Payload
+aa -> p: Persist new ProviderExternalUserDetail with new Email or SMS
+alt Async Call of the new email
+    aa -> c: Email or SMS added Callback
+end
+aa -> cu: Redirect to callback url\n (app link deep link or website)
+
+newpage Adding a new Email or Phone Number - Overt Login
+autonumber
+ro -> cu: Wants to add a new email or SMS
+cu -> aa: Launches Browser or View with Browser chrome to Login Page w/callback
+aa -> ro: Login Page
+ro -> aa: Submit phone or email to login
+aa -> p: fetch UserAccount(s) by user UserIdentifier
+return UserAccount(s)
+aa -> aa: Generate authentication code
+aa -> r: Persist sessionData by sessionId
+aa -> r: Persist sessionData w/associated authentication code and sessionId
+autonumber stop
+alt Sending Email
+    aa -> ro: **9a** Email authentication code
+    aa -> ro: **9b** Show check email
+    ro -> aa: **9c** Clicks link w/authentication code and sessionId
+else Sending SMS
+    aa -> ro: **9a** Send SMS authentication code (how does sessionId work here)
+    aa -> ro: **9b** Display SMS Code input
+    ro -> aa: **9c** Enters authentication code
+end
+autonumber 10
+aa -> r: Fetch payload by authentication code and sessionId
+return Payload
+aa -> ro: display add email or SMS form (or autofill from Provider?)
+ro -> aa: Submits add email or SMS form
+aa -> aa: Generate Verification Code
+aa -> r: Persist payload w/associated verification code and sessionId
+autonumber stop
+alt Email Added
+    aa -> ro: **16a** Email verification code and sessionId
+    ro -> aa: **16b** Clicks link w/verification code and sessionId
+else Phone Added
+    aa -> ro: **16a** Send SMS verification code (how does sessionId work here)
+    aa -> ro: **16b** Display SMS Code input
+    ro -> aa: **16c** Enters authentication code
+end
+autonumber 17
+aa -> r: Fetch payload by verification code and sessionId(?)
+return Payload
+aa -> p: Persist new ProviderExternalUserDetail with new Email or SMS
+aa -> ro: Success page w/button back to provider?
+alt Async Call of the new email
+    aa -> c: Email or SMS added Callback (and potentially other state?)
+end
+ro -> cu: Click to callback url\n (app link deep link or website)
+@enduml

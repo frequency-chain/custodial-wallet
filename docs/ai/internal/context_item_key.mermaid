@@ -1,0 +1,50 @@
+sequenceDiagram
+  title ICS Context Item Key endpoint
+  participant mcpc as MCP Client
+  participant mcp as MCP Server
+  participant fa as Frequency Access
+  participant db as Postgres
+  participant kms as KMS
+  participant bc as Frequency
+  participant ss as Storage Service
+
+  mcpc->>mcp: Save out fragment for contextItemId
+  mcp-->>mcpc: ACK
+  mcp->>mcp: Check for ContextItemKey for contextItemId
+  mcp->>fa: POST /hcp/api/key/contextItem
+  fa->>bc: verify provider msaId
+  bc-->>fa: msaId of provider publicKey
+  fa->>db: Find ACCOUNT UserKeyData
+  db-->>fa: ACCOUNT UserKeyData
+  fa-->>bc: verify user msaId with ACCOUNT publicKey
+  bc-->>fa: msaId of user
+  note over fa: Requires that the creation of ICS payloads has occurred
+  fa->>bc: Get provider ICS public Key
+  bc-->>fa: Provider's ICS public key
+  fa->>bc: Get ACL for this user's msaId
+  bc-->>fa: ACL for user's msaId
+  fa->>fa: Check providerMsaId exists in ACL
+  fa->>db: find ICS UserKeyData for user
+  db-->>fa: ICS UserKeyData
+  fa->>kms: decrypt sensitive ICS UserKeyData
+  kms-->>fa: decrypted sensitive ICS UserKeyData
+  fa->>fa: Calculate PRId
+  note over fa: This is a combo of X25519 derived from provider's ICS public key and derived user's ICS private key
+  fa->>bc: Get ContextGroupMetadata for user msaId
+  bc-->>fa: verify ContextGroupMetadata for user msaId and provider
+  fa->>db: find ICS ContextItemKey for contextItemId
+  db-->>fa: ICS ContextItemKey for contextItemId
+  alt ContextItemKey is not found
+    fa->>db: find CONTEXT_ITEM ICS UserSeedData
+    db-->>fa: CONTEXT_ITEM UserSeedData
+    fa->>fa: Generate CONTEXT_ITEM UserDerivedKeyData
+    fa->>kms: encrypt sensitive CONTEXT_ITEM UserDerivedKeyData
+    kms-->>fa: encrypted sensitive CONTEXT_ITEM UserDerivedKeyData
+    fa->>db: persist CONTEXT_ITEM UserDerivedKeyData
+  else ContextItemKey is found
+    fa-->>mcp: Failure, we don't reissue keys (TBD maybe some trick with signatures)
+  end
+  fa-->>mcp: return ContextItemKey for contextItemId
+  mcp->>mcp: Encrypt Fragment
+  mcp->>ss: submit batch with fragments
+  ss-->>mcp: ACK

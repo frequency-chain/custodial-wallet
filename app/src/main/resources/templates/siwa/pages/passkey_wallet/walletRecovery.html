@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+<div class="passkey-wallet-recovery" th:fragment="walletRecovery"
+     th:with="hasSeedPhraseError=${helper.hasError('INVALID_SEED_PHRASE', props.error)}"
+>
+  <div class="wallet-recovery-title left-align p-b-4">
+    <h6 data-th-text="#{wallet.passkey.recovery.title}"></h6>
+  </div>
+  <div class="wallet-recovery-content left-align p-v-4">
+    <p class="" data-th-text="#{wallet.passkey.recovery.enter-phrase}"></p>
+  </div>
+  <div>
+    <div class="center-align p-v-16">
+      <iframe sandbox="allow-scripts" id="secureIFrame" src="/wallet/iframe?passkeyWalletRecovery=true" class="passkey-wallet-recovery-iframe" data-testid="secureIFrame"></iframe>
+      <!-- TODO: #1491 will actually handle validation for this for this error to actually pop up when appropriate -->
+      <span id="wallet-recovery-error" class="small-text bold passkey-wallet-recovery-iframe-error" th:if="${hasSeedPhraseError}" data-th-text="#{siwa.error.invalid-phone-number}"></span>
+    </div>
+
+  </div>
+
+  <div class="p-v-4">
+    <button id="wallet-recovery-button" class="btn waves-effect waves-light full-width"
+            th:onclick="recoveryPhraseEntered()"
+            data-testid="wallet-recovery-button" data-th-text="#{wallet.passkey.recovery.button}"></button>
+  </div>
+</div>
+</body>
+</html>

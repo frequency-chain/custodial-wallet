@@ -1,0 +1,49 @@
+/* Updated to match Design System on April 23, 2025 */
+/* https://www.figma.com/design/C9oQM2g3104O01ArpXlrJE/Frequency-Design-System?version-id=2212193606357808871 */
+@utility display-1 {
+  @apply font-sans text-6xl font-extralight;
+}
+
+@utility heading-1 {
+  @apply font-title text-5xl;
+}
+
+@utility heading-2 {
+  @apply font-title text-4xl;
+}
+
+@utility heading-3 {
+  @apply font-title text-3xl;
+}
+
+@utility heading-4 {
+  @apply font-title text-2xl;
+}
+
+@utility heading-5 {
+  @apply font-title text-xl;
+}
+
+@utility heading-6 {
+  @apply font-title text-lg;
+}
+
+@utility body-lg {
+  @apply font-sans text-xl;
+}
+
+@utility body-md {
+  @apply text-md font-sans;
+}
+
+@utility body-normal {
+  @apply text-normal font-sans;
+}
+
+@utility body-sm {
+  @apply font-sans text-sm;
+}
+
+@utility body-xs {
+  @apply font-sans text-xs;
+}

@@ -1,0 +1,28 @@
+sequenceDiagram
+  title How to obtain a ICS JWT Access Token from invalid token, first party app
+  participant u as User
+  participant app as Host App
+  participant mcp as MCP Server
+  participant fa as Frequency Access
+
+  app->>mcp: some action w/ Invalid ICS Access Token
+  mcp->>mcp: Validate token
+  alt Validation Fails
+    mcp-->>app: 403 (or some relavent 4xx the app can react to)
+    app->>fa: get new ICS Token w/FA.com JWT
+    fa->>fa: Validate FA.com JWT
+    alt FA.com JWT is valid
+      fa-->>app: ICS JWT Access Token
+    else FA.com JWT invalid
+      fa-->>app: 403  (or some relavent 4xx the app can react to)
+      app->>fa: Ask for new JWT via Refresh Token
+      fa->>fa: Validate Refresh token
+      alt Invalid Refresh token
+        fa-->>u: Round trip with the user to get new FA.com JWT
+      end
+      fa-->>app: FA.com JWT and ICS JWT Access Token
+    end
+    app->>mcp: some action w/ Valid ICS Access Token
+    mcp->>mcp: Validate Token
+  end
+    mcp->>mcp: Allow some action

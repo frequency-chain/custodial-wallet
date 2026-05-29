@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <!--
+    This phone form is a wrapper around an existing project backed by Twilio
+    If this breaks or needs to be updated all files referenced in this file should
+    be re-downloaded. There are also the 4 image files referenced in the css file
+    that will need to be re-downloaded as well.
+    https://github.com/jackocnr/intl-tel-input?tab=readme-ov-file
+
+    UPDATE: 10/1/24 -> We have added MeWe's test country code prefix as a "country"
+    If doing the above you will need to add to the intlTelInput.min.js the following:
+    In the number to country shortcode list: ["we",89]
+    In the country shortcode to country name list: we:"MeWe"
+    -->
+    <th:block th:fragment="phoneFormScript">
+        <link th:href="@{~/css/intlTelInput/intlTelInput.css}" rel="stylesheet"/>
+        <script th:src="@{~/js/intlTelInput/intlTelInput.min.js}"></script>
+        <script th:inline="javascript">
+            $(function() {
+                const prefilledPhoneNumber = '[[${props?.prefilledPhoneNumber}]]';
+                /*[# th:if="${env.type != 'main'}"]*/
+
+                const countryData = window.intlTelInput.getCountryData();
+                countryData.push({
+                    name: "MeWe",
+                    iso2: "we",
+                    dialCode: "89",
+                    priority: 0,
+                    areaCodes: null,
+                    nodeById: {}
+                });/*[/]*/
+
+                const input = document.querySelector("#phoneForm");
+                const iti = window.intlTelInput(input, {
+                    utilsScript: "./utils.js",
+                    containerClass: "full-width margin-bottom-8",
+                    countryOrder: ["us"],
+                    initialCountry: "us",
+                    separateDialCode: true,
+                    strictMode: true,
+                    useFullscreenPopup: false,
+                });
+                if(prefilledPhoneNumber !== "null" && prefilledPhoneNumber !== undefined) {
+                    toggleStartForm('#sms-start-form')
+                    iti.setNumber(prefilledPhoneNumber.substring(1,prefilledPhoneNumber.length-1));
+                }
+            });
+        </script>
+    </th:block>
+</head>
+<body>
+<div th:fragment="phoneForm(isValid)">
+    <input id="phoneForm" data-testid="phone-form" th:classappend="${isValid} ? '' : 'invalid'" type="tel">
+</div>
+
+</body>
+</html>
